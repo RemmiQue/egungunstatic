@@ -60,6 +60,11 @@
       width: 100%;
     }
 
+    /* SMOOTH SCROLL ENHANCEMENT */
+    .smooth-scroll {
+      scroll-behavior: smooth;
+    }
+
     /* PRELOADER */
     .preloader {
       position: fixed;
@@ -207,7 +212,7 @@
     }
 
     /* ========== HERO SECTION ========== */
-    /* MOBILE FIRST - Original style (image fullscreen, text centered) */
+    /* MOBILE FIRST - Full screen image, text centered */
     .hero {
       position: relative;
       width: 100%;
@@ -341,6 +346,11 @@
       transform: translateX(-50%);
       text-align: center;
       z-index: 2;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+    .hero-scroll:hover {
+      opacity: 0.7;
     }
     .hero-scroll span {
       font-family: 'Space Grotesk', sans-serif;
@@ -452,7 +462,7 @@
       }
     }
 
-    /* REST OF YOUR STYLES - UNCHANGED */
+    /* REST OF YOUR STYLES */
     .creator-section { padding: 80px 5%; background: var(--bg); }
     .creator-container { max-width: 1200px; margin: 0 auto; }
     .creator-layout { display: flex; gap: 50px; align-items: center; flex-wrap: wrap; }
@@ -845,7 +855,10 @@
         <a href="#effect" class="hero-btn hero-btn-secondary">HIS EFFECT →</a>
       </div>
     </div>
-    <div class="hero-scroll"><span>SCROLL</span><div class="hero-scroll-line"></div></div>
+    <div class="hero-scroll" id="scrollIndicator">
+      <span>SCROLL</span>
+      <div class="hero-scroll-line"></div>
+    </div>
   </section>
 
   <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
@@ -965,14 +978,36 @@
     if (hamburger) hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
     document.querySelectorAll('.nav__links a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('active')));
 
+    // Enhanced smooth scroll for all anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
         const target = document.querySelector(targetId);
-        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
       });
     });
+
+    // Scroll indicator click
+    const scrollIndicator = document.getElementById('scrollIndicator');
+    if (scrollIndicator) {
+      scrollIndicator.addEventListener('click', () => {
+        const creatorSection = document.getElementById('creator');
+        if (creatorSection) {
+          creatorSection.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }
+      });
+    }
 
     const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
     const revealObserver = new IntersectionObserver((entries) => {
