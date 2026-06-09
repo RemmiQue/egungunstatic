@@ -479,7 +479,712 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="index.html" class="footer-logo">EGUNGUN</a>
-          <p>Preserving ancestral wisdom and celebrating the sacred Yoruba masquerade tradition across Africa and the diaspora.</p>
+          <p><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>Contact | Egungun of Africa</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Clash+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    @font-face {
+      font-family: 'Milchella';
+      src: url('fonts/Milchella-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    body {
+      background: #000000;
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    /* REVEAL ANIMATIONS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+    .delay-5 { transition-delay: 0.5s; }
+
+    /* NAVIGATION */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: transparent;
+      transition: all 0.5s ease;
+    }
+    .nav.scrolled {
+      background: #000000;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 1rem 4rem;
+    }
+    .nav__logo {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.15em;
+      color: #ffffff;
+      text-decoration: none;
+    }
+    .nav__links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav__links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+    .nav__links a:hover { opacity: 1; }
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .nav__hamburger span {
+      width: 28px;
+      height: 2px;
+      background: #ffffff;
+      transition: all 0.3s ease;
+    }
+
+    /* CONTACT WRAPPER */
+    .contact-wrapper {
+      width: 100%;
+      min-height: 100vh;
+      padding: clamp(100px, 12vw, 140px) clamp(16px, 5vw, 24px) 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .contact-container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(40px, 6vw, 80px);
+      align-items: flex-start;
+    }
+
+    /* BRAND SIDEBAR */
+    .brand-sidebar {
+      flex: 1;
+      min-width: 250px;
+    }
+    .contact-title {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: clamp(2.8rem, 8vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: #ffffff;
+      margin-bottom: clamp(20px, 4vw, 28px);
+    }
+    .contact-desc {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1rem, 3vw, 1.1rem);
+      color: #8e939e;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* RATE CARD BUTTON - FIXED LINK */
+    .rate-card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      color: #000000;
+      text-decoration: none;
+      padding: clamp(14px, 2vw, 16px) clamp(24px, 4vw, 28px);
+      border-radius: 40px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+      margin-bottom: 40px;
+      cursor: pointer;
+      border: none;
+      width: fit-content;
+      transition: all 0.4s ease;
+    }
+    .rate-card-btn:hover {
+      background: #cccccc;
+      transform: translateY(-3px);
+      gap: 16px;
+    }
+    .rate-card-icon {
+      width: 18px;
+      height: 18px;
+      stroke: #000000;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* BOOKING DIRECT */
+    .booking-direct {
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .booking-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      color: #8e939e;
+      margin-bottom: 8px;
+    }
+    .booking-email {
+      font-family: 'Clash Display', 'Syne', sans-serif;
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      font-weight: 600;
+      color: #ffffff;
+      text-decoration: none;
+      word-break: break-all;
+      transition: opacity 0.3s ease;
+      display: inline-block;
+    }
+    .booking-email:hover { opacity: 0.7; }
+
+    /* SOCIAL GRID */
+    .social-grid {
+      flex: 1.2;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .social-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(16px, 3vw, 22px) clamp(20px, 4vw, 28px);
+      border-radius: 20px;
+      background: #0a0a0a;
+      border: 1px solid rgba(255,255,255,0.06);
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.4s ease;
+      width: 100%;
+      cursor: pointer;
+    }
+    .social-card:hover {
+      background: #111112;
+      border-color: rgba(255,255,255,0.2);
+      transform: translateX(5px);
+    }
+    .social-meta {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 3vw, 24px);
+      flex: 1;
+    }
+    .icon-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: clamp(44px, 8vw, 52px);
+      height: clamp(44px, 8vw, 52px);
+      border-radius: 14px;
+      background: #111111;
+      border: 1px solid rgba(255,255,255,0.08);
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+    .social-card:hover .icon-box {
+      background: #ffffff;
+    }
+    .social-card:hover .network-svg {
+      stroke: #000000;
+    }
+    .network-svg {
+      width: clamp(18px, 4vw, 22px);
+      height: clamp(18px, 4vw, 22px);
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2;
+      transition: stroke 0.3s ease;
+    }
+    .profile-text h3 {
+      font-family: 'Clash Display', 'Syne', sans-serif;
+      font-size: clamp(1rem, 3.5vw, 1.2rem);
+      font-weight: 600;
+      color: #ffffff;
+    }
+    .profile-text p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+      color: #8e939e;
+      font-weight: 400;
+    }
+    .arrow-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+    .arrow-svg {
+      width: 14px;
+      height: 14px;
+      stroke: #8e939e;
+      stroke-width: 2;
+      fill: none;
+      transition: stroke 0.3s ease, transform 0.3s ease;
+    }
+    .social-card:hover .arrow-svg {
+      stroke: #ffffff;
+      transform: translateX(3px);
+    }
+
+    /* FOOTER */
+    .footer {
+      background: #000000;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 60px 8% 40px;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+    .footer-brand .footer-logo {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.15em;
+      color: #ffffff;
+      margin-bottom: 1rem;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .footer-brand p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      color: #8e939e;
+      line-height: 1.6;
+    }
+    .footer-col h4 {
+      font-family: 'Clash Display', 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+      color: #ffffff;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col li {
+      margin-bottom: 0.8rem;
+    }
+    .footer-col a {
+      font-family: 'Space Grotesk', sans-serif;
+      color: #8e939e;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+    .footer-col a:hover {
+      color: #ffffff;
+      transform: translateX(3px);
+      display: inline-block;
+    }
+    .social-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #8e939e;
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+    .social-link:hover {
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      color: #6b7280;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 968px) {
+      .nav { padding: 1.5rem 2rem; }
+      .nav.scrolled { padding: 1rem 2rem; }
+      .nav__hamburger { display: flex; }
+      .nav__links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: #000000;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: left 0.4s;
+        gap: 2rem;
+      }
+      .nav__links.active { left: 0; }
+      .contact-container { flex-direction: column; gap: 40px; }
+      .brand-sidebar, .social-grid { width: 100%; flex: auto; }
+      .rate-card-btn { width: 100%; justify-content: center; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+    }
+
+    @media (max-width: 600px) {
+      .contact-wrapper { padding: 100px 18px 60px; }
+      .footer-grid { grid-template-columns: 1fr; text-align: center; }
+      .social-links { justify-content: center; }
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #333333; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a href="index.html" class="nav__logo">EGUNGUN</a>
+    <div class="nav__hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="contact-wrapper">
+    <div class="contact-container">
+      
+      <!-- Left Side: Brand Statement -->
+      <section class="brand-sidebar reveal-left">
+        <h1 class="contact-title">Contact<br>Egungun</h1>
+        <p class="contact-desc">
+          Tap into the pulse of lifestyle influence, viral consumer content, high-energy videos 
+          and maximum visibility for brands across all social media.
+        </p>
+        
+        <!-- RATE CARD BUTTON - NOW LINKS TO ratecard.html -->
+        <a href="ratecard.html" class="rate-card-btn" aria-label="View rate card">
+          <span>View Our Rate Card</span>
+          <svg viewBox="0 0 24 24" class="rate-card-icon">
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </a>
+        
+        <div class="booking-direct">
+          <p class="booking-label">Direct Representation</p>
+          <a href="mailto:bookings@egungunofafrica.com" class="booking-email">bookings@egungunofafrica.com</a>
+        </div>
+      </section>
+
+      <!-- Right Side: Social Matrix -->
+      <section class="social-grid reveal-right">
+        
+        <!-- Instagram -->
+        <div class="social-card" data-url="https://www.instagram.com/_egungun">
+          <div class="social-meta">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" class="network-svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </div>
+            <div class="profile-text">
+              <h3>Instagram</h3>
+              <p>@_egungun</p>
+            </div>
+          </div>
+          <div class="arrow-indicator">
+            <svg viewBox="0 0 24 24" class="arrow-svg">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+        
+        <!-- TikTok -->
+        <div class="social-card" data-url="https://www.tiktok.com/@_egungunnn">
+          <div class="social-meta">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" class="network-svg">
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+              </svg>
+            </div>
+            <div class="profile-text">
+              <h3>TikTok</h3>
+              <p>@_egungunnn</p>
+            </div>
+          </div>
+          <div class="arrow-indicator">
+            <svg viewBox="0 0 24 24" class="arrow-svg">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+        
+        <!-- YouTube -->
+        <div class="social-card" data-url="https://www.youtube.com/@EGUNGUNOFLAGOS">
+          <div class="social-meta">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" class="network-svg">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+              </svg>
+            </div>
+            <div class="profile-text">
+              <h3>YouTube</h3>
+              <p>@EgungunOfLagos</p>
+            </div>
+          </div>
+          <div class="arrow-indicator">
+            <svg viewBox="0 0 24 24" class="arrow-svg">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Snapchat -->
+        <div class="social-card" data-url="https://www.snapchat.com/add/egungun00">
+          <div class="social-meta">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" class="network-svg">
+                <path d="M12 2c-.64 0-1.18.37-1.4 1-.41 1.21-1.39 2-2.6 2H7c-1.66 0-3 1.34-3 3v2c0 2.5 1.5 4 4 4h.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5H7c-1.1 0-2 .9-2 2 0 .55.45 1 1 1h12c.55 0 1-.45 1-1 0-1.1-.9-2-2-2h-1.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5h.5c2.5 0 4-1.5 4-4v-2c0-1.66-1.34-3-3-3h-1c-1.21 0-2.19-.79-2.6-2-.22-.63-.76-1-1.4-1z"></path>
+              </svg>
+            </div>
+            <div class="profile-text">
+              <h3>Snapchat</h3>
+              <p>@egungun00</p>
+            </div>
+          </div>
+          <div class="arrow-indicator">
+            <svg viewBox="0 0 24 24" class="arrow-svg">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Email -->
+        <div class="social-card" data-email="mailto:bookings@egungunofafrica.com">
+          <div class="social-meta">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" class="network-svg">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div class="profile-text">
+              <h3>Email Us</h3>
+              <p>bookings@egungunofafrica.com</p>
+            </div>
+          </div>
+          <div class="arrow-indicator">
+            <svg viewBox="0 0 24 24" class="arrow-svg">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">EGUNGUN</a>
+          <p>The MOST POPULAR lifestyle interviewer in Africa. Digital creator, culture force, and media personality.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Egungun</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="insights.html">Insights</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <div class="social-links">
+            <a href="https://www.instagram.com/_egungun" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://www.tiktok.com/@_egungunnn" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a>
+            <a href="https://www.youtube.com/@EgungunOfLagos" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YouTube</a>
+            <a href="https://www.facebook.com/egunguncomic/" target="_blank" class="social-link"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="https://www.snapchat.com/t/DswsNu04" target="_blank" class="social-link"><i class="fab fa-snapchat"></i> Snapchat</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Egungun of Africa. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ==============================================
+    // REVEAL ANIMATIONS
+    // ==============================================
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ==============================================
+    // NAVIGATION
+    // ==============================================
+    const nav = document.getElementById('nav');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 70) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    if (hamburger) {
+      hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+    }
+
+    document.querySelectorAll('.nav__links a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('active'));
+    });
+
+    // ==============================================
+    // SOCIAL CARD CLICK HANDLER - OPENS IN NEW TAB
+    // ==============================================
+    function openInNewTab(url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    document.querySelectorAll('.social-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const url = card.getAttribute('data-url');
+        const email = card.getAttribute('data-email');
+        
+        if (url) {
+          openInNewTab(url);
+        } else if (email) {
+          window.location.href = email;
+        }
+      });
+    });
+
+    // ==============================================
+    // RATE CARD BUTTON - ALREADY LINKED VIA HREF
+    // ==============================================
+    // The rate card button now correctly links to ratecard.html
+    // No additional JavaScript needed
+  </script>
+</body>
+</html></p>
         </div>
         <div class="footer-col">
           <h4>Quick Links</h4>
@@ -512,7 +1217,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2025 Egungun of Africa. All rights reserved. | Built with ❤️ for the culture</p>
+        <p>© 2025 Egungun of Africa. All rights reserved.
       </div>
     </div>
   </footer>
