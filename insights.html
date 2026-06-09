@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>Insights | Egungun of Africa</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Clash+Display:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    @font-face {
+      font-family: 'Milchella';
+      src: url('fonts/Milchella-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-y: auto; overflow-x: hidden; width: 100%; height: 100%; -webkit-overflow-scrolling: touch; }
+    body { background: #000000; font-family: 'Space Grotesk', sans-serif; color: #d1d5db; padding: clamp(30px, 6vw, 60px) clamp(20px, 5vw, 30px); min-height: 100vh; width: 100%; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.96); transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .reveal-scale.active { opacity: 1; transform: scale(1); }
+    .delay-1 { transition-delay: 0.05s; }
+    .delay-2 { transition-delay: 0.1s; }
+    .delay-3 { transition-delay: 0.15s; }
+    .delay-4 { transition-delay: 0.2s; }
+    .delay-5 { transition-delay: 0.25s; }
+
+    .nav { position: fixed; top: 0; left: 0; width: 100%; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: transparent; transition: all 0.5s ease; }
+    .nav.scrolled { background: #000000; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1rem 4rem; }
+    .nav__logo { font-family: 'Milchella', 'Syne', serif; font-size: 1.3rem; letter-spacing: 0.15em; color: #ffffff; text-decoration: none; }
+    .nav__links { display: flex; gap: 2rem; list-style: none; }
+    .nav__links a { color: #ffffff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; opacity: 0.7; transition: all 0.3s ease; }
+    .nav__links a:hover { opacity: 1; }
+    .nav__hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
+    .nav__hamburger span { width: 28px; height: 2px; background: #ffffff; transition: all 0.3s ease; }
+
+    .dashboard-container { width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(25px, 5vw, 40px); }
+    .dashboard-header { border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: clamp(20px, 5vw, 30px); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px; }
+    .title-main { font-family: 'Milchella', 'Syne', serif; font-size: clamp(2rem, 6vw, 3rem); font-weight: 700; letter-spacing: -0.02em; color: #ffffff; }
+    .title-sub { font-family: 'Space Grotesk', sans-serif; font-size: clamp(0.8rem, 2.5vw, 0.9rem); color: #8e939e; font-weight: 400; margin-top: 6px; }
+    .insight-badge { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; padding: 6px 14px; background: rgba(255,255,255,0.05); border-radius: 40px; color: #a0a0a0; letter-spacing: 1px; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: clamp(16px, 2vw, 20px); }
+    .metric-tile { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: clamp(20px, 4vw, 28px); text-decoration: none; transition: all 0.4s ease; }
+    .metric-tile:hover { background: #111112; border-color: #ffffff; transform: translateY(-4px); }
+    .platform-tag { font-family: 'Space Grotesk', sans-serif; font-size: clamp(0.7rem, 2.5vw, 0.75rem); font-weight: 600; letter-spacing: 0.5px; margin-bottom: clamp(14px, 3vw, 18px); display: flex; align-items: center; gap: 8px; color: #e5e7eb; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .dot-ig { background-color: #E4405F; }
+    .dot-snap { background-color: #FFFC00; box-shadow: 0 0 0 1px #000; }
+    .dot-tt { background-color: #00f2fe; }
+    .dot-fb { background-color: #1877f2; }
+    .dot-yt { background-color: #FF0000; }
+    .big-stat-number { font-family: 'Clash Display', 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 700; color: #ffffff; line-height: 1; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .stat-desc { font-family: 'Space Grotesk', sans-serif; font-size: clamp(0.65rem, 2vw, 0.7rem); color: #8e939e; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .analytics-split-view { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(20px, 4vw, 25px); }
+    .analytics-card-frame { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.06); border-radius: 24px; padding: clamp(20px, 5vw, 32px); transition: all 0.4s ease; }
+    .analytics-card-frame:hover { border-color: rgba(255,255,255,0.15); }
+    .card-frame-title { font-family: 'Clash Display', 'Syne', sans-serif; font-size: clamp(1rem, 3vw, 1.2rem); font-weight: 600; color: #ffffff; margin-bottom: clamp(20px, 4vw, 28px); letter-spacing: -0.02em; }
+    .chart-wrapper-box { position: relative; width: 100%; height: clamp(260px, 40vw, 320px); }
+    .snapshot-list { display: flex; flex-direction: column; gap: clamp(16px, 3vw, 22px); }
+    .snapshot-row { display: flex; align-items: center; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 10px; }
+    .snapshot-meta-label { font-family: 'Space Grotesk', sans-serif; font-size: clamp(0.8rem, 2.5vw, 0.85rem); font-weight: 500; color: #9ca3af; }
+    .snapshot-metric-value { font-family: 'Clash Display', 'Syne', sans-serif; font-size: clamp(0.9rem, 2.5vw, 1rem); font-weight: 600; color: #ffffff; }
+    .positive-trend { color: #34d399; background: rgba(52, 211, 153, 0.1); padding: 3px 10px; border-radius: 8px; font-size: 0.7rem; margin-left: 8px; font-weight: 600; display: inline-flex; align-items: center; }
+
+    .footer { background: transparent; border-top: 1px solid rgba(255,255,255,0.06); padding: 40px 0 20px; margin-top: 20px; }
+    .footer-container { max-width: 1200px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand .footer-logo { font-family: 'Milchella', 'Syne', serif; font-size: 1.3rem; letter-spacing: 0.15em; color: #ffffff; margin-bottom: 1rem; display: inline-block; text-decoration: none; }
+    .footer-brand p { font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; color: #8e939e; line-height: 1.6; }
+    .footer-col h4 { font-family: 'Clash Display', 'Syne', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; margin-bottom: 1.2rem; color: #ffffff; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.7rem; }
+    .footer-col a { font-family: 'Space Grotesk', sans-serif; color: #8e939e; text-decoration: none; font-size: 0.8rem; transition: all 0.3s ease; }
+    .footer-col a:hover { color: #ffffff; transform: translateX(3px); display: inline-block; }
+    .social-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .social-link { display: inline-flex; align-items: center; gap: 8px; color: #8e939e; text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; transition: all 0.3s ease; }
+    .social-link:hover { color: #ffffff; transform: translateY(-2px); }
+    .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.05); font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; color: #6b7280; }
+
+    @media (max-width: 968px) {
+      .nav { padding: 1.5rem 2rem; }
+      .nav.scrolled { padding: 1rem 2rem; }
+      .nav__hamburger { display: flex; }
+      .nav__links { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: #000000; flex-direction: column; align-items: center; justify-content: center; transition: left 0.4s; gap: 2rem; }
+      .nav__links.active { left: 0; }
+      .stats-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+      .analytics-split-view { grid-template-columns: 1fr; gap: 20px; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+    }
+    @media (max-width: 600px) {
+      body { padding: 80px 18px 20px; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .dashboard-header { flex-direction: column; align-items: flex-start; }
+      .footer-grid { grid-template-columns: 1fr; text-align: center; }
+      .social-links { justify-content: center; }
+    }
+    ::-webkit-scrollbar { width: 6px; background: #070707; }
+    ::-webkit-scrollbar-thumb { background: #2c2c30; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a href="index.html" class="nav__logo">EGUNGUN</a>
+    <div class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="insights.html">Insights</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="dashboard-container">
+    <div class="dashboard-header reveal">
+      <div><h1 class="title-main">Egungun Of Lagos</h1><p class="title-sub">Verified Ecosystem Audience & Engagement Performance Data</p></div>
+      <div class="insight-badge"><i class="fas fa-chart-line" style="margin-right: 6px;"></i> Live Analytics</div>
+    </div>
+
+    <div class="stats-grid">
+      <a href="https://www.instagram.com/_egungun" target="_blank" class="metric-tile reveal-scale delay-1"><div class="platform-tag"><span class="dot dot-ig"></span>Instagram</div><div class="big-stat-number" data-target="2.2" data-suffix="M">0</div><div class="stat-desc">Followers</div></a>
+      <a href="https://www.snapchat.com/t/DswsNu04" target="_blank" class="metric-tile reveal-scale delay-2"><div class="platform-tag"><span class="dot dot-snap"></span>Snapchat</div><div class="big-stat-number" data-target="5.5" data-suffix="M">0</div><div class="stat-desc">Story Reach weekly</div></a>
+      <a href="https://www.tiktok.com/@_egungun" target="_blank" class="metric-tile reveal-scale delay-3"><div class="platform-tag"><span class="dot dot-tt"></span>TikTok</div><div class="big-stat-number" data-target="2.3" data-suffix="M">0</div><div class="stat-desc">Active Fans</div></a>
+      <a href="https://www.facebook.com/egunguncomic/" target="_blank" class="metric-tile reveal-scale delay-4"><div class="platform-tag"><span class="dot dot-fb"></span>Facebook</div><div class="big-stat-number" data-target="2.1" data-suffix="M">0</div><div class="stat-desc">Followers</div></a>
+      <a href="https://www.youtube.com/@EgungunOfLagos" target="_blank" class="metric-tile reveal-scale delay-5"><div class="platform-tag"><span class="dot dot-yt"></span>YouTube</div><div class="big-stat-number" data-target="110" data-suffix="K+">0</div><div class="stat-desc">Subscribers</div></a>
+    </div>
+
+    <div class="analytics-split-view">
+      <div class="analytics-card-frame reveal"><div class="card-frame-title">Audience Engagement Trends</div><div class="chart-wrapper-box"><canvas id="minimalistTrendChart"></canvas></div></div>
+      <div class="analytics-card-frame reveal delay-2"><div class="card-frame-title">Performance Index</div><div class="snapshot-list"><div class="snapshot-row"><span class="snapshot-meta-label">Gross Network Reach</span><span class="snapshot-metric-value"><span data-target="12" data-suffix="M+ Total">0</span></span></div><div class="snapshot-row"><span class="snapshot-meta-label">Avg. Engagement Scale</span><span class="snapshot-metric-value"><span data-target="65.4" data-suffix="%">0</span> <span class="positive-trend">▲ High</span></span></div><div class="snapshot-row"><span class="snapshot-meta-label">Core Content Pillars</span><span class="snapshot-metric-value">Luxury, Fashion & Lifestyle interview</span></div><div class="snapshot-row"><span class="snapshot-meta-label">Monthly Impressions</span><span class="snapshot-metric-value"><span data-target="200" data-suffix="M+ Average">0</span></span></div><div class="snapshot-row" style="border:none; padding:0;"><span class="snapshot-meta-label">Data Refresh Cycle</span><span class="snapshot-metric-value" style="color:#8e939e; font-weight:400;">Verified Metric Static</span></div></div></div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-grid">
+          <div class="footer-brand"><a href="index.html" class="footer-logo">EGUNGUN</a><p>Preserving ancestral wisdom and celebrating the sacred Yoruba masquerade tradition across Africa and the diaspora.</p></div>
+          <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Egungun</a></li><li><a href="services.html">Services</a></li><li><a href="insights.html">Insights</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+          <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Cookie Policy</a></li></ul></div>
+          <div class="footer-col"><h4>Connect</h4><div class="social-links"><a href="https://www.instagram.com/_egungun" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a><a href="https://www.tiktok.com/@_egungun" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a><a href="https://www.youtube.com/@EgungunOfLagos" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YouTube</a><a href="https://www.facebook.com/egunguncomic/" target="_blank" class="social-link"><i class="fab fa-facebook"></i> Facebook</a><a href="https://www.snapchat.com/t/DswsNu04" target="_blank" class="social-link"><i class="fab fa-snapchat"></i> Snapchat</a></div></div>
+        </div>
+        <div class="footer-bottom"><p>© 2025 Egungun of Africa. All rights reserved. | Built with ❤️ for the culture</p></div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const revealElements = document.querySelectorAll('.reveal, .reveal-scale');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); revealObserver.unobserve(entry.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    const nav = document.getElementById('nav'), hamburger = document.getElementById('hamburger'), navLinks = document.getElementById('navLinks');
+    window.addEventListener('scroll', () => { window.scrollY > 70 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled'); });
+    if (hamburger) hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+    document.querySelectorAll('.nav__links a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('active')));
+
+    function animateNumbers() {
+      const elements = document.querySelectorAll("[data-target]");
+      const duration = 1400;
+      elements.forEach(el => {
+        const target = parseFloat(el.getAttribute("data-target"));
+        const suffix = el.getAttribute("data-suffix") || "";
+        const isDecimal = target % 1 !== 0;
+        let startTime = null;
+        const step = (timestamp) => {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const easeOut = 1 - Math.pow(1 - progress, 3);
+          let current = target * easeOut;
+          if (isDecimal) el.innerText = current.toFixed(1) + suffix;
+          else el.innerText = Math.floor(current) + suffix;
+          if (progress < 1) window.requestAnimationFrame(step);
+          else el.innerText = (isDecimal ? target.toFixed(1) : Math.floor(target)) + suffix;
+        };
+        window.requestAnimationFrame(step);
+      });
+    }
+
+    let chartInstance = null;
+    function initChart() {
+      const canvas = document.getElementById('minimalistTrendChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+      const gradient = ctx.createLinearGradient(0, 0, 0, 280);
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+      gradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.05)');
+      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], datasets: [{ label: 'Gross Impressions (M)', data: [14.2, 19.5, 22.1, 31.8, 38.0, 45.2], borderColor: '#ffffff', borderWidth: 3, backgroundColor: gradient, fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#ffffff', pointBorderColor: '#000000', pointBorderWidth: 2 }] },
+        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0a0a0a', titleColor: '#ffffff', bodyColor: '#ffffff', callbacks: { label: (ctx) => `${ctx.raw}M Impressions` } } }, scales: { x: { grid: { display: false }, ticks: { color: '#8e939e' } }, y: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { callback: (val) => val + 'M' } } } }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => { initChart(); setTimeout(animateNumbers, 120); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Home | Egungun of Africa</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Clash+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    /* RESET & BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @font-face {
+      font-family: 'Milchella';
+      src: url('fonts/Milchella-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg-main: #ffffff;
+      --bg-surface: #f5f5f5;
+      --border-light: #e5e5e5;
+      --text-dark: #111111;
+      --text-muted: #666666;
+      --brand-primary: #000000;
+      --gold: #D4AF37;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-main: #000000;
+        --bg-surface: #0a0a0a;
+        --border-light: #1a1a1a;
+        --text-dark: #ffffff;
+        --text-muted: #aaaaaa;
+        --brand-primary: #ffffff;
+        --gold: #D4AF37;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-dark);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    /* REVEAL ANIMATIONS */
+    .reveal, .reveal-left, .reveal-right {
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal { transform: translateY(60px); }
+    .reveal-left { transform: translateX(-60px); }
+    .reveal-right { transform: translateX(60px); }
+    .reveal.active, .reveal-left.active, .reveal-right.active {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+    .delay-5 { transition-delay: 0.5s; }
+
+    /* DIVIDER */
+    .section-divider { width: 100%; padding: 60px 0; text-align: center; }
+    .divider-line { width: 60px; height: 1px; background: var(--text-muted); margin: 0 auto; opacity: 0.3; }
+    .divider-icon { margin: 16px auto; font-size: 0.8rem; color: var(--text-muted); opacity: 0.5; }
+
+    /* NAVIGATION */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: transparent;
+      transition: all 0.5s ease;
+    }
+    .nav.scrolled {
+      background: var(--bg-main);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 1rem 4rem;
+    }
+    .nav__logo {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dark);
+      text-decoration: none;
+    }
+    .nav__links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav__links a {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+    .nav__links a:hover { opacity: 1; }
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .nav__hamburger span {
+      width: 28px;
+      height: 2px;
+      background: var(--text-dark);
+      transition: all 0.3s ease;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero__background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('images/Hero.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 0;
+    }
+    .hero__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+      z-index: 1;
+    }
+    .hero__fade-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 30%;
+      background: linear-gradient(to bottom, transparent 0%, var(--bg-main) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 900px;
+      padding: 0 20px;
+    }
+    .hero__title {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: clamp(2.5rem, 10vw, 5.5rem);
+      line-height: 1.1;
+      color: #ffffff;
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+    .hero__title span {
+      display: block;
+      font-style: italic;
+      font-size: clamp(1.5rem, 5vw, 3rem);
+      opacity: 0.9;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 300;
+    }
+    .hero__divider {
+      width: 60px;
+      height: 2px;
+      background: #ffffff;
+      margin: 1.5rem auto;
+    }
+    .hero__description {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      line-height: 1.6;
+      color: #e0e0e0;
+      max-width: 600px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+    .hero__buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .hero__btn {
+      padding: 0.8rem 1.8rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .hero__btn--primary {
+      background: #ffffff;
+      color: #000000;
+      border: none;
+    }
+    .hero__btn--primary:hover {
+      background: #dddddd;
+      transform: translateY(-3px);
+    }
+    .hero__btn--secondary {
+      background: transparent;
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .hero__btn--secondary:hover {
+      border-color: #ffffff;
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-3px);
+    }
+    .hero__scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 2;
+    }
+    .hero__scroll span {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.7);
+    }
+    .hero__scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.7), transparent);
+      margin: 0.5rem auto 0;
+    }
+
+    /* CREATOR SECTION */
+    .creator-section { padding: 80px 5%; background: var(--bg-main); }
+    .creator-container { max-width: 1200px; margin: 0 auto; }
+    .creator-layout { display: flex; gap: 50px; align-items: center; flex-wrap: wrap; }
+    .creator-content { flex: 1; min-width: 280px; }
+    .creator-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+    .creator-title {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      color: var(--text-dark);
+    }
+    .creator-title span {
+      font-style: italic;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 300;
+    }
+    .creator-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-weight: 300;
+    }
+    .creator-image { flex: 1; min-width: 280px; }
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: var(--bg-surface);
+      border-radius: 16px;
+    }
+    .slide-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      background: var(--bg-surface);
+    }
+    .slide-img.active { opacity: 1; z-index: 2; }
+
+    /* STATS SECTION */
+    .stats-wrapper { padding: 80px 5%; background: var(--bg-surface); }
+    .dashboard-container { max-width: 1200px; margin: 0 auto; }
+    .dashboard-header { text-align: center; margin-bottom: 40px; }
+    .title-main {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      color: var(--text-dark);
+    }
+    .title-sub {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .stat-card:hover { transform: translateY(-5px); border-color: var(--brand-primary); }
+    .stat-number {
+      font-family: 'Clash Display', 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .stat-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 8px;
+    }
+    .chart-box {
+      background: var(--bg-main);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    canvas { max-height: 250px; width: 100%; }
+
+    /* EFFECT SECTION */
+    .effect-section { padding: 80px 5%; background: var(--bg-main); }
+    .effect-header { text-align: center; margin-bottom: 50px; }
+    .effect-title {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--text-dark);
+    }
+    .effect-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .effect-persona h3 {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+    }
+    .effect-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .live-metric {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+    }
+    .metric-number-group { display: flex; align-items: baseline; gap: 5px; }
+    .metric-num {
+      font-family: 'Clash Display', 'Syne', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .metric-lbl {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+    }
+    .hyper-cards-container { display: flex; flex-direction: column; gap: 16px; }
+    .hyper-card {
+      background: var(--bg-surface);
+      padding: 20px;
+      border: 1px solid var(--border-light);
+      transition: all 0.3s ease;
+    }
+    .hyper-card:hover { transform: translateX(5px); border-color: var(--brand-primary); }
+    .hyper-card h4 {
+      font-family: 'Clash Display', 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+    .hyper-card p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .magnetic-btn-wrapper {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 30px;
+      background: var(--text-dark);
+      color: var(--bg-main);
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      transition: all 0.3s ease;
+    }
+    .magnetic-btn-wrapper:hover { transform: translateY(-3px); opacity: 0.9; }
+
+    /* PIVOT SECTION */
+    .pivot-section { padding: 80px 5%; background: var(--bg-surface); }
+    .pivot-container { max-width: 1200px; margin: 0 auto; }
+    .pivot-layout {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+    .pivot-content { flex: 1; min-width: 280px; }
+    .pivot-image { flex: 1; min-width: 280px; }
+    .pivot-image img { width: 100%; height: auto; border-radius: 20px; }
+    .pivot-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+    .pivot-title {
+      font-family: 'Clash Display', 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+    }
+    .pivot-description {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    /* VIDEO SECTION */
+    .video-section { padding: 80px 5%; background: var(--bg-main); }
+    .video-card { max-width: 900px; margin: 0 auto; }
+    .video-viewport {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid var(--border-light);
+    }
+    .video-viewport iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .control-panel { display: flex; justify-content: center; margin-top: 20px; }
+    .btn-group { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-light);
+      padding: 10px 24px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .subscribe-btn { background: #FF0000; border-color: #FF0000; color: white; }
+    .subscribe-btn:hover { background: #cc0000; transform: translateY(-2px); }
+    .next-btn:hover { background: var(--text-dark); color: var(--bg-main); transform: translateY(-2px); }
+
+    /* FOOTER */
+    .footer {
+      background: var(--bg-main);
+      border-top: 1px solid var(--border-light);
+      padding: 60px 5% 40px;
+    }
+    .footer-container { max-width: 1200px; margin: 0 auto; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand .footer-logo {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dark);
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .footer-brand p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .footer-col h4 {
+      font-family: 'Clash Display', 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+      color: var(--text-dark);
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.7rem; }
+    .footer-col a {
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+    .footer-col a:hover { color: var(--text-dark); transform: translateX(3px); display: inline-block; }
+    .social-links { display: flex; gap: 15px; flex-wrap: wrap; }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      transition: all 0.3s ease;
+    }
+    .social-link:hover { color: var(--text-dark); transform: translateY(-2px); }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-light);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 968px) {
+      .nav { padding: 1.2rem 1.5rem; }
+      .nav.scrolled { padding: 0.8rem 1.5rem; }
+      .nav__hamburger { display: flex; }
+      .nav__links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: var(--bg-main);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: left 0.3s;
+        gap: 1.5rem;
+      }
+      .nav__links.active { left: 0; }
+      .creator-layout { flex-direction: column; text-align: center; }
+      .pivot-layout { flex-direction: column; text-align: center; }
+      .hero__buttons { flex-direction: column; align-items: center; }
+      .hero__btn { width: 200px; text-align: center; }
+      .section-divider { padding: 40px 0; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .hero { min-height: 550px; }
+      .hero__description { font-size: 0.85rem; }
+      .creator-section, .stats-wrapper, .effect-section, .pivot-section, .video-section { padding: 50px 5%; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .btn-group { flex-direction: column; align-items: center; }
+      .action-btn { width: 180px; justify-content: center; }
+      .footer-grid { grid-template-columns: 1fr; text-align: center; }
+      .social-links { justify-content: center; }
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a href="home.html" class="nav__logo">EGUNGUN</a>
+    <div class="nav__hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="hero__background"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__fade-overlay"></div>
+    <div class="hero__content">
+      <h1 class="hero__title reveal delay-1">EGUNGUN<span>of Africa</span></h1>
+      <div class="hero__divider reveal delay-2"></div>
+      <p class="hero__description reveal delay-3">The MOST POPULAR<br>lifestyle interviewer in Africa.</p>
+      <div class="hero__buttons reveal delay-4">
+        <a href="#creator" class="hero__btn hero__btn--primary">WHO IS EGUNGUN?</a>
+        <a href="#effect" class="hero__btn hero__btn--secondary">HIS EFFECT</a>
+      </div>
+    </div>
+    <div class="hero__scroll"><span>SCROLL</span><div class="hero__scroll-line"></div></div>
+  </section>
+
+  <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <section class="creator-section" id="creator">
+    <div class="creator-container">
+      <div class="creator-layout">
+        <div class="creator-content reveal-left">
+          <div class="creator-badge">Digital Creator & Culture Force</div>
+          <h1 class="creator-title">Egungun <span>Of Lagos</span></h1>
+          <p class="creator-text">Egungun is the ultimate bridge between major brands and the millions of young, hyper-engaged fans who watch his every move. When he partners with a brand, it doesn't feel like a boring, scripted ad. Thanks to his iconic catchphrases, raw charisma, and authentic street energy, he turns everyday promo campaigns into massive, unmissable cultural movements.</p>
+        </div>
+        <div class="creator-image reveal-right">
+          <div class="slideshow-container" id="slideshowContainer">
+            <img class="slide-img active" src="https://yt3.googleusercontent.com/TZ3iizUUVxZMiUp9FU8adm8YO2RDylr8BnF_45XFYlulv2pprZpNoddea5jdtoAz5fXbNIwr3w=s900-c-k-c0x00ffffff-no-rj" alt="Egungun Profile">
+            <img class="slide-img" src="https://imgur.com/u3JqA9s.jpeg" alt="Egungun Artwork">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <div class="stats-wrapper" id="stats">
+    <div class="dashboard-container">
+      <div class="dashboard-header reveal">
+        <h1 class="title-main">Egungun Of Lagos</h1>
+        <p class="title-sub">Verified Media Ecosystem Audience & Engagement Performance Data</p>
+      </div>
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card reveal delay-1"><div class="stat-number" id="statIg">0</div><div class="stat-label">Instagram Followers</div></div>
+        <div class="stat-card reveal delay-2"><div class="stat-number" id="statSnap">0</div><div class="stat-label">Snapchat Reach</div></div>
+        <div class="stat-card reveal delay-3"><div class="stat-number" id="statTikTok">0</div><div class="stat-label">TikTok Fans</div></div>
+        <div class="stat-card reveal delay-4"><div class="stat-number" id="statFb">0</div><div class="stat-label">Facebook Followers</div></div>
+        <div class="stat-card reveal delay-5"><div class="stat-number" id="statYt">0</div><div class="stat-label">YouTube Subs</div></div>
+      </div>
+      <div class="reveal"><div class="chart-box"><canvas id="ecosystemPerformanceChart"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <section class="effect-section" id="effect">
+    <div class="effect-header reveal"><h2 class="effect-title">THE "EGUNGUN"<br>Effect On Brands</h2></div>
+    <div class="effect-grid">
+      <div class="effect-persona reveal-left">
+        <h3>"Damn, It's Massive baby!"</h3>
+        <p class="effect-text">Egungun of Lagos is a digital content creator and lifestyle interviewer known for creating fun filled engaging content. His way of promoting brands doesn't feel scripted or forced, which makes his videos entertaining and easy for his audience to connect with.</p>
+        <p class="effect-text">His fans genuinely enjoy and engage with his content, helping brands gain more attention, wider audience reach, and increased sales through his adverts and lifestyle videos.</p>
+        <div class="live-metric"><div class="metric-number-group"><span class="metric-num" id="totalViews">0</span><span class="metric-lbl">B+ Total Media Views</span></div></div>
+      </div>
+      <div class="benefits-column reveal-right">
+        <div class="hyper-cards-container">
+          <div class="hyper-card"><h4>Media Partnerships</h4><p>Transform ROI into tangible revenue. Maximum visibility and substantial sales boost.</p></div>
+          <div class="hyper-card"><h4>Unparalleled Influencing</h4><p>Command immediate attention through high-retention video content.</p></div>
+          <div class="hyper-card"><h4>High-Impact Vlogging</h4><p>Integrate seamlessly into premium lifestyle vlogs.</p></div>
+          <div class="hyper-card"><h4>Massive Social Reach</h4><p>Reach an active, purchasing global audience across all platforms.</p></div>
+        </div>
+        <a href="contact.html" class="magnetic-btn-wrapper">Book Egungun Now →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <section class="pivot-section" id="pivot">
+    <div class="pivot-container">
+      <div class="pivot-layout">
+        <div class="pivot-image reveal-left"><img src="https://imgur.com/MXEjfBM.jpeg" alt="Egungun of Lagos"></div>
+        <div class="pivot-content reveal-right">
+          <div class="pivot-badge">EGUNGUN VISION</div>
+          <h2 class="pivot-title">The Masquerade Pivot</h2>
+          <p class="pivot-description">Kuye Oghenevwede Adegoke, widely known to millions as Egungun of Lagos (or simply Egungun), is a pioneering Nigerian internet personality, lifestyle interviewer and influencer, digital content creator, YouTuber, and vlogger who has completely reshaped the landscape of digital entertainment in West Africa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <section class="video-section" id="video">
+    <div class="video-card reveal">
+      <div class="video-viewport"><iframe id="godaddy-yt-player" src="https://www.youtube.com/embed/J6iCO5A9Hyg?autoplay=0&mute=1&modestbranding=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="control-panel"><div class="btn-group"><a href="https://www.youtube.com/@EGUNGUNOFLAGOS?sub_confirmation=1" target="_blank" class="action-btn subscribe-btn"><i class="fab fa-youtube"></i><span>Subscribe</span></a><button class="action-btn next-btn" id="nextVideoBtn"><i class="fas fa-forward"></i><span>Next Video</span></button></div></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand"><a href="home.html" class="footer-logo">EGUNGUN</a><p>Preserving ancestral wisdom and celebrating the sacred Yoruba masquerade tradition across Africa and the diaspora.</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="home.html">Home</a></li><li><a href="about.html">About Egungun</a></li><li><a href="services.html">Services</a></li><li><a href="insights.html">Insights</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Cookie Policy</a></li></ul></div>
+        <div class="footer-col"><h4>Connect</h4><div class="social-links"><a href="https://www.instagram.com/_egungun" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a><a href="https://www.tiktok.com/@_egungun" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a><a href="https://www.youtube.com/@EgungunOfLagos" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YouTube</a><a href="https://www.facebook.com/egunguncomic/" target="_blank" class="social-link"><i class="fab fa-facebook"></i> Facebook</a><a href="https://www.snapchat.com/t/DswsNu04" target="_blank" class="social-link"><i class="fab fa-snapchat"></i> Snapchat</a></div></div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 Egungun of Africa. All rights reserved. | Built with ❤️ for the culture</p></div>
+    </div>
+  </footer>
+
+  <!-- EGUNGUN AI CHAT WIDGET - UPDATED VERSION -->
+  <script src="js/egungun-ai.js"></script>
+
+  <script>
+    // Navigation
+    const nav = document.getElementById('nav');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 70) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    if (hamburger) {
+      hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+    }
+
+    document.querySelectorAll('.nav__links a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('active'));
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Reveal animations
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Animate numbers
+    function animateNumber(elementId, target, suffix = '') {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      let current = 0;
+      const duration = 1500;
+      const stepTime = 16;
+      const steps = duration / stepTime;
+      const increment = target / steps;
+      const interval = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          el.innerText = target.toLocaleString() + suffix;
+          clearInterval(interval);
+        } else {
+          el.innerText = Math.floor(current).toLocaleString() + suffix;
+        }
+      }, stepTime);
+    }
+
+    // Stats observer
+    const statsSection = document.getElementById('stats');
+    let statsAnimated = false;
+    new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !statsAnimated) {
+          statsAnimated = true;
+          animateNumber('statIg', 2.2, 'M');
+          animateNumber('statSnap', 5.5, 'M');
+          animateNumber('statTikTok', 2.3, 'M');
+          animateNumber('statFb', 2.1, 'M');
+          animateNumber('statYt', 110, 'K');
+          animateNumber('totalViews', 50, 'B+');
+        }
+      });
+    }, { threshold: 0.3 }).observe(statsSection);
+
+    // Slideshow
+    const slides = document.querySelectorAll('.slide-img');
+    let slideIndex = 0;
+    if (slides.length > 1) {
+      setInterval(() => {
+        slides[slideIndex].classList.remove('active');
+        slideIndex = (slideIndex + 1) % slides.length;
+        slides[slideIndex].classList.add('active');
+      }, 4000);
+    }
+
+    // Video player
+    const videoPool = [
+      'J6iCO5A9Hyg', 'kOJuYQ-hI5M', 'IXFHAyr-tZc', 'Zs8zeZz5sj0',
+      '3BCAS35r1PY', 'RY0yUL2Zlvg', 'Ck1ggnzDIvY', '6pQccu5BtoU'
+    ];
+    let videoInterval;
+    const videoFrame = document.getElementById('godaddy-yt-player');
+    
+    function loadRandomVideo() {
+      const randomId = videoPool[Math.floor(Math.random() * videoPool.length)];
+      if (videoFrame) {
+        videoFrame.src = `https://www.youtube.com/embed/${randomId}?autoplay=1&mute=1&modestbranding=1&rel=0`;
+      }
+    }
+    
+    document.getElementById('nextVideoBtn')?.addEventListener('click', () => {
+      loadRandomVideo();
+    });
+    
+    loadRandomVideo();
+    videoInterval = setInterval(loadRandomVideo, 30000);
+
+    // Chart
+    const chartCtx = document.getElementById('ecosystemPerformanceChart');
+    if (chartCtx) {
+      new Chart(chartCtx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            data: [14.2, 19.5, 22.1, 31.8, 38.0, 45.2],
+            borderColor: '#4f46e5',
+            borderWidth: 3,
+            backgroundColor: 'rgba(79, 70, 229, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointBackgroundColor: '#4f46e5'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { ticks: { callback: (v) => v + 'M' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

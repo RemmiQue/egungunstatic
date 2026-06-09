@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>Rate Card | Egungun of Africa</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    @font-face {
+      font-family: 'Milchella';
+      src: url('fonts/Milchella-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { background: #030303; font-family: 'Space Grotesk', sans-serif; color: #ffffff; padding: 20px 16px 50px 16px; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; position: relative; }
+    body::before { content: ''; position: absolute; width: 70vmax; height: 70vmax; background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 70%); top: -30%; right: -20%; pointer-events: none; z-index: 0; }
+
+    .rate-card-wrapper { max-width: 1280px; width: 100%; background: #090a0c; border-radius: 32px; border: 1px solid rgba(255, 255, 255, 0.06); display: flex; flex-wrap: wrap; position: relative; z-index: 2; box-shadow: 0 30px 70px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05) inset; overflow: hidden; }
+    .left-image-side { flex: 0 0 36%; background-image: url('https://i.imgur.com/OdWdg0a.jpeg'); background-size: cover; background-position: 50% 30%; position: relative; min-height: 580px; }
+    .left-image-side::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(105deg, rgba(9,10,12,0.92) 0%, rgba(9,10,12,0.4) 70%, transparent 100%); pointer-events: none; }
+    .content-layer { flex: 1; padding: 44px 42px 48px 42px; background: transparent; position: relative; z-index: 3; }
+    .header-area { margin-bottom: 40px; }
+    .header-area h1 { font-family: 'Milchella', 'Syne', sans-serif; font-size: 3rem; font-weight: 800; text-transform: uppercase; line-height: 1; letter-spacing: -2px; background: linear-gradient(135deg, #FFFFFF 30%, #B9B6A5 80%); background-clip: text; -webkit-background-clip: text; color: transparent; margin-bottom: 8px; }
+    .header-area .tag { font-size: 0.7rem; letter-spacing: 8px; text-transform: uppercase; color: #ffffff; opacity: 0.6; font-weight: 600; }
+    .section-block { margin-bottom: 42px; }
+    .section-label { font-family: 'Syne', sans-serif; font-size: 0.8rem; text-transform: uppercase; color: rgba(255,255,255,0.4); letter-spacing: 3px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.2), rgba(255,255,255,0.02)); }
+    .grid-matrix { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .matrix-cell { background: rgba(15, 17, 20, 0.7); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 24px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(2px); transition: all 0.3s ease; }
+    .matrix-cell:hover { background: rgba(30, 33, 38, 0.85); border-color: rgba(255, 255, 255, 0.15); }
+    .platform-meta { display: flex; align-items: center; gap: 14px; }
+    .platform-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .platform-icon svg { width: 24px; height: 24px; fill: #b9b9c0; transition: fill 0.2s; }
+    .matrix-cell:hover .platform-icon svg { fill: #ffffff; }
+    .cell-title { font-weight: 500; font-size: 1rem; color: #eef1f8; letter-spacing: -0.2px; }
+    .cell-value { font-family: 'Unbounded', 'Syne', 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.45rem; letter-spacing: -0.02em; background: linear-gradient(135deg, #fff, #e0ddcc); background-clip: text; -webkit-background-clip: text; color: transparent; white-space: normal; flex-shrink: 0; margin-left: 12px; }
+    .combo-cell-feature { background: linear-gradient(115deg, #ffffff 0%, #faf7ef 100%); border: none; padding: 20px 24px; }
+    .combo-cell-feature .cell-value { font-family: 'Unbounded', 'Syne', sans-serif; font-weight: 800; font-size: 1.65rem; background: linear-gradient(135deg, #0a0a0a, #2a2418); background-clip: text; -webkit-background-clip: text; color: transparent; }
+    .combo-cell-feature .cell-title { color: #151515; font-weight: 800; font-family: 'Syne', sans-serif; }
+    .combo-cell-feature .platform-icon svg { fill: #1f1f1f; }
+    .combo-cell-feature:hover { background: #ffffff; }
+    .deck-stack { display: flex; flex-direction: column; gap: 12px; }
+    .deck-card { background: rgba(12, 14, 19, 0.65); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 24px; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; backdrop-filter: blur(2px); position: relative; transition: all 0.3s ease; }
+    .deck-card::before { content: ''; position: absolute; left: 0; top: 15%; height: 70%; width: 3px; background: #ffffff; border-radius: 3px; opacity: 0; transition: opacity 0.2s; }
+    .deck-card:hover { background: rgba(30, 34, 44, 0.9); border-color: rgba(255, 255, 255, 0.2); }
+    .deck-card:hover::before { opacity: 1; }
+    .deck-meta h3 { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
+    .deck-desc { color: #9a9ea8; font-size: 0.8rem; }
+    .deck-desc em { font-style: normal; color: #ffffff; font-weight: 500; margin-left: 6px; }
+    .deck-price { font-family: 'Unbounded', 'Syne', sans-serif; font-size: 1.55rem; font-weight: 800; background: linear-gradient(135deg, #f5e6b0, #ffffff, #e6c87a); background-clip: text; -webkit-background-clip: text; color: transparent; letter-spacing: -0.3px; white-space: nowrap; }
+    .footer-action-panel { display: flex; justify-content: space-between; align-items: center; margin-top: 42px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 16px; }
+    .footer-signature { font-family: 'Syne', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 4px; color: rgba(255,255,255,0.4); font-weight: 600; }
+    .booking-btn { background: #ffffff; color: #030303; text-decoration: none; padding: 12px 32px; border-radius: 40px; font-weight: 700; font-size: 0.85rem; letter-spacing: 1px; transition: all 0.3s ease; border: none; display: inline-block; cursor: pointer; }
+    .booking-btn:hover { background: #dddddd; transform: translateY(-2px); }
+
+    @media (max-width: 768px) {
+      body { padding: 16px 14px 40px; }
+      .rate-card-wrapper { flex-direction: column; border-radius: 28px; }
+      .left-image-side { min-height: 220px; flex: auto; width: 100%; background-position: 50% 35%; }
+      .content-layer { padding: 24px 18px 32px; }
+      .header-area h1 { font-size: 2rem; letter-spacing: -1px; }
+      .header-area .tag { letter-spacing: 5px; font-size: 0.6rem; }
+      .section-block { margin-bottom: 32px; }
+      .section-label { font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 16px; }
+      .matrix-cell { padding: 14px 16px; border-radius: 20px; }
+      .cell-title { font-size: 0.9rem; }
+      .cell-value { font-size: 1.3rem; }
+      .combo-cell-feature { padding: 16px 20px; }
+      .combo-cell-feature .cell-value { font-size: 1.5rem; }
+      .deck-card { flex-direction: column; align-items: flex-start; padding: 16px 18px; gap: 12px; }
+      .deck-price { font-size: 1.4rem; white-space: normal; }
+      .footer-action-panel { flex-direction: column; text-align: center; margin-top: 32px; padding-top: 24px; gap: 14px; }
+      .booking-btn { width: 100%; text-align: center; padding: 12px 20px; }
+    }
+    @media (max-width: 480px) {
+      body { padding: 12px 12px 32px; }
+      .content-layer { padding: 20px 14px 26px; }
+      .header-area h1 { font-size: 1.75rem; }
+      .cell-value { font-size: 1.2rem; }
+      .deck-price { font-size: 1.3rem; }
+    }
+    html { overflow-x: hidden; width: 100%; position: relative; }
+  </style>
+</head>
+<body>
+
+<div class="rate-card-wrapper">
+  <div class="left-image-side"></div>
+  <div class="content-layer">
+    <div class="header-area"><h1>Egungun of Lagos</h1><div class="tag">✦ OFFICIAL RATE CARD ✦</div></div>
+
+    <div class="section-block">
+      <div class="section-label">Rate Card</div>
+      <div class="grid-matrix">
+        <div class="matrix-cell"><div class="platform-meta"><div class="platform-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div><span class="cell-title">Instagram</span></div><span class="cell-value" data-val="7">₦0m</span></div>
+        <div class="matrix-cell"><div class="platform-meta"><div class="platform-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5c-2.43 0-4.47 1.44-4.47 4.14 0 .54.12 1.35.42 1.91-.72.15-1.23.51-1.23 1.2 0 .6.39 1.05.99 1.23-.03.15-.05.33-.05.48 0 1.02.87 1.56 2.1 1.83.24.48.63.96 1.26 1.23-.87.24-1.89.69-2.61 1.32-.87.75-1.41 1.74-1.41 2.7 0 .24.06.48.15.69.45.87 2.16.93 4.8.93s4.35-.06 4.8-.93c.09-.21.15-.45.15-.69 0-.96-.54-1.95-1.41-2.7-.72-.63-1.74-1.08-2.61-1.32.63-.27 1.02-.75 1.26-1.23 1.23-.27 2.1-.81 2.1-1.83 0-.15-.02-.33-.05-.48.6-.18.99-.63.99-1.23 0-.69-.51-1.05-1.23-1.2.3-.56.42-1.37.42-1.91 0-2.7-2.04-4.14-4.47-4.14z"/></svg></div><span class="cell-title">Snapchat</span></div><span class="cell-value" data-val="1">₦0m</span></div>
+        <div class="matrix-cell"><div class="platform-meta"><div class="platform-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.05 1.78 4.07 1.02.9 2.34 1.41 3.74 1.49v3.74c-1.21-.05-2.4-.41-3.44-1.05-.73-.45-1.36-1.04-1.85-1.74v6.92c-.01 2.11-.64 4.19-1.84 5.82-1.46 1.98-3.79 3.2-6.28 3.25-2.56.04-5.07-1.03-6.73-2.98C.13 17.58-.33 14.88.24 12.33c.53-2.37 2.1-4.41 4.25-5.5 1.57-.8 3.34-1.11 5.1-1.02v3.75c-1-.07-2.02.15-2.9.68-1.17.7-1.9 1.97-1.92 3.34-.02 1.71.97 3.31 2.52 4.01 1.54.7 3.39.42 4.65-.7 1-.9 1.55-2.18 1.54-3.51V.02z"/></svg></div><span class="cell-title">TikTok</span></div><span class="cell-value" data-val="6">₦0m</span></div>
+        <div class="matrix-cell"><div class="platform-meta"><div class="platform-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div><span class="cell-title">Facebook</span></div><span class="cell-value" data-val="5">₦0m</span></div>
+        <div class="matrix-cell"><div class="platform-meta"><div class="platform-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div><span class="cell-title">Instagram story</span></div><span class="cell-value" data-val="1">₦0m</span></div>
+        <div class="matrix-cell"><div class="platform-meta"><div class="platform-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div><span class="cell-title">YouTube</span></div><span class="cell-value" data-val="7">₦0m</span></div>
+        <div class="matrix-cell combo-cell-feature"><div class="platform-meta"><div class="platform-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 13h6v8H2v-8zm14-5h6v13h-6V8zM9 2h6v19H9V2z"/></svg></div><span class="cell-title">All platform combo</span></div><span class="cell-value" data-val="12">₦0m</span></div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-label">Brand Ambassador Packages</div>
+      <div class="deck-stack">
+        <div class="deck-card"><div class="deck-meta"><h3>One Month</h3><div class="deck-desc">2 video posts <em>@ rate of 10m</em></div></div><div class="deck-price" data-val="20">₦0m</div></div>
+        <div class="deck-card"><div class="deck-meta"><h3>Three Month</h3><div class="deck-desc">6 video posts <em>@ rate of 6.7m</em></div></div><div class="deck-price" data-val="40">₦0m</div></div>
+        <div class="deck-card"><div class="deck-meta"><h3>Six Month</h3><div class="deck-desc">12 video posts <em>@ rate of 5.9m</em></div></div><div class="deck-price" data-val="70">₦0m</div></div>
+        <div class="deck-card"><div class="deck-meta"><h3>Nine Month</h3><div class="deck-desc">18 videos post <em>@ rate of 5.6m</em></div></div><div class="deck-price" data-val="100">₦0m</div></div>
+        <div class="deck-card"><div class="deck-meta"><h3>Twelve Month</h3><div class="deck-desc">24 videos post <em>@ rate of 5.5m</em></div></div><div class="deck-price" data-val="130">₦0m</div></div>
+      </div>
+    </div>
+
+    <div class="footer-action-panel"><div class="footer-signature">Egungunofafrica.com</div><a href="contact.html" class="booking-btn">Contact Egungun</a></div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const animateNumbers = () => {
+      const counters = document.querySelectorAll('[data-val]');
+      counters.forEach(el => {
+        const targetRaw = el.getAttribute('data-val');
+        if (!targetRaw) return;
+        const targetVal = parseInt(targetRaw, 10);
+        if (isNaN(targetVal)) return;
+        let current = 0;
+        const duration = 1000;
+        const stepTime = 16;
+        const steps = Math.ceil(duration / stepTime);
+        let step = 0;
+        const increment = targetVal / steps;
+        const timer = setInterval(() => {
+          step++;
+          current += increment;
+          if (step >= steps) { current = targetVal; clearInterval(timer); }
+          const rounded = Math.floor(current);
+          el.textContent = `₦${rounded}m`;
+        }, stepTime);
+      });
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', animateNumbers);
+    else animateNumbers();
+  })();
+</script>
+</body>
+</html>

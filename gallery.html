@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Gallery | Egungun of Africa</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Clash+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @font-face {
+      font-family: 'Milchella';
+      src: url('fonts/Milchella-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg-main: #ffffff;
+      --bg-surface: #f5f5f5;
+      --border-light: #e5e5e5;
+      --text-dark: #111111;
+      --text-muted: #666666;
+      --brand-primary: #000000;
+      --gold: #D4AF37;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-main: #000000;
+        --bg-surface: #0a0a0a;
+        --border-light: #1a1a1a;
+        --text-dark: #ffffff;
+        --text-muted: #aaaaaa;
+        --brand-primary: #ffffff;
+        --gold: #D4AF37;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-dark);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    /* REVEAL ANIMATIONS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* NAVIGATION */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: transparent;
+      transition: all 0.5s ease;
+    }
+    .nav.scrolled {
+      background: var(--bg-main);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 1rem 4rem;
+    }
+    .nav__logo {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dark);
+      text-decoration: none;
+    }
+    .nav__links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav__links a {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+    .nav__links a:hover { opacity: 1; }
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .nav__hamburger span {
+      width: 28px;
+      height: 2px;
+      background: var(--text-dark);
+      transition: all 0.3s ease;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 150px 5% 40px;
+      background: var(--bg-main);
+      text-align: center;
+    }
+    .page-header h1 {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .page-header .divider {
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+      margin: 20px auto;
+    }
+    .page-header p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ELEGANT GALLERY CONTAINER */
+    .gallery-wrapper {
+      position: relative;
+      width: 100%;
+      padding: 20px 0 60px;
+      background: var(--bg-main);
+    }
+
+    /* Subtle gradient overlays for elegance */
+    .gallery-wrapper::before,
+    .gallery-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 120px;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .gallery-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, var(--bg-main), transparent);
+    }
+    .gallery-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, var(--bg-main), transparent);
+    }
+
+    .gallery-container {
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: visible;
+    }
+
+    /* AUTO-SCROLL ANIMATION - SLOW AND SMOOTH */
+    .gallery-track {
+      display: flex;
+      gap: 24px;
+      width: fit-content;
+      animation: scrollRightToLeft 80s linear infinite;
+    }
+
+    /* Pause animation on hover */
+    .gallery-wrapper:hover .gallery-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes scrollRightToLeft {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Elegant Gallery Cards - FIXED ASPECT RATIO, NO CROPPING */
+    .gallery-card {
+      position: relative;
+      width: 320px;
+      flex-shrink: 0;
+      background: var(--bg-surface);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Fixed aspect ratio container for images - NO CROPPING */
+    .gallery-card__image-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 125%; /* 4:5 aspect ratio - standard portrait */
+      overflow: hidden;
+      background: var(--bg-surface);
+    }
+
+    .gallery-card__image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.8s ease;
+      background: var(--bg-surface);
+    }
+
+    .gallery-card:hover .gallery-card__image {
+      transform: scale(1.05);
+    }
+
+    /* Elegant Overlay */
+    .gallery-card__overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+      padding: 40px 24px 24px;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .gallery-card:hover .gallery-card__overlay {
+      transform: translateY(0);
+    }
+
+    .gallery-card__title {
+      font-family: 'Clash Display', 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: 0.02em;
+    }
+
+    .gallery-card__subtitle {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 6px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* Decorative line on hover */
+    .gallery-card__overlay::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-card:hover .gallery-card__overlay::before {
+      transform: scaleX(1);
+    }
+
+    /* Elegant Scroll Indicator */
+    .scroll-indicator {
+      text-align: center;
+      padding: 20px 0 40px;
+      color: var(--text-muted);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .scroll-indicator-line {
+      width: 40px;
+      height: 1px;
+      background: var(--text-muted);
+      opacity: 0.3;
+    }
+    .scroll-indicator i {
+      opacity: 0.5;
+      font-size: 0.7rem;
+      animation: subtlePulse 2s ease-in-out infinite;
+    }
+    @keyframes subtlePulse {
+      0%, 100% { opacity: 0.3; transform: translateX(0); }
+      50% { opacity: 0.8; transform: translateX(3px); }
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--bg-main);
+      border-top: 1px solid var(--border-light);
+      padding: 60px 5% 40px;
+      margin-top: 20px;
+    }
+    .footer-container { max-width: 1200px; margin: 0 auto; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand .footer-logo {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dark);
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .footer-brand p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .footer-col h4 {
+      font-family: 'Clash Display', 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+      color: var(--text-dark);
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.7rem; }
+    .footer-col a {
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+    .footer-col a:hover { color: var(--text-dark); transform: translateX(3px); display: inline-block; }
+    .social-links { display: flex; gap: 15px; flex-wrap: wrap; }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      transition: all 0.3s ease;
+    }
+    .social-link:hover { color: var(--text-dark); transform: translateY(-2px); }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-light);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 968px) {
+      .nav { padding: 1.2rem 1.5rem; }
+      .nav.scrolled { padding: 0.8rem 1.5rem; }
+      .nav__hamburger { display: flex; }
+      .nav__links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: var(--bg-main);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: left 0.3s;
+        gap: 1.5rem;
+      }
+      .nav__links.active { left: 0; }
+      .gallery-card { width: 280px; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+      .gallery-wrapper::before,
+      .gallery-wrapper::after { width: 60px; }
+      .gallery-track { animation-duration: 60s; }
+    }
+
+    @media (max-width: 600px) {
+      .page-header { padding: 120px 5% 30px; }
+      .gallery-card { width: 260px; }
+      .footer-grid { grid-template-columns: 1fr; text-align: center; }
+      .social-links { justify-content: center; }
+      .gallery-wrapper::before,
+      .gallery-wrapper::after { width: 30px; }
+      .scroll-indicator { font-size: 0.5rem; letter-spacing: 0.2em; gap: 10px; }
+      .scroll-indicator-line { width: 25px; }
+      .gallery-track { animation-duration: 50s; }
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a href="index.html" class="nav__logo">EGUNGUN</a>
+    <div class="nav__hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-header reveal">
+    <h1>Visual Archive</h1>
+    <div class="divider"></div>
+    <p>A collection of Egungun random moments</p>
+  </section>
+
+  <div class="gallery-wrapper">
+    <div class="gallery-container">
+      <div class="gallery-track" id="galleryTrack"></div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span class="scroll-indicator-line"></span>
+    <span><i class="fas fa-hand-peace"></i> HOVER TO PAUSE | AUTO-SCROLLING <i class="fas fa-arrow-right"></i></span>
+    <span class="scroll-indicator-line"></span>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">EGUNGUN</a>
+          <p>Preserving ancestral wisdom and celebrating the sacred Yoruba masquerade tradition across Africa and the diaspora.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Egungun</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="insights.html">Insights</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <div class="social-links">
+            <a href="https://www.instagram.com/_egungun" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://www.tiktok.com/@_egungun" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a>
+            <a href="https://www.youtube.com/@EgungunOfLagos" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YouTube</a>
+            <a href="https://www.facebook.com/egunguncomic/" target="_blank" class="social-link"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="https://www.snapchat.com/t/DswsNu04" target="_blank" class="social-link"><i class="fab fa-snapchat"></i> Snapchat</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Egungun of Africa. All rights reserved. | Built with ❤️ for the culture</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ==============================================
+    // GALLERY IMAGES - 20 UNIQUE IMAGES
+    // Add or remove images here - they will NEVER crop!
+    // ==============================================
+    const galleryImages = [
+      { url: "https://picsum.photos/id/1015/800/1000", title: "MOUNTAIN SOUL", subtitle: "Altitude & Attitude" },
+      { url: "https://picsum.photos/id/104/800/1000", title: "FRAME OF MIND", subtitle: "Studio Chronicles" },
+      { url: "https://picsum.photos/id/106/800/1000", title: "BLOOM", subtitle: "Flower Power" },
+      { url: "https://picsum.photos/id/107/800/1000", title: "WILD AT HEART", subtitle: "Untamed Spirit" },
+      { url: "https://picsum.photos/id/116/800/1000", title: "PEAK MOMENTS", subtitle: "Summit Dreams" },
+      { url: "https://picsum.photos/id/119/800/1000", title: "NATURE'S CALL", subtitle: "Organic Flow" },
+      { url: "https://picsum.photos/id/120/800/1000", title: "FRESH CUT", subtitle: "Vibrant Energy" },
+      { url: "https://picsum.photos/id/125/800/1000", title: "BEHIND THE LENS", subtitle: "BTS Stories" },
+      { url: "https://picsum.photos/id/127/800/1000", title: "LIQUID DREAMS", subtitle: "Pure Elegance" },
+      { url: "https://picsum.photos/id/13/800/1000", title: "INTO THE WILD", subtitle: "Explorer Mode" },
+      { url: "https://picsum.photos/id/132/800/1000", title: "CITY LIGHTS", subtitle: "Urban Nights" },
+      { url: "https://picsum.photos/id/135/800/1000", title: "CONCRETE JUNGLE", subtitle: "Street Spirit" },
+      { url: "https://picsum.photos/id/14/800/1000", title: "SHARP FOCUS", subtitle: "Precision" },
+      { url: "https://picsum.photos/id/145/800/1000", title: "SOFT MOMENTS", subtitle: "Minimal Grace" },
+      { url: "https://picsum.photos/id/15/800/1000", title: "WANDERLUST", subtitle: "Endless Road" },
+      { url: "https://picsum.photos/id/155/800/1000", title: "GOLDEN HOUR", subtitle: "Sunset Magic" },
+      { url: "https://picsum.photos/id/16/800/1000", title: "ROAD AHEAD", subtitle: "Journey Continues" },
+      { url: "https://picsum.photos/id/169/800/1000", title: "DUSK TILL DAWN", subtitle: "Evening Glow" },
+      { url: "https://picsum.photos/id/17/800/1000", title: "GRAVEL & GLORY", subtitle: "Off The Path" },
+      { url: "https://picsum.photos/id/175/800/1000", title: "EDGY VIBES", subtitle: "Alternative Style" }
+    ];
+
+    // ==============================================
+    // CREATE GALLERY CARDS (DUPLICATED FOR SMOOTH INFINITE SCROLL)
+    // ==============================================
+    function createGallery() {
+      const track = document.getElementById('galleryTrack');
+      if (!track) return;
+      
+      track.innerHTML = '';
+      
+      // Helper function to create a card
+      function createCard(img) {
+        const card = document.createElement('div');
+        card.className = 'gallery-card';
+        card.innerHTML = `
+          <div class="gallery-card__image-wrapper">
+            <img class="gallery-card__image" src="${img.url}" alt="${img.title}" loading="lazy">
+          </div>
+          <div class="gallery-card__overlay">
+            <div class="gallery-card__title">${img.title}</div>
+            <div class="gallery-card__subtitle">${img.subtitle}</div>
+          </div>
+        `;
+        return card;
+      }
+      
+      // Create first set of 20 images
+      galleryImages.forEach((img) => {
+        track.appendChild(createCard(img));
+      });
+      
+      // Duplicate for seamless infinite scroll (clone all cards)
+      galleryImages.forEach((img) => {
+        track.appendChild(createCard(img));
+      });
+    }
+
+    // ==============================================
+    // NAVIGATION
+    // ==============================================
+    const nav = document.getElementById('nav');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 70) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    if (hamburger) {
+      hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+    }
+
+    document.querySelectorAll('.nav__links a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('active'));
+    });
+
+    // ==============================================
+    // REVEAL ANIMATIONS
+    // ==============================================
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ==============================================
+    // INITIALIZE GALLERY
+    // ==============================================
+    createGallery();
+  </script>
+</body>
+</html>

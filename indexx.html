@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Egungun of Lagos | The Masquerade Legend</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    @font-face {
+      font-family: 'Milchella';
+      src: url('fonts/Milchella-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000000;
+      overflow-x: hidden;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .preloader-inner {
+      text-align: center;
+      padding: 20px;
+      animation: fadeInScale 0.8s ease forwards;
+    }
+
+    .preloader-logo {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: clamp(2.8rem, 10vw, 5rem);
+      letter-spacing: 0.12em;
+      color: #ffffff;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 0%, #cccccc 50%, #ffffff 100%);
+      background-size: 200% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: shimmerText 3s linear infinite;
+    }
+
+    @keyframes shimmerText {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .preloader-sub {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 2rem;
+    }
+
+    .mask-symbol {
+      width: 80px;
+      height: 80px;
+      margin: 30px auto 25px;
+      position: relative;
+      animation: floatSpirit 2.5s ease-in-out infinite;
+    }
+
+    .mask-symbol svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+    }
+
+    @keyframes floatSpirit {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(2deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    .progress-ring-container {
+      margin: 20px auto;
+      width: 60px;
+      height: 60px;
+      position: relative;
+    }
+
+    .progress-ring {
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring-circle-bg {
+      stroke: rgba(255,255,255,0.12);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .progress-ring-circle {
+      stroke: #ffffff;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-dasharray: 180;
+      stroke-dashoffset: 180;
+    }
+
+    .load-percent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .tagline-rotator {
+      margin-top: 28px;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .rotating-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 1px;
+      animation: slideUpFade 1.8s infinite ease;
+      text-transform: uppercase;
+    }
+
+    @keyframes slideUpFade {
+      0%, 20% { transform: translateY(0); opacity: 0.6; }
+      25%, 45% { transform: translateY(-30px); opacity: 0; }
+      50%, 70% { transform: translateY(30px); opacity: 0; }
+      75%, 100% { transform: translateY(0); opacity: 0.6; }
+    }
+
+    .loader-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .dot-pulse {
+      width: 8px;
+      height: 8px;
+      background: #ffffff;
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: dotPulse 1.4s infinite ease-in-out;
+    }
+
+    .dot-pulse:nth-child(2) { animation-delay: 0.2s; }
+    .dot-pulse:nth-child(3) { animation-delay: 0.4s; }
+    .dot-pulse:nth-child(4) { animation-delay: 0.6s; }
+
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    #main-content {
+      opacity: 0;
+      transition: opacity 1s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .frame-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: #000000;
+    }
+
+    .content-frame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #000000;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .mask-symbol { width: 60px; height: 60px; }
+      .preloader-logo { font-size: 2.5rem; }
+      .preloader-sub { font-size: 0.55rem; letter-spacing: 0.2em; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <div class="preloader-inner">
+      <div class="mask-symbol">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 15 L68 28 L68 48 L85 58 L68 68 L68 88 L50 85 L32 88 L32 68 L15 58 L32 48 L32 28 L50 15Z" stroke="white" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+          <circle cx="38" cy="52" r="4" fill="white" fill-opacity="0.9"/>
+          <circle cx="62" cy="52" r="4" fill="white" fill-opacity="0.9"/>
+          <path d="M44 67 L56 67" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <path d="M50 24 L50 32" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M58 30 L63 35" stroke="white" stroke-width="1" stroke-linecap="round"/>
+          <path d="M42 30 L37 35" stroke="white" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      
+      <div class="preloader-logo">EGUNGUN</div>
+      <div class="preloader-sub">of Lagos</div>
+      
+      <div class="progress-ring-container">
+        <svg class="progress-ring" width="60" height="60" viewBox="0 0 60 60">
+          <circle class="progress-ring-circle-bg" cx="30" cy="30" r="28" stroke="currentColor" stroke-width="2" fill="none" />
+          <circle id="progressCircle" class="progress-ring-circle" cx="30" cy="30" r="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+        </svg>
+        <div class="load-percent" id="percentValue">0%</div>
+      </div>
+      
+      <div class="tagline-rotator">
+        <div class="rotating-text">Between the living and the ancestors</div>
+        <div class="rotating-text" style="animation-delay: 0.9s;">The masquerade endures</div>
+        <div class="rotating-text" style="animation-delay: 1.8s;">Cloth becomes spirit</div>
+      </div>
+      
+      <div class="loader-dots">
+        <span class="dot-pulse"></span>
+        <span class="dot-pulse"></span>
+        <span class="dot-pulse"></span>
+        <span class="dot-pulse"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-content">
+    <div class="frame-container">
+      <!-- FIXED: Use home.html directly (same directory) -->
+      <iframe id="homeFrame" class="content-frame" title="Egungun of Lagos Official" src="home.html" loading="eager"></iframe>
+    </div>
+  </div>
+
+  <div id="fallbackMsg" class="fallback-message" style="display:none; text-align:center; padding:50px 20px; color:white; background:#000;">
+    <p>⚡ Unable to load full experience. <a href="home.html" target="_blank" style="color:#ffffff; text-decoration:underline;">Click here to enter Egungun of Lagos website</a></p>
+  </div>
+
+  <script>
+    (function() {
+      const preloader = document.getElementById('preloader');
+      const mainContent = document.getElementById('main-content');
+      const homeFrame = document.getElementById('homeFrame');
+      const fallbackDiv = document.getElementById('fallbackMsg');
+      const progressCircle = document.getElementById('progressCircle');
+      const percentSpan = document.getElementById('percentValue');
+      
+      let isRevealed = false;
+      let iframeLoaded = false;
+      let minTimeReached = false;
+      
+      const START_TIME = performance.now();
+      const TOTAL_DURATION = 3700;
+      const maxOffset = 180;
+      
+      function updateProgress(percent) {
+        if (!progressCircle) return;
+        const offset = maxOffset - (percent / 100) * maxOffset;
+        progressCircle.style.strokeDashoffset = offset;
+        if (percentSpan) percentSpan.innerText = Math.floor(percent) + '%';
+      }
+      
+      function animateProgress() {
+        function frame() {
+          const now = performance.now();
+          const elapsed = now - START_TIME;
+          let percent = Math.min(100, (elapsed / TOTAL_DURATION) * 100);
+          updateProgress(percent);
+          if (percent < 100) {
+            requestAnimationFrame(frame);
+          } else {
+            minTimeReached = true;
+            checkAndReveal();
+          }
+        }
+        requestAnimationFrame(frame);
+      }
+      
+      animateProgress();
+      
+      setTimeout(() => {
+        if (!minTimeReached) {
+          minTimeReached = true;
+          updateProgress(100);
+          checkAndReveal();
+        }
+      }, TOTAL_DURATION);
+      
+      if (homeFrame) {
+        homeFrame.addEventListener('load', function() {
+          iframeLoaded = true;
+          checkAndReveal();
+          setTimeout(() => {
+            if (!isRevealed) checkAndReveal();
+          }, 200);
+        });
+        
+        homeFrame.addEventListener('error', function() {
+          if (fallbackDiv) fallbackDiv.style.display = 'block';
+          iframeLoaded = true;
+          checkAndReveal();
+        });
+      } else {
+        iframeLoaded = true;
+        checkAndReveal();
+      }
+      
+      function checkAndReveal() {
+        if (isRevealed) return;
+        if (minTimeReached && iframeLoaded) {
+          isRevealed = true;
+          
+          if (preloader) {
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+              preloader.style.display = 'none';
+            }, 1100);
+          }
+          
+          if (mainContent) {
+            mainContent.style.opacity = '1';
+          }
+          
+          if (fallbackDiv) fallbackDiv.style.display = 'none';
+          adjustIframeHeight();
+        }
+      }
+      
+      function adjustIframeHeight() {
+        if (homeFrame) {
+          const setHeight = () => {
+            const vh = window.innerHeight;
+            homeFrame.style.height = vh + 'px';
+          };
+          setHeight();
+          window.addEventListener('resize', setHeight);
+        }
+      }
+      
+      let emergencyTimeout = setTimeout(() => {
+        if (!isRevealed) {
+          iframeLoaded = true;
+          minTimeReached = true;
+          checkAndReveal();
+          if (fallbackDiv) fallbackDiv.style.display = 'block';
+        }
+      }, 5500);
+      
+      window.addEventListener('load', function() {
+        setTimeout(() => {
+          if (emergencyTimeout) clearTimeout(emergencyTimeout);
+        }, 6000);
+      });
+      
+      window.addEventListener('pageshow', function() {
+        if (!isRevealed) {
+          minTimeReached = true;
+          checkAndReveal();
+        }
+      });
+      
+      adjustIframeHeight();
+    })();
+  </script>
+</body>
+</html>
