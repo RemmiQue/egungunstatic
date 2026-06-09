@@ -36,16 +36,10 @@
       --text: #000000;
       --gray-light: #e0e0e0;
       --gray-mid: #888888;
-      --chart-bg: #ffffff;
-      --chart-border: #e0e0e0;
-      --chart-grid: rgba(0,0,0,0.06);
-      --chart-gradient-start: rgba(0,0,0,0.08);
-      --chart-gradient-end: rgba(0,0,0,0);
-      --chart-line: #000000;
-      --chart-point-bg: #ffffff;
-      --chart-point-border: #000000;
-      --chart-tooltip-bg: #000000;
-      --chart-tooltip-text: #ffffff;
+      --fade-start: transparent;
+      --fade-mid: rgba(0,0,0,0.03);
+      --fade-dark: rgba(0,0,0,0.1);
+      --fade-deep: rgba(0,0,0,0.2);
     }
 
     /* DARK MODE */
@@ -55,16 +49,10 @@
         --text: #ffffff;
         --gray-light: #222222;
         --gray-mid: #777777;
-        --chart-bg: #0a0a0a;
-        --chart-border: #222222;
-        --chart-grid: rgba(255,255,255,0.06);
-        --chart-gradient-start: rgba(255,255,255,0.1);
-        --chart-gradient-end: rgba(255,255,255,0);
-        --chart-line: #ffffff;
-        --chart-point-bg: #000000;
-        --chart-point-border: #ffffff;
-        --chart-tooltip-bg: #ffffff;
-        --chart-tooltip-text: #000000;
+        --fade-start: transparent;
+        --fade-mid: rgba(0,0,0,0.4);
+        --fade-dark: rgba(0,0,0,0.75);
+        --fade-deep: rgba(0,0,0,0.95);
       }
     }
 
@@ -234,7 +222,7 @@
       width: 100%;
       min-height: 100vh;
       overflow: hidden;
-      background: #000000;
+      background: var(--bg);
     }
     
     .hero-image-container {
@@ -249,19 +237,18 @@
       display: block;
     }
     
-    /* DARKER FADE AT BOTTOM */
+    /* FADE AT BOTTOM - ADAPTS TO LIGHT/DARK MODE */
     .hero-fade {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 65%;
+      height: 55%;
       background: linear-gradient(to bottom, 
-        transparent 0%, 
-        rgba(0,0,0,0.2) 20%, 
-        rgba(0,0,0,0.5) 40%, 
-        rgba(0,0,0,0.8) 65%, 
-        rgba(0,0,0,0.95) 100%);
+        var(--fade-start) 0%, 
+        var(--fade-mid) 30%, 
+        var(--fade-dark) 60%, 
+        var(--fade-deep) 100%);
       pointer-events: none;
       z-index: 1;
     }
@@ -361,7 +348,7 @@
       transform: translateY(-2px);
     }
     
-    /* Scroll indicator */
+    /* Scroll indicator - line only */
     .hero-scroll {
       position: absolute;
       bottom: 2rem;
@@ -392,6 +379,52 @@
         transform: translateY(8px);
         opacity: 1;
       }
+    }
+
+    /* ========== FORCE HERO DARK MODE ON MOBILE ========== */
+    .hero {
+      background: #000000 !important;
+    }
+
+    .hero .hero-title {
+      color: #ffffff !important;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5) !important;
+    }
+
+    .hero .hero-title span {
+      color: rgba(255,255,255,0.7) !important;
+    }
+
+    .hero .hero-divider {
+      background: rgba(255,255,255,0.6) !important;
+    }
+
+    .hero .hero-desc {
+      color: rgba(255,255,255,0.85) !important;
+      text-shadow: 0 1px 10px rgba(0,0,0,0.3) !important;
+    }
+
+    .hero .hero-desc strong {
+      color: #ffffff !important;
+    }
+
+    .hero .hero-btn-primary {
+      background: #ffffff !important;
+      color: #000000 !important;
+    }
+
+    .hero .hero-btn-secondary {
+      color: #ffffff !important;
+      border: 1px solid rgba(255,255,255,0.4) !important;
+    }
+
+    .hero .hero-btn-secondary:hover {
+      border-color: #ffffff !important;
+      background: rgba(255,255,255,0.1) !important;
+    }
+
+    .hero .hero-scroll-line {
+      background: rgba(255,255,255,0.6) !important;
     }
 
     /* DESKTOP LAYOUT */
@@ -650,8 +683,8 @@
 
     /* Chart Container - Redesigned */
     .chart-container {
-      background: var(--chart-bg);
-      border: 1px solid var(--chart-border);
+      background: var(--bg);
+      border: 1px solid var(--gray-light);
       padding: 40px;
       margin-top: 20px;
       transition: all 0.3s ease;
@@ -699,7 +732,7 @@
       border-radius: 50%;
     }
     .legend-dot.growth {
-      background: var(--chart-line);
+      background: #000000;
     }
     .chart-wrapper {
       position: relative;
@@ -1370,57 +1403,31 @@
     loadRandomVideo();
     setInterval(loadRandomVideo, 30000);
 
-    // Chart with dark/light mode support
     const chartCtx = document.getElementById('ecosystemPerformanceChart');
-    
-    function getChartColors() {
-      const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      return {
-        line: isDark ? '#ffffff' : '#000000',
-        grid: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
-        gradientStart: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)',
-        gradientEnd: isDark ? 'rgba(255,255,255,0)' : 'rgba(0,0,0,0)',
-        pointBg: isDark ? '#0a0a0a' : '#ffffff',
-        tickColor: isDark ? '#777777' : '#888888',
-        tooltipBg: isDark ? '#ffffff' : '#000000',
-        tooltipText: isDark ? '#000000' : '#ffffff'
-      };
-    }
+    if (chartCtx) {
+      const gradient = chartCtx.getContext('2d').createLinearGradient(0, 0, 0, 280);
+      gradient.addColorStop(0, 'rgba(0,0,0,0.08)');
+      gradient.addColorStop(1, 'rgba(0,0,0,0)');
 
-    let chartInstance = null;
-
-    function createChart() {
-      if (!chartCtx) return;
-      
-      const colors = getChartColors();
-      const ctx = chartCtx.getContext('2d');
-      const gradient = ctx.createLinearGradient(0, 0, 0, 280);
-      gradient.addColorStop(0, colors.gradientStart);
-      gradient.addColorStop(1, colors.gradientEnd);
-
-      if (chartInstance) {
-        chartInstance.destroy();
-      }
-
-      chartInstance = new Chart(chartCtx, {
+      new Chart(chartCtx, {
         type: 'line',
         data: {
           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
           datasets: [{
             label: 'Total Reach (Millions)',
             data: [14.2, 19.5, 22.1, 31.8, 38.0, 45.2],
-            borderColor: colors.line,
+            borderColor: '#000000',
             borderWidth: 2.5,
             backgroundColor: gradient,
             fill: true,
             tension: 0.4,
             pointRadius: 5,
             pointHoverRadius: 8,
-            pointBackgroundColor: colors.pointBg,
-            pointBorderColor: colors.line,
+            pointBackgroundColor: '#ffffff',
+            pointBorderColor: '#000000',
             pointBorderWidth: 2.5,
-            pointHoverBackgroundColor: colors.line,
-            pointHoverBorderColor: colors.line
+            pointHoverBackgroundColor: '#000000',
+            pointHoverBorderColor: '#000000'
           }]
         },
         options: {
@@ -1433,10 +1440,10 @@
           plugins: { 
             legend: { display: false },
             tooltip: {
-              backgroundColor: colors.tooltipBg,
-              titleColor: colors.tooltipText,
-              bodyColor: colors.tooltipText,
-              borderColor: colors.tooltipBg,
+              backgroundColor: '#000000',
+              titleColor: '#ffffff',
+              bodyColor: '#ffffff',
+              borderColor: '#000000',
               borderWidth: 1,
               padding: 12,
               displayColors: false,
@@ -1463,10 +1470,10 @@
               ticks: { 
                 callback: (v) => v + 'M',
                 font: { family: 'Space Grotesk', size: 10 },
-                color: colors.tickColor
+                color: '#888888'
               }, 
               grid: { 
-                color: colors.grid,
+                color: 'rgba(0,0,0,0.06)',
                 drawBorder: false
               },
               border: {
@@ -1477,7 +1484,7 @@
               grid: { display: false },
               ticks: {
                 font: { family: 'Space Grotesk', size: 10 },
-                color: colors.tickColor
+                color: '#888888'
               },
               border: {
                 display: false
@@ -1485,15 +1492,6 @@
             }
           }
         }
-      });
-    }
-
-    createChart();
-
-    // Recreate chart when color scheme changes
-    if (window.matchMedia) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        createChart();
       });
     }
   </script>
