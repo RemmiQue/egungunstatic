@@ -60,11 +60,6 @@
       width: 100%;
     }
 
-    /* SMOOTH SCROLL ENHANCEMENT */
-    .smooth-scroll {
-      scroll-behavior: smooth;
-    }
-
     /* PRELOADER */
     .preloader {
       position: fixed;
@@ -212,7 +207,6 @@
     }
 
     /* ========== HERO SECTION ========== */
-    /* MOBILE FIRST - Full screen image, text centered */
     .hero {
       position: relative;
       width: 100%;
@@ -233,13 +227,14 @@
       display: block;
     }
     
+    /* DARKER FADE UNDER IMAGE */
     .hero-fade {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 45%;
-      background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.9) 100%);
+      height: 55%;
+      background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 25%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.98) 100%);
       pointer-events: none;
       z-index: 1;
     }
@@ -365,7 +360,7 @@
       margin: 0.5rem auto 0;
     }
 
-    /* DESKTOP LAYOUT - Image right, text left */
+    /* DESKTOP LAYOUT */
     @media (min-width: 992px) {
       .hero {
         min-height: 100vh;
@@ -827,17 +822,17 @@
   </div>
 
   <nav class="nav" id="nav">
-    <a href="#" class="nav__logo">EGUNGUN</a>
+    <a href="home.html" class="nav__logo">EGUNGUN</a>
     <div class="nav__hamburger" id="hamburger">
       <span></span><span></span><span></span>
     </div>
     <ul class="nav__links" id="navLinks">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#creator">About</a></li>
-      <li><a href="#effect">Effect</a></li>
-      <li><a href="#stats">Stats</a></li>
-      <li><a href="#video">Video</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
 
@@ -949,8 +944,8 @@
   <footer class="footer" id="contact">
     <div class="footer-container">
       <div class="footer-grid">
-        <div class="footer-brand"><a href="#" class="footer-logo">EGUNGUN</a><p>Preserving ancestral wisdom and celebrating the sacred Yoruba masquerade tradition across Africa and the diaspora.</p></div>
-        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="#home">Home</a></li><li><a href="#creator">About</a></li><li><a href="#effect">Effect</a></li><li><a href="#stats">Stats</a></li><li><a href="#video">Video</a></li></ul></div>
+        <div class="footer-brand"><a href="home.html" class="footer-logo">EGUNGUN</a><p>Preserving ancestral wisdom and celebrating the sacred Yoruba masquerade tradition across Africa and the diaspora.</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="home.html">Home</a></li><li><a href="about.html">About Egungun</a></li><li><a href="services.html">Services</a></li><li><a href="insights.html">Insights</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
         <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
         <div class="footer-col"><h4>Connect</h4><div class="social-links"><a href="https://www.instagram.com/_egungun" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a><a href="https://www.tiktok.com/@_egungun" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a><a href="https://www.youtube.com/@EgungunOfLagos" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YouTube</a><a href="https://www.facebook.com/egunguncomic/" target="_blank" class="social-link"><i class="fab fa-facebook"></i> Facebook</a></div></div>
       </div>
@@ -975,10 +970,16 @@
       else nav.classList.remove('scrolled');
     });
 
-    if (hamburger) hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
-    document.querySelectorAll('.nav__links a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('active')));
+    if (hamburger) {
+      hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+    }
 
-    // Enhanced smooth scroll for all anchor links
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav__links a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('active'));
+    });
+
+    // IMPROVED SMOOTH SCROLL for anchor links on the same page
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         const targetId = this.getAttribute('href');
@@ -986,35 +987,43 @@
         const target = document.querySelector(targetId);
         if (target) {
           e.preventDefault();
-          target.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start',
-            inline: 'nearest'
+          const offsetTop = target.offsetTop;
+          window.scrollTo({
+            top: offsetTop - 70,
+            behavior: 'smooth'
           });
         }
       });
     });
 
-    // Scroll indicator click
+    // Scroll indicator click - smooth scroll to creator section
     const scrollIndicator = document.getElementById('scrollIndicator');
     if (scrollIndicator) {
       scrollIndicator.addEventListener('click', () => {
         const creatorSection = document.getElementById('creator');
         if (creatorSection) {
-          creatorSection.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
+          const offsetTop = creatorSection.offsetTop;
+          window.scrollTo({
+            top: offsetTop - 70,
+            behavior: 'smooth'
           });
         }
       });
     }
 
+    // Reveal animations
     const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
     const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); revealObserver.unobserve(entry.target); } });
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
     revealElements.forEach(el => revealObserver.observe(el));
 
+    // Animate numbers
     function animateNumber(elementId, target, suffix = '') {
       const el = document.getElementById(elementId);
       if (!el) return;
@@ -1024,31 +1033,89 @@
       const increment = target / steps;
       const interval = setInterval(() => {
         current += increment;
-        if (current >= target) { el.innerText = target.toLocaleString() + suffix; clearInterval(interval); }
-        else { el.innerText = Math.floor(current).toLocaleString() + suffix; }
+        if (current >= target) {
+          el.innerText = target.toLocaleString() + suffix;
+          clearInterval(interval);
+        } else {
+          el.innerText = Math.floor(current).toLocaleString() + suffix;
+        }
       }, stepTime);
     }
 
     const statsSection = document.getElementById('stats');
     let statsAnimated = false;
     new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting && !statsAnimated) { statsAnimated = true; animateNumber('statIg', 2.2, 'M'); animateNumber('statSnap', 5.5, 'M'); animateNumber('statTikTok', 2.3, 'M'); animateNumber('statFb', 2.1, 'M'); animateNumber('statYt', 110, 'K'); animateNumber('totalViews', 50, 'B+'); } });
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !statsAnimated) {
+          statsAnimated = true;
+          animateNumber('statIg', 2.2, 'M');
+          animateNumber('statSnap', 5.5, 'M');
+          animateNumber('statTikTok', 2.3, 'M');
+          animateNumber('statFb', 2.1, 'M');
+          animateNumber('statYt', 110, 'K');
+          animateNumber('totalViews', 50, 'B+');
+        }
+      });
     }, { threshold: 0.3 }).observe(statsSection);
 
+    // Image slideshow
     const images = ['https://yt3.googleusercontent.com/TZ3iizUUVxZMiUp9FU8adm8YO2RDylr8BnF_45XFYlulv2pprZpNoddea5jdtoAz5fXbNIwr3w=s900-c-k-c0x00ffffff-no-rj', 'https://imgur.com/u3JqA9s.jpeg'];
     let currentImageIndex = 0;
     const galleryImg = document.getElementById('galleryImg');
-    if (galleryImg && images.length > 1) setInterval(() => { galleryImg.style.opacity = '0'; setTimeout(() => { currentImageIndex = (currentImageIndex + 1) % images.length; galleryImg.src = images[currentImageIndex]; galleryImg.style.opacity = '1'; }, 400); }, 5000);
+    if (galleryImg && images.length > 1) {
+      setInterval(() => {
+        galleryImg.style.opacity = '0';
+        setTimeout(() => {
+          currentImageIndex = (currentImageIndex + 1) % images.length;
+          galleryImg.src = images[currentImageIndex];
+          galleryImg.style.opacity = '1';
+        }, 400);
+      }, 5000);
+    }
 
+    // Video player
     const videoPool = ['J6iCO5A9Hyg', 'kOJuYQ-hI5M', 'IXFHAyr-tZc', 'Zs8zeZz5sj0', '3BCAS35r1PY', 'RY0yUL2Zlvg', 'Ck1ggnzDIvY', '6pQccu5BtoU'];
     const videoFrame = document.getElementById('godaddy-yt-player');
-    function loadRandomVideo() { const randomId = videoPool[Math.floor(Math.random() * videoPool.length)]; if (videoFrame) videoFrame.src = `https://www.youtube.com/embed/${randomId}?autoplay=1&mute=1&modestbranding=1&rel=0`; }
+    function loadRandomVideo() {
+      const randomId = videoPool[Math.floor(Math.random() * videoPool.length)];
+      if (videoFrame) {
+        videoFrame.src = `https://www.youtube.com/embed/${randomId}?autoplay=1&mute=1&modestbranding=1&rel=0`;
+      }
+    }
     const nextBtn = document.getElementById('nextVideoBtn');
     if (nextBtn) nextBtn.addEventListener('click', loadRandomVideo);
-    loadRandomVideo(); setInterval(loadRandomVideo, 30000);
+    loadRandomVideo();
+    setInterval(loadRandomVideo, 30000);
 
+    // Chart
     const chartCtx = document.getElementById('ecosystemPerformanceChart');
-    if (chartCtx) new Chart(chartCtx, { type: 'line', data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], datasets: [{ data: [14.2, 19.5, 22.1, 31.8, 38.0, 45.2], borderColor: '#000000', borderWidth: 2, backgroundColor: 'rgba(0,0,0,0.05)', fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#000000' }] }, options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: (v) => v + 'M' }, grid: { color: 'rgba(0,0,0,0.1)' } }, x: { grid: { display: false } } } } });
+    if (chartCtx) {
+      new Chart(chartCtx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            data: [14.2, 19.5, 22.1, 31.8, 38.0, 45.2],
+            borderColor: '#000000',
+            borderWidth: 2,
+            backgroundColor: 'rgba(0,0,0,0.05)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 3,
+            pointBackgroundColor: '#000000'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { ticks: { callback: (v) => v + 'M' }, grid: { color: 'rgba(0,0,0,0.1)' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>
