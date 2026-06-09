@@ -1,6 +1,6 @@
 // ==============================================
-// EGUNGUN AI CHAT WIDGET - FULLY RESPONSIVE
-// Fixed version - Widget stays visible on all pages
+// EGUNGUN AI CHAT WIDGET - CLEAN NO EMOJI VERSION
+// Fully responsive | No avatars | Black & White
 // ==============================================
 
 (function() {
@@ -18,22 +18,20 @@
 
 All booking inquiries are handled through our dedicated channels:
 
-📧 Email: bookings@egungunofafrica.com
-💬 WhatsApp: Direct consultation 
-📄 Rate Card: View our service catalog
+Email: bookings@egungunofafrica.com
+WhatsApp: Direct consultation
+Rate Card: View our service catalog
 
 Please use the buttons below to connect instantly.`,
         AUTO_CLOSE_INPUT: true,
         TYPING_DELAY: 35
     };
 
-    // Use inline SVG avatar (always works, no failed requests)
-    const AVATAR_SVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000000'/%3E%3Ccircle cx='50' cy='42' r='22' fill='%23ffffff'/%3E%3Cpath d='M30 72 L70 72 L64 90 L36 90 Z' fill='%23ffffff'/%3E%3Ctext x='50' y='56' text-anchor='middle' fill='%23000000' font-size='30' font-weight='bold'%3EEA%3C/text%3E%3C/svg%3E";
-
     const chatHTML = `
         <style>
             /* ==============================================
-               CHAT WIDGET - FIXED & RELIABLE
+               CHAT WIDGET - NO EMOJI, NO AVATAR, BLACK & WHITE
+               Fully responsive - works on all devices
             ============================================== */
             
             .egungun-ai-chat {
@@ -44,10 +42,10 @@ Please use the buttons below to connect instantly.`,
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             }
 
-            /* Chat Bubble */
+            /* Chat Bubble - Clean circle */
             .egungun-ai-bubble {
-                width: 60px;
-                height: 60px;
+                width: 56px;
+                height: 56px;
                 background: #000000;
                 border-radius: 50%;
                 display: flex;
@@ -66,8 +64,8 @@ Please use the buttons below to connect instantly.`,
             }
 
             .egungun-ai-bubble-icon {
-                width: 32px;
-                height: 32px;
+                width: 28px;
+                height: 28px;
                 fill: #ffffff;
             }
 
@@ -88,7 +86,7 @@ Please use the buttons below to connect instantly.`,
             /* Chat Window */
             .egungun-ai-window {
                 position: absolute;
-                bottom: 75px;
+                bottom: 72px;
                 right: 0;
                 width: 380px;
                 max-width: calc(100vw - 30px);
@@ -111,31 +109,13 @@ Please use the buttons below to connect instantly.`,
                 pointer-events: all;
             }
 
-            /* Header */
+            /* Header - No Avatar */
             .egungun-ai-header {
                 background: #ffffff;
-                padding: 14px 16px;
+                padding: 16px 18px;
                 display: flex;
                 align-items: center;
                 gap: 12px;
-            }
-
-            .egungun-ai-avatar {
-                width: 44px;
-                height: 44px;
-                min-width: 44px;
-                border-radius: 50%;
-                overflow: hidden;
-                background: #f0f0f0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .egungun-ai-avatar img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
             }
 
             .egungun-ai-info {
@@ -144,19 +124,19 @@ Please use the buttons below to connect instantly.`,
             }
 
             .egungun-ai-info h4 {
-                font-size: 0.95rem;
+                font-size: 1rem;
                 font-weight: 700;
                 color: #000000;
                 margin: 0;
                 display: flex;
                 align-items: center;
-                gap: 6px;
+                gap: 8px;
             }
 
             .egungun-ai-info p {
-                font-size: 0.65rem;
+                font-size: 0.7rem;
                 color: #666666;
-                margin: 2px 0 0;
+                margin: 4px 0 0;
             }
 
             .status-dot {
@@ -178,7 +158,7 @@ Please use the buttons below to connect instantly.`,
                 border: none;
                 color: #999999;
                 cursor: pointer;
-                font-size: 18px;
+                font-size: 20px;
                 padding: 0 8px;
                 transition: color 0.2s;
                 flex-shrink: 0;
@@ -190,13 +170,26 @@ Please use the buttons below to connect instantly.`,
 
             /* Messages Area */
             .egungun-ai-messages {
-                height: 380px;
+                height: 400px;
                 overflow-y: auto;
-                padding: 16px;
+                padding: 18px;
                 display: flex;
                 flex-direction: column;
                 gap: 12px;
                 background: #0a0a0a;
+            }
+
+            /* Responsive message height */
+            @media (max-height: 700px) {
+                .egungun-ai-messages {
+                    height: 320px;
+                }
+            }
+
+            @media (max-height: 600px) {
+                .egungun-ai-messages {
+                    height: 280px;
+                }
             }
 
             .egungun-ai-messages::-webkit-scrollbar {
@@ -210,41 +203,25 @@ Please use the buttons below to connect instantly.`,
                 border-radius: 10px;
             }
 
-            /* Message Wrappers */
+            /* Message Wrappers - No Avatars */
             .message-wrapper {
                 display: flex;
-                gap: 10px;
                 align-items: flex-start;
                 max-width: 100%;
             }
 
-            .message-avatar {
-                width: 32px;
-                height: 32px;
-                min-width: 32px;
-                border-radius: 50%;
-                overflow: hidden;
-                flex-shrink: 0;
-            }
-
-            .message-avatar img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-
             .message-bubble {
-                max-width: calc(100% - 42px);
-                padding: 10px 14px;
+                max-width: 85%;
+                padding: 10px 16px;
                 border-radius: 18px;
-                font-size: 0.8rem;
-                line-height: 1.45;
+                font-size: 0.85rem;
+                line-height: 1.5;
                 word-wrap: break-word;
                 overflow-wrap: break-word;
             }
 
             .message-ai-wrapper {
-                align-self: flex-start;
+                justify-content: flex-start;
             }
 
             .message-ai-wrapper .message-bubble {
@@ -254,7 +231,6 @@ Please use the buttons below to connect instantly.`,
             }
 
             .message-user-wrapper {
-                align-self: flex-end;
                 justify-content: flex-end;
             }
 
@@ -262,31 +238,29 @@ Please use the buttons below to connect instantly.`,
                 background: #ffffff;
                 color: #000000;
                 border-bottom-right-radius: 4px;
-                max-width: 85%;
             }
 
-            /* Typing Indicator */
+            /* Typing Indicator - No Avatar */
             .typing-indicator {
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                padding: 10px 14px;
+                padding: 10px 16px;
                 background: #1a1a1a;
                 border-radius: 18px;
                 border-bottom-left-radius: 4px;
                 width: fit-content;
-                max-width: 100%;
             }
 
             .typing-dots {
                 display: flex;
-                gap: 4px;
+                gap: 5px;
                 align-items: center;
             }
 
             .typing-dots span {
-                width: 6px;
-                height: 6px;
+                width: 7px;
+                height: 7px;
                 background: #888;
                 border-radius: 50%;
                 animation: typingBounce 1.4s infinite ease-in-out;
@@ -298,21 +272,21 @@ Please use the buttons below to connect instantly.`,
 
             @keyframes typingBounce {
                 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-                30% { transform: translateY(-5px); opacity: 1; }
+                30% { transform: translateY(-6px); opacity: 1; }
             }
 
             .typing-text {
-                font-size: 0.7rem;
+                font-size: 0.75rem;
                 color: #aaa;
             }
 
             /* Input Area */
             .egungun-ai-input-area {
                 display: flex;
-                padding: 12px;
+                padding: 14px;
                 background: #111111;
                 border-top: 1px solid rgba(255,255,255,0.05);
-                gap: 8px;
+                gap: 10px;
                 transition: all 0.3s ease;
             }
 
@@ -325,10 +299,10 @@ Please use the buttons below to connect instantly.`,
                 background: #1a1a1a;
                 border: 1px solid rgba(255,255,255,0.1);
                 border-radius: 25px;
-                padding: 10px 14px;
+                padding: 11px 16px;
                 color: #ffffff;
                 font-family: inherit;
-                font-size: 0.8rem;
+                font-size: 0.85rem;
                 outline: none;
                 min-width: 0;
             }
@@ -337,13 +311,17 @@ Please use the buttons below to connect instantly.`,
                 border-color: #ffffff;
             }
 
+            .egungun-ai-input::placeholder {
+                color: #666;
+            }
+
             .egungun-ai-send {
                 background: #ffffff;
                 border: none;
                 border-radius: 50%;
-                width: 38px;
-                height: 38px;
-                min-width: 38px;
+                width: 42px;
+                height: 42px;
+                min-width: 42px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -356,37 +334,32 @@ Please use the buttons below to connect instantly.`,
             }
 
             .egungun-ai-send svg {
-                width: 16px;
-                height: 16px;
+                width: 18px;
+                height: 18px;
                 fill: #000000;
             }
 
-            /* Buttons inside message */
+            /* Action Buttons - Clean Text Only */
             .button-group {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 8px;
-                margin-top: 14px;
+                gap: 10px;
+                margin-top: 16px;
             }
 
             .rate-card-link, .contact-link, .whatsapp-link {
                 display: inline-flex;
                 align-items: center;
+                justify-content: center;
                 gap: 6px;
-                padding: 7px 14px;
+                padding: 8px 16px;
                 border-radius: 25px;
-                font-size: 0.7rem;
+                font-size: 0.75rem;
                 font-weight: 600;
                 transition: all 0.2s ease;
                 text-decoration: none;
                 cursor: pointer;
-            }
-
-            @media (max-width: 480px) {
-                .rate-card-link, .contact-link, .whatsapp-link {
-                    flex: 1;
-                    justify-content: center;
-                }
+                letter-spacing: 0.3px;
             }
 
             .rate-card-link {
@@ -395,7 +368,7 @@ Please use the buttons below to connect instantly.`,
             }
 
             .rate-card-link:hover {
-                background: #dddddd;
+                background: #e0e0e0;
                 transform: translateY(-1px);
             }
 
@@ -422,51 +395,132 @@ Please use the buttons below to connect instantly.`,
             }
 
             .email-highlight {
-                color: #ffffff;
-                font-weight: 500;
-                background: rgba(255,255,255,0.08);
-                padding: 4px 10px;
+                color: #aaaaaa;
+                font-weight: 400;
+                background: rgba(255,255,255,0.05);
+                padding: 6px 12px;
                 border-radius: 20px;
                 display: inline-block;
-                margin-top: 10px;
+                margin-top: 12px;
                 font-size: 0.7rem;
                 word-break: break-all;
+                font-family: monospace;
             }
 
-            /* Mobile Responsive */
-            @media (max-width: 480px) {
+            /* ==============================================
+               RESPONSIVE DESIGN - ALL DEVICES
+            ============================================== */
+            
+            /* Tablet and small desktop */
+            @media (max-width: 768px) {
                 .egungun-ai-window {
-                    width: calc(100vw - 24px);
-                    right: -8px;
-                    bottom: 72px;
+                    width: 360px;
                 }
                 
                 .message-bubble {
-                    font-size: 0.75rem;
-                    padding: 8px 12px;
+                    font-size: 0.8rem;
+                    padding: 9px 14px;
                 }
                 
-                .message-avatar {
-                    width: 28px;
-                    height: 28px;
-                    min-width: 28px;
+                .button-group {
+                    gap: 8px;
+                }
+                
+                .rate-card-link, .contact-link, .whatsapp-link {
+                    padding: 6px 14px;
+                    font-size: 0.7rem;
+                }
+            }
+
+            /* Mobile phones */
+            @media (max-width: 480px) {
+                .egungun-ai-chat {
+                    bottom: 16px;
+                    right: 16px;
+                }
+                
+                .egungun-ai-bubble {
+                    width: 52px;
+                    height: 52px;
+                }
+                
+                .egungun-ai-bubble-icon {
+                    width: 24px;
+                    height: 24px;
+                }
+                
+                .egungun-ai-window {
+                    width: calc(100vw - 24px);
+                    right: -8px;
+                    bottom: 68px;
+                    border-radius: 20px;
+                }
+                
+                .egungun-ai-messages {
+                    padding: 14px;
+                    gap: 10px;
+                }
+                
+                .message-bubble {
+                    max-width: 90%;
+                    font-size: 0.75rem;
+                    padding: 8px 12px;
                 }
                 
                 .egungun-ai-header {
                     padding: 12px 14px;
                 }
                 
-                .egungun-ai-avatar {
+                .egungun-ai-info h4 {
+                    font-size: 0.9rem;
+                }
+                
+                .egungun-ai-info p {
+                    font-size: 0.6rem;
+                }
+                
+                .typing-indicator {
+                    padding: 8px 12px;
+                }
+                
+                .typing-text {
+                    font-size: 0.7rem;
+                }
+                
+                .egungun-ai-input-area {
+                    padding: 10px 12px;
+                    gap: 8px;
+                }
+                
+                .egungun-ai-input {
+                    padding: 9px 14px;
+                    font-size: 0.8rem;
+                }
+                
+                .egungun-ai-send {
                     width: 38px;
                     height: 38px;
                     min-width: 38px;
                 }
                 
-                .egungun-ai-messages {
-                    height: 350px;
+                .egungun-ai-send svg {
+                    width: 16px;
+                    height: 16px;
+                }
+                
+                .button-group {
+                    flex-wrap: wrap;
+                    gap: 8px;
+                }
+                
+                .rate-card-link, .contact-link, .whatsapp-link {
+                    flex: 1;
+                    justify-content: center;
+                    white-space: nowrap;
                 }
             }
 
+            /* Very small phones */
             @media (max-width: 380px) {
                 .button-group {
                     flex-direction: column;
@@ -474,17 +528,43 @@ Please use the buttons below to connect instantly.`,
                 
                 .rate-card-link, .contact-link, .whatsapp-link {
                     width: 100%;
-                    justify-content: center;
                     white-space: normal;
                     text-align: center;
+                }
+                
+                .message-bubble {
+                    max-width: 95%;
+                }
+                
+                .email-highlight {
+                    font-size: 0.65rem;
+                }
+            }
+
+            /* Large screens (desktop) */
+            @media (min-width: 1200px) {
+                .egungun-ai-window {
+                    width: 400px;
+                }
+                
+                .egungun-ai-messages {
+                    height: 420px;
+                }
+                
+                .message-bubble {
+                    font-size: 0.85rem;
                 }
             }
 
             /* Safe area for notched phones */
             @supports (padding: max(0px)) {
                 .egungun-ai-chat {
-                    bottom: max(20px, env(safe-area-inset-bottom, 20px));
-                    right: max(20px, env(safe-area-inset-right, 20px));
+                    bottom: max(16px, env(safe-area-inset-bottom, 16px));
+                    right: max(16px, env(safe-area-inset-right, 16px));
+                }
+                
+                .egungun-ai-window {
+                    bottom: calc(72px + max(0px, env(safe-area-inset-bottom, 0px)));
                 }
             }
         </style>
@@ -499,9 +579,6 @@ Please use the buttons below to connect instantly.`,
             
             <div class="egungun-ai-window" id="egungunAiWindow">
                 <div class="egungun-ai-header">
-                    <div class="egungun-ai-avatar">
-                        <img src="${AVATAR_SVG}" alt="Egungun AI">
-                    </div>
                     <div class="egungun-ai-info">
                         <h4><span class="status-dot"></span>Egungun AI</h4>
                         <p>Online · Ready to assist</p>
@@ -511,9 +588,6 @@ Please use the buttons below to connect instantly.`,
                 
                 <div class="egungun-ai-messages" id="egungunAiMessages">
                     <div class="message-wrapper message-ai-wrapper" id="welcomeMessage">
-                        <div class="message-avatar">
-                            <img src="${AVATAR_SVG}" alt="Egungun AI">
-                        </div>
                         <div class="message-bubble">
                             Good day. I am Egungun AI, your virtual assistant.<br><br>
                             How may I assist you today?
@@ -584,9 +658,6 @@ Please use the buttons below to connect instantly.`,
         const typingWrapper = document.createElement('div');
         typingWrapper.className = 'message-wrapper message-ai-wrapper';
         typingWrapper.innerHTML = `
-            <div class="message-avatar">
-                <img src="${AVATAR_SVG}" alt="Egungun AI">
-            </div>
             <div class="typing-indicator">
                 <div class="typing-dots">
                     <span></span>
@@ -606,12 +677,7 @@ Please use the buttons below to connect instantly.`,
         const messageWrapper = document.createElement('div');
         messageWrapper.className = 'message-wrapper message-ai-wrapper';
         const msgId = 'msg-' + Date.now();
-        messageWrapper.innerHTML = `
-            <div class="message-avatar">
-                <img src="${AVATAR_SVG}" alt="Egungun AI">
-            </div>
-            <div class="message-bubble" id="${msgId}"></div>
-        `;
+        messageWrapper.innerHTML = `<div class="message-bubble" id="${msgId}"></div>`;
         messagesContainer.appendChild(messageWrapper);
         
         const messageBubble = document.getElementById(msgId);
@@ -626,22 +692,20 @@ Please use the buttons below to connect instantly.`,
         
         messageBubble.innerHTML = currentText;
         
-        // Add action buttons
+        // Add action buttons - no emojis, clean text
         if (showButtons) {
             const buttonDiv = document.createElement('div');
             buttonDiv.className = 'button-group';
             buttonDiv.innerHTML = `
-                <a href="${CONFIG.RATE_CARD_URL}" target="_blank" class="rate-card-link">📄 View Rate Card</a>
-                <a href="${CONFIG.CONTACT_URL}" target="_blank" class="contact-link">📞 Contact Page</a>
-                <a href="https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=Hi%20Egungun%20Of%20Africa%2C%20I'm%20interested%20in%20your%20services" target="_blank" class="whatsapp-link">
-                    💬 WhatsApp
-                </a>
+                <a href="${CONFIG.RATE_CARD_URL}" target="_blank" class="rate-card-link">Rate Card</a>
+                <a href="${CONFIG.CONTACT_URL}" target="_blank" class="contact-link">Contact Page</a>
+                <a href="https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=Hi%20Egungun%20Of%20Africa%2C%20I'm%20interested%20in%20your%20services" target="_blank" class="whatsapp-link">WhatsApp</a>
             `;
             messageBubble.appendChild(buttonDiv);
             
             const emailHint = document.createElement('div');
             emailHint.className = 'email-highlight';
-            emailHint.innerHTML = `✉️ ${CONFIG.REPORT_EMAIL}`;
+            emailHint.innerHTML = CONFIG.REPORT_EMAIL;
             messageBubble.appendChild(emailHint);
         }
         
@@ -698,14 +762,6 @@ Please use the buttons below to connect instantly.`,
             closeChat();
         }
     });
-
-    // Load Font Awesome if not present
-    if (!document.querySelector('link[href*="font-awesome"]') && !document.querySelector('link[href*="fa6"]')) {
-        const faLink = document.createElement('link');
-        faLink.rel = 'stylesheet';
-        faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-        document.head.appendChild(faLink);
-    }
 
     console.log('Egungun AI Chat Widget loaded successfully');
 })();
