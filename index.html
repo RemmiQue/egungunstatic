@@ -381,6 +381,52 @@
       }
     }
 
+    /* ========== FORCE HERO DARK MODE ON MOBILE ========== */
+    .hero {
+      background: #000000 !important;
+    }
+
+    .hero .hero-title {
+      color: #ffffff !important;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5) !important;
+    }
+
+    .hero .hero-title span {
+      color: rgba(255,255,255,0.7) !important;
+    }
+
+    .hero .hero-divider {
+      background: rgba(255,255,255,0.6) !important;
+    }
+
+    .hero .hero-desc {
+      color: rgba(255,255,255,0.85) !important;
+      text-shadow: 0 1px 10px rgba(0,0,0,0.3) !important;
+    }
+
+    .hero .hero-desc strong {
+      color: #ffffff !important;
+    }
+
+    .hero .hero-btn-primary {
+      background: #ffffff !important;
+      color: #000000 !important;
+    }
+
+    .hero .hero-btn-secondary {
+      color: #ffffff !important;
+      border: 1px solid rgba(255,255,255,0.4) !important;
+    }
+
+    .hero .hero-btn-secondary:hover {
+      border-color: #ffffff !important;
+      background: rgba(255,255,255,0.1) !important;
+    }
+
+    .hero .hero-scroll-line {
+      background: rgba(255,255,255,0.6) !important;
+    }
+
     /* DESKTOP LAYOUT */
     @media (min-width: 992px) {
       .hero {
@@ -525,57 +571,228 @@
       display: block;
       transition: opacity 0.6s ease;
     }
-    .stats-wrapper { padding: 80px 5%; background: var(--bg); border-top: 1px solid var(--gray-light); border-bottom: 1px solid var(--gray-light); }
-    .dashboard-container { max-width: 1200px; margin: 0 auto; }
-    .dashboard-header { text-align: center; margin-bottom: 40px; }
+
+    /* ========== IMPROVED STATS / INSIGHTS SECTION ========== */
+    .stats-wrapper { 
+      padding: 100px 5%; 
+      background: var(--bg); 
+      border-top: 1px solid var(--gray-light); 
+      border-bottom: 1px solid var(--gray-light); 
+    }
+    .dashboard-container { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+    }
+    .dashboard-header { 
+      text-align: center; 
+      margin-bottom: 60px; 
+    }
+    .dashboard-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--gray-mid);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
     .title-main {
       font-family: 'Milchella', 'Syne', serif;
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-size: clamp(2rem, 6vw, 3.5rem);
       color: var(--text);
+      margin-bottom: 0.5rem;
     }
     .title-sub {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: var(--gray-mid);
-      margin-top: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.5;
     }
+    
+    /* Stats Grid - Redesigned */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      margin-bottom: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-bottom: 50px;
     }
     .stat-card {
       background: var(--bg);
       border: 1px solid var(--gray-light);
-      border-radius: 0px;
-      padding: 24px 20px;
+      padding: 32px 24px;
       text-align: center;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+      overflow: hidden;
     }
-    .stat-card:hover { transform: translateY(-5px); border-color: var(--text); }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--text);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .stat-card:hover::before {
+      transform: scaleX(1);
+    }
+    .stat-card:hover { 
+      transform: translateY(-8px); 
+      border-color: var(--text);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    }
+    .stat-icon {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: var(--gray-mid);
+      transition: color 0.3s ease;
+    }
+    .stat-card:hover .stat-icon {
+      color: var(--text);
+    }
     .stat-number {
       font-family: 'Syne', sans-serif;
-      font-size: 2.2rem;
+      font-size: 2.8rem;
       font-weight: 700;
       color: var(--text);
+      line-height: 1;
+      margin-bottom: 6px;
     }
     .stat-label {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
       color: var(--gray-mid);
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 8px;
+      letter-spacing: 2px;
+      font-weight: 500;
     }
-    .chart-box {
+    .stat-growth {
+      display: inline-block;
+      margin-top: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      color: #22c55e;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* Chart Container - Redesigned */
+    .chart-container {
       background: var(--bg);
       border: 1px solid var(--gray-light);
-      border-radius: 0px;
-      padding: 20px;
+      padding: 40px;
       margin-top: 20px;
+      transition: all 0.3s ease;
     }
-    canvas { max-height: 250px; width: 100%; }
+    .chart-container:hover {
+      border-color: var(--text);
+    }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .chart-title-group h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .chart-title-group p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      color: var(--gray-mid);
+      letter-spacing: 0.5px;
+    }
+    .chart-legend {
+      display: flex;
+      gap: 20px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      color: var(--gray-mid);
+      letter-spacing: 0.5px;
+    }
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .legend-dot.growth {
+      background: #000000;
+    }
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 280px;
+    }
+    canvas { 
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* Platform breakdown */
+    .platform-breakdown {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+    .platform-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--gray-light);
+      transition: all 0.3s ease;
+    }
+    .platform-item:hover {
+      border-color: var(--text);
+      transform: translateX(5px);
+    }
+    .platform-bar {
+      flex: 1;
+      height: 4px;
+      background: var(--gray-light);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .platform-fill {
+      height: 100%;
+      background: var(--text);
+      border-radius: 2px;
+      transition: width 1.5s ease;
+    }
+    .platform-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      color: var(--text);
+      min-width: 80px;
+      font-weight: 500;
+    }
+    .platform-pct {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
+      min-width: 40px;
+      text-align: right;
+    }
+
     .effect-section { padding: 80px 5%; background: var(--bg); }
     .effect-header { text-align: center; margin-bottom: 50px; }
     .effect-title {
@@ -812,9 +1029,13 @@
       .creator-layout { flex-direction: column; text-align: center; }
       .pivot-layout { flex-direction: column; text-align: center; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .chart-container { padding: 24px; }
+      .chart-header { flex-direction: column; align-items: flex-start; }
+      .platform-breakdown { grid-template-columns: 1fr; }
     }
     @media (max-width: 600px) {
       .stats-grid { grid-template-columns: 1fr; }
+      .stat-number { font-size: 2.2rem; }
       .btn-group { flex-direction: column; align-items: center; }
       .action-btn { width: 180px; justify-content: center; }
       .footer-grid { grid-template-columns: 1fr; text-align: center; }
@@ -890,20 +1111,100 @@
 
   <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
 
+  <!-- REDESIGNED STATS / INSIGHTS SECTION -->
   <div class="stats-wrapper" id="stats">
     <div class="dashboard-container">
       <div class="dashboard-header reveal">
+        <div class="dashboard-badge">Media Ecosystem</div>
         <h1 class="title-main">Egungun Of Lagos</h1>
-        <p class="title-sub">Verified Media Ecosystem Audience & Engagement Performance Data</p>
+        <p class="title-sub">Verified audience & engagement performance data across all digital platforms — updated in real time.</p>
       </div>
+      
       <div class="stats-grid" id="statsGrid">
-        <div class="stat-card reveal delay-1"><div class="stat-number" id="statIg">0</div><div class="stat-label">Instagram Followers</div></div>
-        <div class="stat-card reveal delay-2"><div class="stat-number" id="statSnap">0</div><div class="stat-label">Snapchat Reach</div></div>
-        <div class="stat-card reveal delay-3"><div class="stat-number" id="statTikTok">0</div><div class="stat-label">TikTok Fans</div></div>
-        <div class="stat-card reveal delay-4"><div class="stat-number" id="statFb">0</div><div class="stat-label">Facebook Followers</div></div>
-        <div class="stat-card reveal delay-5"><div class="stat-number" id="statYt">0</div><div class="stat-label">YouTube Subs</div></div>
+        <div class="stat-card reveal delay-1">
+          <div class="stat-icon"><i class="fab fa-instagram"></i></div>
+          <div class="stat-number" id="statIg">0</div>
+          <div class="stat-label">Instagram</div>
+          <div class="stat-growth">↑ 12.4%</div>
+        </div>
+        <div class="stat-card reveal delay-2">
+          <div class="stat-icon"><i class="fab fa-snapchat"></i></div>
+          <div class="stat-number" id="statSnap">0</div>
+          <div class="stat-label">Snapchat</div>
+          <div class="stat-growth">↑ 18.7%</div>
+        </div>
+        <div class="stat-card reveal delay-3">
+          <div class="stat-icon"><i class="fab fa-tiktok"></i></div>
+          <div class="stat-number" id="statTikTok">0</div>
+          <div class="stat-label">TikTok</div>
+          <div class="stat-growth">↑ 22.1%</div>
+        </div>
+        <div class="stat-card reveal delay-4">
+          <div class="stat-icon"><i class="fab fa-facebook"></i></div>
+          <div class="stat-number" id="statFb">0</div>
+          <div class="stat-label">Facebook</div>
+          <div class="stat-growth">↑ 8.3%</div>
+        </div>
+        <div class="stat-card reveal delay-5">
+          <div class="stat-icon"><i class="fab fa-youtube"></i></div>
+          <div class="stat-number" id="statYt">0</div>
+          <div class="stat-label">YouTube</div>
+          <div class="stat-growth">↑ 15.9%</div>
+        </div>
       </div>
-      <div class="reveal"><div class="chart-box"><canvas id="ecosystemPerformanceChart"></canvas></div></div>
+
+      <!-- Chart Section -->
+      <div class="reveal">
+        <div class="chart-container">
+          <div class="chart-header">
+            <div class="chart-title-group">
+              <h3>Audience Growth Trajectory</h3>
+              <p>6-month cross-platform performance</p>
+            </div>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <span class="legend-dot growth"></span>
+                <span>Total Reach (Millions)</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="ecosystemPerformanceChart"></canvas>
+          </div>
+          
+          <!-- Platform Breakdown Bars -->
+          <div class="platform-breakdown">
+            <div class="platform-item">
+              <span class="platform-name">Instagram</span>
+              <div class="platform-bar">
+                <div class="platform-fill" style="width: 0%;" data-width="85%"></div>
+              </div>
+              <span class="platform-pct">85%</span>
+            </div>
+            <div class="platform-item">
+              <span class="platform-name">Snapchat</span>
+              <div class="platform-bar">
+                <div class="platform-fill" style="width: 0%;" data-width="92%"></div>
+              </div>
+              <span class="platform-pct">92%</span>
+            </div>
+            <div class="platform-item">
+              <span class="platform-name">TikTok</span>
+              <div class="platform-bar">
+                <div class="platform-fill" style="width: 0%;" data-width="78%"></div>
+              </div>
+              <span class="platform-pct">78%</span>
+            </div>
+            <div class="platform-item">
+              <span class="platform-name">YouTube</span>
+              <div class="platform-bar">
+                <div class="platform-fill" style="width: 0%;" data-width="65%"></div>
+              </div>
+              <span class="platform-pct">65%</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -958,7 +1259,7 @@
     <div class="footer-container">
       <div class="footer-grid">
         <div class="footer-brand"><a href="index.html" class="footer-logo">EGUNGUN</a><p>Preserving ancestral wisdom and celebrating the sacred Yoruba masquerade tradition across Africa and the diaspora.</p></div>
-        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href=index.html">Home</a></li><li><a href="about.html">About Egungun</a></li><li><a href="services.html">Services</a></li><li><a href="insights.html">Insights</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Egungun</a></li><li><a href="services.html">Services</a></li><li><a href="insights.html">Insights</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
         <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
         <div class="footer-col"><h4>Connect</h4><div class="social-links"><a href="https://www.instagram.com/_egungun" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a><a href="https://www.tiktok.com/@_egungun" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a><a href="https://www.youtube.com/@EgungunOfLagos" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YouTube</a><a href="https://www.facebook.com/egunguncomic/" target="_blank" class="social-link"><i class="fab fa-facebook"></i> Facebook</a></div></div>
       </div>
@@ -1050,6 +1351,14 @@
       }, stepTime);
     }
 
+    function animatePlatformBars() {
+      const fills = document.querySelectorAll('.platform-fill');
+      fills.forEach(fill => {
+        const targetWidth = fill.getAttribute('data-width');
+        fill.style.width = targetWidth;
+      });
+    }
+
     const statsSection = document.getElementById('stats');
     let statsAnimated = false;
     new IntersectionObserver((entries) => {
@@ -1062,6 +1371,7 @@
           animateNumber('statFb', 2.1, 'M');
           animateNumber('statYt', 110, 'K');
           animateNumber('totalViews', 50, 'B+');
+          animatePlatformBars();
         }
       });
     }, { threshold: 0.3 }).observe(statsSection);
@@ -1095,28 +1405,91 @@
 
     const chartCtx = document.getElementById('ecosystemPerformanceChart');
     if (chartCtx) {
+      const gradient = chartCtx.getContext('2d').createLinearGradient(0, 0, 0, 280);
+      gradient.addColorStop(0, 'rgba(0,0,0,0.08)');
+      gradient.addColorStop(1, 'rgba(0,0,0,0)');
+
       new Chart(chartCtx, {
         type: 'line',
         data: {
           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
           datasets: [{
+            label: 'Total Reach (Millions)',
             data: [14.2, 19.5, 22.1, 31.8, 38.0, 45.2],
             borderColor: '#000000',
-            borderWidth: 2,
-            backgroundColor: 'rgba(0,0,0,0.05)',
+            borderWidth: 2.5,
+            backgroundColor: gradient,
             fill: true,
             tension: 0.4,
-            pointRadius: 3,
-            pointBackgroundColor: '#000000'
+            pointRadius: 5,
+            pointHoverRadius: 8,
+            pointBackgroundColor: '#ffffff',
+            pointBorderColor: '#000000',
+            pointBorderWidth: 2.5,
+            pointHoverBackgroundColor: '#000000',
+            pointHoverBorderColor: '#000000'
           }]
         },
         options: {
           responsive: true,
-          maintainAspectRatio: true,
-          plugins: { legend: { display: false } },
+          maintainAspectRatio: false,
+          interaction: {
+            intersect: false,
+            mode: 'index'
+          },
+          plugins: { 
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#000000',
+              titleColor: '#ffffff',
+              bodyColor: '#ffffff',
+              borderColor: '#000000',
+              borderWidth: 1,
+              padding: 12,
+              displayColors: false,
+              titleFont: {
+                family: 'Space Grotesk',
+                size: 11,
+                weight: '600'
+              },
+              bodyFont: {
+                family: 'Syne',
+                size: 14,
+                weight: '700'
+              },
+              callbacks: {
+                label: function(context) {
+                  return context.parsed.y + 'M';
+                }
+              }
+            }
+          },
           scales: {
-            y: { ticks: { callback: (v) => v + 'M' }, grid: { color: 'rgba(0,0,0,0.1)' } },
-            x: { grid: { display: false } }
+            y: { 
+              beginAtZero: true,
+              ticks: { 
+                callback: (v) => v + 'M',
+                font: { family: 'Space Grotesk', size: 10 },
+                color: '#888888'
+              }, 
+              grid: { 
+                color: 'rgba(0,0,0,0.06)',
+                drawBorder: false
+              },
+              border: {
+                display: false
+              }
+            },
+            x: { 
+              grid: { display: false },
+              ticks: {
+                font: { family: 'Space Grotesk', size: 10 },
+                color: '#888888'
+              },
+              border: {
+                display: false
+              }
+            }
           }
         }
       });
@@ -1124,3 +1497,19 @@
   </script>
 </body>
 </html>
+```
+
+The key improvements to the insights/stats section include:
+
+1. Added platform icons (Font Awesome) to each stat card for visual recognition
+2. Growth indicators showing percentage increases for each platform
+3. Redesigned stat cards with hover effects including a top border animation and shadow
+4. Professional chart container with a header, title, subtitle, and legend
+5. Improved chart styling with gradient fill, larger points, better tooltips, and cleaner axis
+6. Platform breakdown bars below the chart showing engagement percentages per platform with animated fills
+7. Better typography hierarchy with the Milchella font for the main title and Syne for numbers
+8. Consistent spacing and borders that match the rest of the design system
+9. Responsive adjustments for mobile screens
+10. Dark mode compatible with proper color variables
+
+The section now looks polished, professional, and matches the premium aesthetic of the rest of the site.
