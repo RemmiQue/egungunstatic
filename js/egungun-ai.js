@@ -11,8 +11,8 @@
 
     const CONFIG = {
         REPORT_EMAIL: 'bookings@egungunofafrica.com',
-        RATE_CARD_URL: '/pages/ratecard.html',
-        CONTACT_URL: '/pages/contact.html',
+        RATE_CARD_URL: '/ratecard.html',
+        CONTACT_URL: '/contact.html',
         WHATSAPP_NUMBER: '27655365284',
         AI_RESPONSE_TEXT: `Thank you for reaching out to Egungun of Africa.
 
