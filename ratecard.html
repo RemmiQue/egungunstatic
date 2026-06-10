@@ -412,6 +412,69 @@
       transform: translateY(-2px);
     }
 
+    /* Show appearance card styling - matches brand ambassador packages */
+    .appearance-card {
+      background: rgba(12, 14, 19, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 24px;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      backdrop-filter: blur(2px);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .appearance-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 15%;
+      height: 70%;
+      width: 3px;
+      background: #ffffff;
+      border-radius: 3px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .appearance-card:hover {
+      background: rgba(30, 34, 44, 0.9);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .appearance-card:hover::before {
+      opacity: 1;
+    }
+    .appearance-meta h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+    .appearance-desc {
+      color: #9a9ea8;
+      font-size: 0.8rem;
+    }
+    .appearance-desc em {
+      font-style: normal;
+      color: #ffffff;
+      font-weight: 500;
+      margin-left: 6px;
+    }
+    .appearance-price {
+      font-family: 'Unbounded', 'Syne', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #f5e6b0, #ffffff, #e6c87a);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+    }
+
     /* ========== RESPONSIVE ========== */
     @media (max-width: 968px) {
       .nav {
@@ -502,6 +565,16 @@
         font-size: 1.4rem;
         white-space: normal;
       }
+      .appearance-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 18px;
+        gap: 12px;
+      }
+      .appearance-price {
+        font-size: 1.4rem;
+        white-space: normal;
+      }
       .footer-action-panel {
         flex-direction: column;
         text-align: center;
@@ -536,6 +609,9 @@
         font-size: 1.2rem;
       }
       .deck-price {
+        font-size: 1.3rem;
+      }
+      .appearance-price {
         font-size: 1.3rem;
       }
       .nav {
@@ -672,6 +748,18 @@
             </div>
             <div class="deck-price" data-val="130">₦0m</div>
           </div>
+        </div>
+      </div>
+
+      <!-- Show Appearance 10M section inserted after Brand Ambassador Packages -->
+      <div class="section-block">
+        <div class="section-label">Show Appearance</div>
+        <div class="appearance-card">
+          <div class="appearance-meta">
+            <h3>Single Event</h3>
+            <div class="appearance-desc">Live appearance, meet & greet, stage moment <em>@ flat rate</em></div>
+          </div>
+          <div class="appearance-price" data-val="10">₦0m</div>
         </div>
       </div>
 
