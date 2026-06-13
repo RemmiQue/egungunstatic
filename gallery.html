@@ -95,6 +95,10 @@
       letter-spacing: 0.15em;
       color: var(--text-dark);
       text-decoration: none;
+      transition: opacity 0.3s ease;
+    }
+    .nav__logo:hover {
+      opacity: 0.8;
     }
     .nav__links {
       display: flex;
@@ -247,9 +251,6 @@
       transform: scale(1.02);
     }
 
-    /* NO TEXT OVERLAY OR CAPTIONS — absolutely clean */
-    /* (removed any overlay text elements to satisfy "DO NOT ADD ANY CAPTION") */
-
     /* LIGHTBOX MODAL - fullscreen preview when clicked */
     .lightbox {
       display: none;
@@ -366,6 +367,10 @@
       text-decoration: none;
       display: inline-block;
       margin-bottom: 1rem;
+      transition: opacity 0.3s;
+    }
+    .footer-brand .footer-logo:hover {
+      opacity: 0.8;
     }
     .footer-brand p {
       font-family: 'Space Grotesk', sans-serif;
@@ -455,24 +460,24 @@
 <body>
 
   <nav class="nav" id="nav">
-    <a href="#" class="nav__logo">EGUNGUN</a>
+    <a href="index.html" class="nav__logo">EGUNGUN</a>
     <div class="nav__hamburger" id="hamburger">
       <span></span><span></span><span></span>
     </div>
     <ul class="nav__links" id="navLinks">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Services</a></li>
-      <li><a href="#">Insights</a></li>
-      <li><a href="#">Gallery</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
 
   <section class="page-header reveal">
     <h1>Visual Archive</h1>
     <div class="divider"></div>
-    <p>A collection of Egungun random moments</p>
+    <p>EGUNGUN RANDOM MOMENT</p>
   </section>
 
   <div class="gallery-wrapper">
@@ -483,7 +488,7 @@
 
   <div class="scroll-indicator">
     <span class="scroll-indicator-line"></span>
-    <span><i class="fas fa-hand-peace"></i> EGUNGUN RANDOM MONENTS<i class="fas fa-expand-alt"></i></span>
+    <span><i class="fas fa-hand-peace"></i> SAY DAMN! · EGUNGUN RANDOM MOMENTS <i class="fas fa-expand-alt"></i></span>
     <span class="scroll-indicator-line"></span>
   </div>
 
@@ -497,18 +502,18 @@
     <div class="footer-container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="#" class="footer-logo">EGUNGUN</a>
+          <a href="index.html" class="footer-logo">EGUNGUN</a>
           <p>The MOST POPULAR lifestyle interviewer in Africa. Digital creator, culture force, and media personality.</p>
         </div>
         <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About Egungun</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Insights</a></li>
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Egungun</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="insights.html">Insights</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -539,7 +544,7 @@
   <script>
     // ==============================================
     // YOUR PROVIDED IMAGE LINKS (no captions, purely random)
-    // Including all links from the request, deduplicated and sanitized
+    // 37 unique images from the original list
     // ==============================================
     const rawImageUrls = [
       "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1304-baab658.jpg/:/rs=w:1200,cg:true,m",
@@ -581,10 +586,10 @@
       "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1971.JPG/:/rs=w:1440,h:1440"
     ];
     
-    // Remove duplicates with Set (preserve unique URLs)
+    // Remove duplicates with Set (keeps unique URLs)
     const uniqueImageUrls = [...new Map(rawImageUrls.map(url => [url, url])).values()];
     
-    // Shuffle function to truly randomize gallery order on each load (infinite randomness)
+    // Shuffle function for randomness
     function shuffleArray(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -593,21 +598,15 @@
       return arr;
     }
     
-    // Create randomized image pool (no captions!)
+    // Randomized image pool (no captions)
     let randomizedImages = shuffleArray([...uniqueImageUrls]);
     
-    // Simulate "Facebook Sync" — fetches new/changed images from a conceptual source
-    // In real production, you'd replace with Graph API, but here we mimic dynamic refresh:
-    // Every 60 seconds we "sync" by re-shuffling and reloading gallery with fresh random order,
-    // giving illusion of "latest updates from fire / FB" without breaking infinite scroll.
-    // This ensures newly added images (or reorder) propagates.
+    // Simulate Facebook/Fire real-time sync: every 25 seconds reshuffle for fresh randomness
     function syncWithFacebookAndFire() {
-      // In a real scenario, you'd call a backend or fetch updated image URLs from FB album.
-      // For this demo, we reshuffle the existing images to represent "fresh random sync"
-      // and then rebuild gallery (seamless update without page reload).
       randomizedImages = shuffleArray([...uniqueImageUrls]);
       rebuildGallery();
-      console.log("🔄 Gallery synced (simulated Facebook / Fire update) — random order refreshed");
+      // Visual feedback in console (optional)
+      console.log("🔄 Gallery synced (simulated Facebook/Fire update) — fresh random order");
     }
     
     // Lightbox & click handler
@@ -618,8 +617,9 @@
       const closeBtn = document.querySelector('.close-lightbox');
       
       cards.forEach(card => {
-        card.removeEventListener('click', card.clickHandler); // avoid duplicates
+        card.removeEventListener('click', card.clickHandler);
         const handler = (e) => {
+          e.stopPropagation();
           const imgElement = card.querySelector('.gallery-card__image');
           if (imgElement && imgElement.src) {
             lightboxImg.src = imgElement.src;
@@ -630,7 +630,6 @@
         card.clickHandler = handler;
       });
       
-      // Close lightbox events
       if (closeBtn) {
         closeBtn.onclick = () => lightbox.classList.remove('active');
       }
@@ -644,17 +643,15 @@
       });
     }
     
-    // Build / rebuild infinite gallery (2 sets for seamless loop)
+    // Build infinite gallery (2 full sets for seamless loop)
     function rebuildGallery() {
       const track = document.getElementById('galleryTrack');
       if (!track) return;
       track.innerHTML = '';
       
-      // Create card without ANY captions/titles/subtitles
       function createCard(imgUrl) {
         const card = document.createElement('div');
         card.className = 'gallery-card';
-        // No overlay or text elements, purely image
         card.innerHTML = `
           <div class="gallery-card__image-wrapper">
             <img class="gallery-card__image" src="${imgUrl}" alt="Gallery visual" loading="lazy">
@@ -667,33 +664,31 @@
       randomizedImages.forEach(url => {
         track.appendChild(createCard(url));
       });
-      // Duplicate set for infinite seamless animation (total length = 2x)
+      // Duplicate set for infinite seamless animation
       randomizedImages.forEach(url => {
         track.appendChild(createCard(url));
       });
       
-      // Rebind click events for new cards
       bindClickEvents();
     }
     
     // Initial gallery creation
     rebuildGallery();
     
-    // SYNC SIMULATION: Facebook / Fire real-time (every 25 seconds to mimic updates)
-    // This interval fetches "latest" by reshuffling and refreshing images.
-    // In production, you'd fetch new URLs from Facebook Graph API or Firebase storage.
+    // AUTO SYNC: every 25 seconds (simulates fetching latest images from Facebook / Firebase)
+    // In a real implementation, you would fetch new URLs from Facebook Graph API or Firestore.
     setInterval(() => {
       syncWithFacebookAndFire();
-    }, 25000); // Auto sync every 25 sec (makes gallery feel alive)
+    }, 25000);
     
-    // Optional: also re-shuffle on visibility change (tab becomes active)
+    // Also sync when page becomes visible again (user returns to tab)
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) {
         syncWithFacebookAndFire();
       }
     });
     
-    // NAVIGATION
+    // ========== NAVIGATION & UI ==========
     const nav = document.getElementById('nav');
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
@@ -706,8 +701,12 @@
     if (hamburger) {
       hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
     }
+    
+    // Close mobile menu when a link is clicked
     document.querySelectorAll('.nav__links a').forEach(link => {
-      link.addEventListener('click', () => navLinks.classList.remove('active'));
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
     });
     
     // REVEAL ANIMATIONS
@@ -721,6 +720,9 @@
       });
     }, { threshold: 0.1 });
     revealElements.forEach(el => revealObserver.observe(el));
+    
+    // Log total unique images for clarity
+    console.log(`✅ Gallery initialized with ${uniqueImageUrls.length} unique images. Auto-sync every 25 seconds.`);
   </script>
 </body>
 </html>
