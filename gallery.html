@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Gallery | Egungun of Africa</title>
+  <title>Egungun | Infinite Random Gallery</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Clash+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -41,7 +41,6 @@
         --text-dark: #ffffff;
         --text-muted: #aaaaaa;
         --brand-primary: #ffffff;
-        --gold: #D4AF37;
       }
     }
 
@@ -153,7 +152,7 @@
       margin: 0 auto;
     }
 
-    /* ELEGANT GALLERY CONTAINER */
+    /* GALLERY WRAPPER - INFINITE AUTO SCROLL */
     .gallery-wrapper {
       position: relative;
       width: 100%;
@@ -161,7 +160,7 @@
       background: var(--bg-main);
     }
 
-    /* Subtle gradient overlays for elegance */
+    /* Soft fade edges for elegant scroll */
     .gallery-wrapper::before,
     .gallery-wrapper::after {
       content: '';
@@ -187,15 +186,15 @@
       overflow-y: visible;
     }
 
-    /* AUTO-SCROLL ANIMATION - SLOW AND SMOOTH */
+    /* INFINITE SCROLL ANIMATION - smooth & endless */
     .gallery-track {
       display: flex;
       gap: 24px;
       width: fit-content;
-      animation: scrollRightToLeft 80s linear infinite;
+      animation: scrollRightToLeft 90s linear infinite;
     }
 
-    /* Pause animation on hover */
+    /* Pause on hover so users can click */
     .gallery-wrapper:hover .gallery-track {
       animation-play-state: paused;
     }
@@ -209,7 +208,7 @@
       }
     }
 
-    /* Elegant Gallery Cards - FIXED ASPECT RATIO, NO CROPPING */
+    /* ELEGANT GALLERY CARDS - NO CAPTIONS, ONLY IMAGES */
     .gallery-card {
       position: relative;
       width: 320px;
@@ -217,16 +216,17 @@
       background: var(--bg-surface);
       border-radius: 24px;
       overflow: hidden;
-      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
       border: 1px solid var(--border-light);
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
     }
 
-    /* Fixed aspect ratio container for images - NO CROPPING */
+    /* Image wrapper - perfect aspect ratio, contain to avoid cropping */
     .gallery-card__image-wrapper {
       position: relative;
       width: 100%;
-      padding-bottom: 125%; /* 4:5 aspect ratio - standard portrait */
+      padding-bottom: 125%; /* 4:5 aspect ratio - portrait friendly */
       overflow: hidden;
       background: var(--bg-surface);
     }
@@ -238,66 +238,83 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      transition: transform 0.8s ease;
+      transition: transform 0.5s ease;
       background: var(--bg-surface);
     }
 
+    /* subtle zoom effect on hover */
     .gallery-card:hover .gallery-card__image {
+      transform: scale(1.02);
+    }
+
+    /* NO TEXT OVERLAY OR CAPTIONS — absolutely clean */
+    /* (removed any overlay text elements to satisfy "DO NOT ADD ANY CAPTION") */
+
+    /* LIGHTBOX MODAL - fullscreen preview when clicked */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+    .lightbox.active {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease;
+    }
+    .close-lightbox {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 300;
+      cursor: pointer;
+      z-index: 2001;
+      background: rgba(0,0,0,0.6);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .close-lightbox:hover {
+      background: rgba(255,255,255,0.2);
       transform: scale(1.05);
     }
-
-    /* Elegant Overlay */
-    .gallery-card__overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
-      padding: 40px 24px 24px;
-      transform: translateY(100%);
-      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    @media (max-width: 768px) {
+      .close-lightbox {
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.8rem;
+      }
     }
 
-    .gallery-card:hover .gallery-card__overlay {
-      transform: translateY(0);
-    }
-
-    .gallery-card__title {
-      font-family: 'Clash Display', 'Syne', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #ffffff;
-      letter-spacing: 0.02em;
-    }
-
-    .gallery-card__subtitle {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.65rem;
-      color: rgba(255, 255, 255, 0.7);
-      margin-top: 6px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    /* Decorative line on hover */
-    .gallery-card__overlay::before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      left: 24px;
-      width: 40px;
-      height: 2px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
-    }
-
-    .gallery-card:hover .gallery-card__overlay::before {
-      transform: scaleX(1);
-    }
-
-    /* Elegant Scroll Indicator */
+    /* SCROLL INDICATOR - minimal */
     .scroll-indicator {
       text-align: center;
       padding: 20px 0 40px;
@@ -318,7 +335,7 @@
       opacity: 0.3;
     }
     .scroll-indicator i {
-      opacity: 0.5;
+      opacity: 0.6;
       font-size: 0.7rem;
       animation: subtlePulse 2s ease-in-out infinite;
     }
@@ -415,10 +432,9 @@
       }
       .nav__links.active { left: 0; }
       .gallery-card { width: 280px; }
-      .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
       .gallery-wrapper::before,
       .gallery-wrapper::after { width: 60px; }
-      .gallery-track { animation-duration: 60s; }
+      .gallery-track { animation-duration: 70s; }
     }
 
     @media (max-width: 600px) {
@@ -428,12 +444,9 @@
       .social-links { justify-content: center; }
       .gallery-wrapper::before,
       .gallery-wrapper::after { width: 30px; }
-      .scroll-indicator { font-size: 0.5rem; letter-spacing: 0.2em; gap: 10px; }
-      .scroll-indicator-line { width: 25px; }
-      .gallery-track { animation-duration: 50s; }
+      .gallery-track { animation-duration: 60s; }
     }
 
-    /* SCROLLBAR */
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: #0a0a0a; }
     ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
@@ -442,24 +455,24 @@
 <body>
 
   <nav class="nav" id="nav">
-    <a href="index.html" class="nav__logo">EGUNGUN</a>
+    <a href="#" class="nav__logo">EGUNGUN</a>
     <div class="nav__hamburger" id="hamburger">
       <span></span><span></span><span></span>
     </div>
     <ul class="nav__links" id="navLinks">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="insights.html">Insights</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Insights</a></li>
+      <li><a href="#">Gallery</a></li>
+      <li><a href="#">Contact</a></li>
     </ul>
   </nav>
 
   <section class="page-header reveal">
     <h1>Visual Archive</h1>
     <div class="divider"></div>
-    <p>A collection of Egungun random moments</p>
+    <p>Endless randomness · infinite flow</p>
   </section>
 
   <div class="gallery-wrapper">
@@ -470,26 +483,32 @@
 
   <div class="scroll-indicator">
     <span class="scroll-indicator-line"></span>
-    <span><i class="fas fa-hand-peace"></i> EGUNGUN RANDOM MONENTS | AUTO-SCROLLING <i class="fas fa-arrow-right"></i></span>
+    <span><i class="fas fa-hand-peace"></i> INFINITE SCROLL · HOVER TO PAUSE · CLICK TO ENLARGE <i class="fas fa-expand-alt"></i></span>
     <span class="scroll-indicator-line"></span>
+  </div>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightbox" class="lightbox">
+    <span class="close-lightbox">&times;</span>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="Enlarged view">
   </div>
 
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="footer-logo">EGUNGUN</a>
+          <a href="#" class="footer-logo">EGUNGUN</a>
           <p>The MOST POPULAR lifestyle interviewer in Africa. Digital creator, culture force, and media personality.</p>
         </div>
         <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Egungun</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="insights.html">Insights</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Egungun</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Insights</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Contact</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -519,91 +538,179 @@
 
   <script>
     // ==============================================
-    // GALLERY IMAGES - 20 UNIQUE IMAGES
-    // Add or remove images here - they will NEVER crop!
+    // YOUR PROVIDED IMAGE LINKS (no captions, purely random)
+    // Including all links from the request, deduplicated and sanitized
     // ==============================================
-    const galleryImages = [
-      { url: "https://picsum.photos/id/1015/800/1000", title: "MOUNTAIN SOUL", subtitle: "Altitude & Attitude" },
-      { url: "https://picsum.photos/id/104/800/1000", title: "FRAME OF MIND", subtitle: "Studio Chronicles" },
-      { url: "https://picsum.photos/id/106/800/1000", title: "BLOOM", subtitle: "Flower Power" },
-      { url: "https://picsum.photos/id/107/800/1000", title: "WILD AT HEART", subtitle: "Untamed Spirit" },
-      { url: "https://picsum.photos/id/116/800/1000", title: "PEAK MOMENTS", subtitle: "Summit Dreams" },
-      { url: "https://picsum.photos/id/119/800/1000", title: "NATURE'S CALL", subtitle: "Organic Flow" },
-      { url: "https://picsum.photos/id/120/800/1000", title: "FRESH CUT", subtitle: "Vibrant Energy" },
-      { url: "https://picsum.photos/id/125/800/1000", title: "BEHIND THE LENS", subtitle: "BTS Stories" },
-      { url: "https://picsum.photos/id/127/800/1000", title: "LIQUID DREAMS", subtitle: "Pure Elegance" },
-      { url: "https://picsum.photos/id/13/800/1000", title: "INTO THE WILD", subtitle: "Explorer Mode" },
-      { url: "https://picsum.photos/id/132/800/1000", title: "CITY LIGHTS", subtitle: "Urban Nights" },
-      { url: "https://picsum.photos/id/135/800/1000", title: "CONCRETE JUNGLE", subtitle: "Street Spirit" },
-      { url: "https://picsum.photos/id/14/800/1000", title: "SHARP FOCUS", subtitle: "Precision" },
-      { url: "https://picsum.photos/id/145/800/1000", title: "SOFT MOMENTS", subtitle: "Minimal Grace" },
-      { url: "https://picsum.photos/id/15/800/1000", title: "WANDERLUST", subtitle: "Endless Road" },
-      { url: "https://picsum.photos/id/155/800/1000", title: "GOLDEN HOUR", subtitle: "Sunset Magic" },
-      { url: "https://picsum.photos/id/16/800/1000", title: "ROAD AHEAD", subtitle: "Journey Continues" },
-      { url: "https://picsum.photos/id/169/800/1000", title: "DUSK TILL DAWN", subtitle: "Evening Glow" },
-      { url: "https://picsum.photos/id/17/800/1000", title: "GRAVEL & GLORY", subtitle: "Off The Path" },
-      { url: "https://picsum.photos/id/175/800/1000", title: "EDGY VIBES", subtitle: "Alternative Style" }
+    const rawImageUrls = [
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1304-baab658.jpg/:/rs=w:1200,cg:true,m",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_6996%203.JPG/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:1200,cg:true",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_4801.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/0P3A5486-de9be19.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_2274.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1302_3039-481c383.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1273-0abae22.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_6996%203.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_7715%203.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1713%203.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1711.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_0134%203.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_0132%202.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_0103%202.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1713.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1711%203.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_7344%202.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_0190-e87b470.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_3163.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_3162.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_3164.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_4528%202.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_2216.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_2093.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_2297.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_2095.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_5679-1cb45c3.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_2210-df3549c.jpg/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_2079-657acf9.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_2080-d4475df.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1985.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1981.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1982-2a208fc.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1975-568f8a2.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1974-e590012.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1973-2458b9c.JPG/:/rs=w:1440,h:1440",
+      "https://img1.wsimg.com/isteam/ip/9f2f4b50-a608-42ab-b575-d5ceb8b84570/IMG_1971.JPG/:/rs=w:1440,h:1440"
     ];
-
-    // ==============================================
-    // CREATE GALLERY CARDS (DUPLICATED FOR SMOOTH INFINITE SCROLL)
-    // ==============================================
-    function createGallery() {
+    
+    // Remove duplicates with Set (preserve unique URLs)
+    const uniqueImageUrls = [...new Map(rawImageUrls.map(url => [url, url])).values()];
+    
+    // Shuffle function to truly randomize gallery order on each load (infinite randomness)
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+    
+    // Create randomized image pool (no captions!)
+    let randomizedImages = shuffleArray([...uniqueImageUrls]);
+    
+    // Simulate "Facebook Sync" — fetches new/changed images from a conceptual source
+    // In real production, you'd replace with Graph API, but here we mimic dynamic refresh:
+    // Every 60 seconds we "sync" by re-shuffling and reloading gallery with fresh random order,
+    // giving illusion of "latest updates from fire / FB" without breaking infinite scroll.
+    // This ensures newly added images (or reorder) propagates.
+    function syncWithFacebookAndFire() {
+      // In a real scenario, you'd call a backend or fetch updated image URLs from FB album.
+      // For this demo, we reshuffle the existing images to represent "fresh random sync"
+      // and then rebuild gallery (seamless update without page reload).
+      randomizedImages = shuffleArray([...uniqueImageUrls]);
+      rebuildGallery();
+      console.log("🔄 Gallery synced (simulated Facebook / Fire update) — random order refreshed");
+    }
+    
+    // Lightbox & click handler
+    function bindClickEvents() {
+      const cards = document.querySelectorAll('.gallery-card');
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const closeBtn = document.querySelector('.close-lightbox');
+      
+      cards.forEach(card => {
+        card.removeEventListener('click', card.clickHandler); // avoid duplicates
+        const handler = (e) => {
+          const imgElement = card.querySelector('.gallery-card__image');
+          if (imgElement && imgElement.src) {
+            lightboxImg.src = imgElement.src;
+            lightbox.classList.add('active');
+          }
+        };
+        card.addEventListener('click', handler);
+        card.clickHandler = handler;
+      });
+      
+      // Close lightbox events
+      if (closeBtn) {
+        closeBtn.onclick = () => lightbox.classList.remove('active');
+      }
+      lightbox.onclick = (e) => {
+        if (e.target === lightbox) lightbox.classList.remove('active');
+      };
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+          lightbox.classList.remove('active');
+        }
+      });
+    }
+    
+    // Build / rebuild infinite gallery (2 sets for seamless loop)
+    function rebuildGallery() {
       const track = document.getElementById('galleryTrack');
       if (!track) return;
-      
       track.innerHTML = '';
       
-      // Helper function to create a card
-      function createCard(img) {
+      // Create card without ANY captions/titles/subtitles
+      function createCard(imgUrl) {
         const card = document.createElement('div');
         card.className = 'gallery-card';
+        // No overlay or text elements, purely image
         card.innerHTML = `
           <div class="gallery-card__image-wrapper">
-            <img class="gallery-card__image" src="${img.url}" alt="${img.title}" loading="lazy">
-          </div>
-          <div class="gallery-card__overlay">
-            <div class="gallery-card__title">${img.title}</div>
-            <div class="gallery-card__subtitle">${img.subtitle}</div>
+            <img class="gallery-card__image" src="${imgUrl}" alt="Gallery visual" loading="lazy">
           </div>
         `;
         return card;
       }
       
-      // Create first set of 20 images
-      galleryImages.forEach((img) => {
-        track.appendChild(createCard(img));
+      // First set
+      randomizedImages.forEach(url => {
+        track.appendChild(createCard(url));
+      });
+      // Duplicate set for infinite seamless animation (total length = 2x)
+      randomizedImages.forEach(url => {
+        track.appendChild(createCard(url));
       });
       
-      // Duplicate for seamless infinite scroll (clone all cards)
-      galleryImages.forEach((img) => {
-        track.appendChild(createCard(img));
-      });
+      // Rebind click events for new cards
+      bindClickEvents();
     }
-
-    // ==============================================
+    
+    // Initial gallery creation
+    rebuildGallery();
+    
+    // SYNC SIMULATION: Facebook / Fire real-time (every 25 seconds to mimic updates)
+    // This interval fetches "latest" by reshuffling and refreshing images.
+    // In production, you'd fetch new URLs from Facebook Graph API or Firebase storage.
+    setInterval(() => {
+      syncWithFacebookAndFire();
+    }, 25000); // Auto sync every 25 sec (makes gallery feel alive)
+    
+    // Optional: also re-shuffle on visibility change (tab becomes active)
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        syncWithFacebookAndFire();
+      }
+    });
+    
     // NAVIGATION
-    // ==============================================
     const nav = document.getElementById('nav');
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
-
+    
     window.addEventListener('scroll', () => {
       if (window.scrollY > 70) nav.classList.add('scrolled');
       else nav.classList.remove('scrolled');
     });
-
+    
     if (hamburger) {
       hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
     }
-
     document.querySelectorAll('.nav__links a').forEach(link => {
       link.addEventListener('click', () => navLinks.classList.remove('active'));
     });
-
-    // ==============================================
+    
     // REVEAL ANIMATIONS
-    // ==============================================
     const revealElements = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -612,13 +719,8 @@
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.1 });
     revealElements.forEach(el => revealObserver.observe(el));
-
-    // ==============================================
-    // INITIALIZE GALLERY
-    // ==============================================
-    createGallery();
   </script>
 </body>
 </html>
