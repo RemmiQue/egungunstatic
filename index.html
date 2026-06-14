@@ -8,12 +8,20 @@
   <meta name="author" content="Egungun of Africa" />
   <title>Egungun of Africa | The Most Popular Lifestyle Interviewer</title>
   
+  <!-- Preconnect to critical third parties EARLY -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://www.youtube.com">
+  <link rel="preconnect" href="https://imgur.com">
+  <link rel="preconnect" href="https://yt3.googleusercontent.com">
+  
+  <!-- Defer non-critical CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="all" onload="this.media='all'">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Load Chart.js with defer -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
   
   <style>
     * {
@@ -42,7 +50,6 @@
       --fade-deep: rgba(0,0,0,0.2);
     }
 
-    /* DARK MODE */
     @media (prefers-color-scheme: dark) {
       :root {
         --bg: #000000;
@@ -68,73 +75,6 @@
       font-family: 'Space Grotesk', sans-serif;
       overflow-x: hidden;
       width: 100%;
-    }
-
-    /* PRELOADER */
-    .preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--bg);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
-      opacity: 1;
-      visibility: visible;
-    }
-    .preloader.hide {
-      opacity: 0;
-      visibility: hidden;
-    }
-    .preloader-content {
-      text-align: center;
-    }
-    .preloader-logo {
-      font-family: 'Milchella', 'Syne', serif;
-      font-size: clamp(1.8rem, 6vw, 3rem);
-      letter-spacing: 0.2em;
-      color: var(--text);
-      margin-bottom: 1.5rem;
-    }
-    .preloader-logo span {
-      font-style: italic;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.5em;
-      letter-spacing: 0.1em;
-    }
-    .preloader-progress {
-      width: 140px;
-      height: 1px;
-      background: var(--gray-light);
-      margin: 0 auto;
-      position: relative;
-      overflow: hidden;
-    }
-    .preloader-progress::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 100%;
-      background: var(--text);
-      animation: progressFill 2s ease forwards;
-    }
-    @keyframes progressFill {
-      0% { width: 0%; }
-      100% { width: 100%; }
-    }
-    .preloader-text {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      color: var(--gray-mid);
-      margin-top: 1rem;
-      text-transform: uppercase;
     }
 
     /* REVEAL ANIMATIONS */
@@ -216,13 +156,13 @@
       transition: all 0.3s ease;
     }
 
-    /* ========== HERO SECTION ========== */
+    /* HERO SECTION */
     .hero {
       position: relative;
       width: 100%;
       min-height: 100vh;
       overflow: hidden;
-      background: var(--bg);
+      background: #000000 !important;
     }
     
     .hero-image-container {
@@ -237,7 +177,6 @@
       display: block;
     }
     
-    /* FADE AT BOTTOM - ADAPTS TO LIGHT/DARK MODE */
     .hero-fade {
       position: absolute;
       bottom: 0;
@@ -348,7 +287,6 @@
       transform: translateY(-2px);
     }
     
-    /* Scroll indicator - line only */
     .hero-scroll {
       position: absolute;
       bottom: 2rem;
@@ -379,11 +317,6 @@
         transform: translateY(8px);
         opacity: 1;
       }
-    }
-
-    /* ========== FORCE HERO DARK MODE ON MOBILE ========== */
-    .hero {
-      background: #000000 !important;
     }
 
     .hero .hero-title {
@@ -427,12 +360,12 @@
       background: rgba(255,255,255,0.6) !important;
     }
 
-    /* DESKTOP LAYOUT */
     @media (min-width: 992px) {
       .hero {
         min-height: 100vh;
         display: flex;
         align-items: center;
+        background: var(--bg) !important;
       }
       
       .hero-image-container {
@@ -469,29 +402,29 @@
       }
       
       .hero-title {
-        color: var(--text);
-        text-shadow: none;
+        color: var(--text) !important;
+        text-shadow: none !important;
         font-size: 5rem;
       }
       
       .hero-title span {
-        color: var(--gray-mid);
+        color: var(--gray-mid) !important;
       }
       
       .hero-divider {
         margin: 1.5rem 0;
-        background: var(--text);
+        background: var(--text) !important;
       }
       
       .hero-desc {
-        color: var(--gray-mid);
-        text-shadow: none;
+        color: var(--gray-mid) !important;
+        text-shadow: none !important;
         margin: 0 0 2rem 0;
         font-size: 1.1rem;
       }
       
       .hero-desc strong {
-        color: var(--text);
+        color: var(--text) !important;
       }
       
       .hero-buttons {
@@ -499,25 +432,24 @@
       }
       
       .hero-btn-primary {
-        background: var(--text);
-        color: var(--bg);
+        background: var(--text) !important;
+        color: var(--bg) !important;
       }
       
       .hero-btn-secondary {
-        color: var(--text);
-        border: 1px solid var(--gray-light);
+        color: var(--text) !important;
+        border: 1px solid var(--gray-light) !important;
       }
       
       .hero-btn-secondary:hover {
-        border-color: var(--text);
+        border-color: var(--text) !important;
       }
       
       .hero-scroll-line {
-        background: var(--text);
+        background: var(--text) !important;
       }
     }
 
-    /* REST OF YOUR STYLES */
     .creator-section { padding: 80px 5%; background: var(--bg); }
     .creator-container { max-width: 1200px; margin: 0 auto; }
     .creator-layout { display: flex; gap: 50px; align-items: center; flex-wrap: wrap; }
@@ -572,442 +504,91 @@
       transition: opacity 0.6s ease;
     }
 
-    /* ========== IMPROVED STATS / INSIGHTS SECTION ========== */
-    .stats-wrapper { 
-      padding: 100px 5%; 
-      background: var(--bg); 
-      border-top: 1px solid var(--gray-light); 
-      border-bottom: 1px solid var(--gray-light); 
-    }
-    .dashboard-container { 
-      max-width: 1200px; 
-      margin: 0 auto; 
-    }
-    .dashboard-header { 
-      text-align: center; 
-      margin-bottom: 60px; 
-    }
-    .dashboard-badge {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      color: var(--gray-mid);
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-    }
-    .title-main {
-      font-family: 'Milchella', 'Syne', serif;
-      font-size: clamp(2rem, 6vw, 3.5rem);
-      color: var(--text);
-      margin-bottom: 0.5rem;
-    }
-    .title-sub {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.95rem;
-      color: var(--gray-mid);
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.5;
-    }
-    
-    /* Stats Grid - Redesigned */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 24px;
-      margin-bottom: 50px;
-    }
-    .stat-card {
-      background: var(--bg);
-      border: 1px solid var(--gray-light);
-      padding: 32px 24px;
-      text-align: center;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      position: relative;
-      overflow: hidden;
-    }
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: var(--text);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-    .stat-card:hover::before {
-      transform: scaleX(1);
-    }
-    .stat-card:hover { 
-      transform: translateY(-8px); 
-      border-color: var(--text);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-    }
-    .stat-icon {
-      font-size: 1.5rem;
-      margin-bottom: 12px;
-      color: var(--gray-mid);
-      transition: color 0.3s ease;
-    }
-    .stat-card:hover .stat-icon {
-      color: var(--text);
-    }
-    .stat-number {
-      font-family: 'Syne', sans-serif;
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-    .stat-label {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.7rem;
-      color: var(--gray-mid);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-weight: 500;
-    }
-    .stat-growth {
-      display: inline-block;
-      margin-top: 8px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.7rem;
-      color: #22c55e;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    /* Chart Container - Redesigned */
-    .chart-container {
-      background: var(--bg);
-      border: 1px solid var(--gray-light);
-      padding: 40px;
-      margin-top: 20px;
-      transition: all 0.3s ease;
-    }
-    .chart-container:hover {
-      border-color: var(--text);
-    }
-    .chart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    .chart-title-group h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    .chart-title-group p {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.75rem;
-      color: var(--gray-mid);
-      letter-spacing: 0.5px;
-    }
-    .chart-legend {
-      display: flex;
-      gap: 20px;
-    }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.7rem;
-      color: var(--gray-mid);
-      letter-spacing: 0.5px;
-    }
-    .legend-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-    .legend-dot.growth {
-      background: #000000;
-    }
-    .chart-wrapper {
-      position: relative;
-      width: 100%;
-      height: 280px;
-    }
-    canvas { 
-      width: 100% !important;
-      height: 100% !important;
-    }
-
-    /* Platform breakdown */
-    .platform-breakdown {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 16px;
-      margin-top: 30px;
-    }
-    .platform-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px;
-      border: 1px solid var(--gray-light);
-      transition: all 0.3s ease;
-    }
-    .platform-item:hover {
-      border-color: var(--text);
-      transform: translateX(5px);
-    }
-    .platform-bar {
-      flex: 1;
-      height: 4px;
-      background: var(--gray-light);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .platform-fill {
-      height: 100%;
-      background: var(--text);
-      border-radius: 2px;
-      transition: width 1.5s ease;
-    }
-    .platform-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.5px;
-      color: var(--text);
-      min-width: 80px;
-      font-weight: 500;
-    }
-    .platform-pct {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text);
-      min-width: 40px;
-      text-align: right;
-    }
-
+    .stats-wrapper { padding: 100px 5%; background: var(--bg); border-top: 1px solid var(--gray-light); border-bottom: 1px solid var(--gray-light); }
+    .dashboard-container { max-width: 1200px; margin: 0 auto; }
+    .dashboard-header { text-align: center; margin-bottom: 60px; }
+    .dashboard-badge { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; color: var(--gray-mid); margin-bottom: 1rem; text-transform: uppercase; }
+    .title-main { font-family: 'Milchella', 'Syne', serif; font-size: clamp(2rem, 6vw, 3.5rem); color: var(--text); margin-bottom: 0.5rem; }
+    .title-sub { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; color: var(--gray-mid); max-width: 600px; margin: 0 auto; line-height: 1.5; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 50px; }
+    .stat-card { background: var(--bg); border: 1px solid var(--gray-light); padding: 32px 24px; text-align: center; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden; }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--text); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+    .stat-card:hover::before { transform: scaleX(1); }
+    .stat-card:hover { transform: translateY(-8px); border-color: var(--text); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+    .stat-icon { font-size: 1.5rem; margin-bottom: 12px; color: var(--gray-mid); transition: color 0.3s ease; }
+    .stat-card:hover .stat-icon { color: var(--text); }
+    .stat-number { font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 6px; }
+    .stat-label { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 2px; font-weight: 500; }
+    .stat-growth { display: inline-block; margin-top: 8px; font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; color: #22c55e; font-weight: 600; letter-spacing: 0.5px; }
+    .chart-container { background: var(--bg); border: 1px solid var(--gray-light); padding: 40px; margin-top: 20px; transition: all 0.3s ease; }
+    .chart-container:hover { border-color: var(--text); }
+    .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+    .chart-title-group h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .chart-title-group p { font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; color: var(--gray-mid); letter-spacing: 0.5px; }
+    .chart-legend { display: flex; gap: 20px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; color: var(--gray-mid); letter-spacing: 0.5px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .legend-dot.growth { background: #000000; }
+    .chart-wrapper { position: relative; width: 100%; height: 280px; }
+    canvas { width: 100% !important; height: 100% !important; }
+    .platform-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 30px; }
+    .platform-item { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--gray-light); transition: all 0.3s ease; }
+    .platform-item:hover { border-color: var(--text); transform: translateX(5px); }
+    .platform-bar { flex: 1; height: 4px; background: var(--gray-light); border-radius: 2px; overflow: hidden; }
+    .platform-fill { height: 100%; background: var(--text); border-radius: 2px; transition: width 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1); width: 0%; }
+    .platform-name { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; letter-spacing: 0.5px; color: var(--text); min-width: 80px; font-weight: 500; }
+    .platform-pct { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--text); min-width: 40px; text-align: right; }
     .effect-section { padding: 80px 5%; background: var(--bg); }
     .effect-header { text-align: center; margin-bottom: 50px; }
-    .effect-title {
-      font-family: 'Milchella', 'Syne', serif;
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      color: var(--text);
-    }
-    .effect-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .effect-persona h3 {
-      font-family: 'Milchella', 'Syne', serif;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
-    .effect-text {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: var(--gray-mid);
-      margin-bottom: 1rem;
-    }
-    .live-metric {
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 1px solid var(--gray-light);
-    }
+    .effect-title { font-family: 'Milchella', 'Syne', serif; font-size: clamp(1.8rem, 5vw, 3rem); color: var(--text); }
+    .effect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+    .effect-persona h3 { font-family: 'Milchella', 'Syne', serif; font-size: 1.5rem; margin-bottom: 1rem; color: var(--text); }
+    .effect-text { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; line-height: 1.6; color: var(--gray-mid); margin-bottom: 1rem; }
+    .live-metric { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--gray-light); }
     .metric-number-group { display: flex; align-items: baseline; gap: 5px; flex-wrap: wrap; }
-    .metric-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .metric-lbl {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      color: var(--gray-mid);
-    }
+    .metric-num { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--text); }
+    .metric-lbl { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--gray-mid); }
     .hyper-cards-container { display: flex; flex-direction: column; gap: 16px; }
-    .hyper-card {
-      background: var(--bg);
-      padding: 20px;
-      border: 1px solid var(--gray-light);
-      transition: all 0.3s ease;
-    }
+    .hyper-card { background: var(--bg); padding: 20px; border: 1px solid var(--gray-light); transition: all 0.3s ease; }
     .hyper-card:hover { transform: translateX(5px); border-color: var(--text); }
-    .hyper-card h4 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-    .hyper-card p {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.85rem;
-      color: var(--gray-mid);
-      line-height: 1.5;
-    }
-    .magnetic-btn-wrapper {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 12px 30px;
-      background: var(--text);
-      color: var(--bg);
-      text-decoration: none;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      transition: all 0.3s ease;
-    }
+    .hyper-card h4 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .hyper-card p { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; color: var(--gray-mid); line-height: 1.5; }
+    .magnetic-btn-wrapper { display: inline-block; margin-top: 30px; padding: 12px 30px; background: var(--text); color: var(--bg); text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; transition: all 0.3s ease; }
     .magnetic-btn-wrapper:hover { transform: translateY(-3px); opacity: 0.9; }
     .pivot-section { padding: 80px 5%; background: var(--bg); border-top: 1px solid var(--gray-light); border-bottom: 1px solid var(--gray-light); }
     .pivot-container { max-width: 1200px; margin: 0 auto; }
-    .pivot-layout {
-      display: flex;
-      align-items: center;
-      gap: 50px;
-      flex-wrap: wrap;
-    }
+    .pivot-layout { display: flex; align-items: center; gap: 50px; flex-wrap: wrap; }
     .pivot-content { flex: 1; min-width: 280px; }
     .pivot-image { flex: 1; min-width: 280px; }
     .pivot-image img { width: 100%; height: auto; }
-    .pivot-badge {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      color: var(--gray-mid);
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-    }
-    .pivot-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.8rem, 5vw, 2.8rem);
-      font-weight: 700;
-      line-height: 1.2;
-      color: var(--text);
-      margin-bottom: 1.5rem;
-    }
-    .pivot-description {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem;
-      line-height: 1.6;
-      color: var(--gray-mid);
-    }
+    .pivot-badge { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; color: var(--gray-mid); margin-bottom: 1rem; text-transform: uppercase; }
+    .pivot-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; line-height: 1.2; color: var(--text); margin-bottom: 1.5rem; }
+    .pivot-description { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; line-height: 1.6; color: var(--gray-mid); }
     .video-section { padding: 80px 5%; background: var(--bg); }
     .video-card { max-width: 900px; margin: 0 auto; }
-    .video-viewport {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border: 1px solid var(--gray-light);
-    }
-    .video-viewport iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
+    .video-viewport { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid var(--gray-light); }
+    .video-viewport iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
     .control-panel { display: flex; justify-content: center; margin-top: 20px; }
     .btn-group { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-    .action-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--bg);
-      border: 1px solid var(--gray-light);
-      padding: 10px 24px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text);
-      border-radius: 0px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      font-family: 'Space Grotesk', sans-serif;
-    }
+    .action-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--gray-light); padding: 10px 24px; font-size: 0.75rem; font-weight: 600; color: var(--text); border-radius: 0px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
     .subscribe-btn { background: #000000; border-color: #000000; color: white; }
     .subscribe-btn:hover { opacity: 0.8; transform: translateY(-2px); }
     .next-btn:hover { background: var(--text); color: var(--bg); transform: translateY(-2px); }
-    .footer {
-      background: var(--bg);
-      border-top: 1px solid var(--gray-light);
-      padding: 60px 5% 40px;
-    }
+    .footer { background: var(--bg); border-top: 1px solid var(--gray-light); padding: 60px 5% 40px; }
     .footer-container { max-width: 1200px; margin: 0 auto; }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 40px;
-      margin-bottom: 40px;
-    }
-    .footer-brand .footer-logo {
-      font-family: 'Milchella', 'Syne', serif;
-      font-size: 1.3rem;
-      letter-spacing: 0.15em;
-      color: var(--text);
-      text-decoration: none;
-      display: inline-block;
-      margin-bottom: 1rem;
-    }
-    .footer-brand p {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.85rem;
-      color: var(--gray-mid);
-      line-height: 1.5;
-    }
-    .footer-col h4 {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      margin-bottom: 1.2rem;
-      color: var(--text);
-    }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+    .footer-brand .footer-logo { font-family: 'Milchella', 'Syne', serif; font-size: 1.3rem; letter-spacing: 0.15em; color: var(--text); text-decoration: none; display: inline-block; margin-bottom: 1rem; }
+    .footer-brand p { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; color: var(--gray-mid); line-height: 1.5; }
+    .footer-col h4 { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 1.2rem; color: var(--text); }
     .footer-col ul { list-style: none; }
     .footer-col li { margin-bottom: 0.7rem; }
-    .footer-col a {
-      font-family: 'Space Grotesk', sans-serif;
-      color: var(--gray-mid);
-      text-decoration: none;
-      font-size: 0.8rem;
-      transition: all 0.3s ease;
-    }
+    .footer-col a { font-family: 'Space Grotesk', sans-serif; color: var(--gray-mid); text-decoration: none; font-size: 0.8rem; transition: all 0.3s ease; }
     .footer-col a:hover { color: var(--text); }
     .social-links { display: flex; gap: 15px; flex-wrap: wrap; }
-    .social-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--gray-mid);
-      text-decoration: none;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.75rem;
-      transition: all 0.3s ease;
-    }
+    .social-link { display: inline-flex; align-items: center; gap: 8px; color: var(--gray-mid); text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; transition: all 0.3s ease; }
     .social-link:hover { color: var(--text); }
-    .footer-bottom {
-      text-align: center;
-      padding-top: 30px;
-      border-top: 1px solid var(--gray-light);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.7rem;
-      color: var(--gray-mid);
-    }
+    .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid var(--gray-light); font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; color: var(--gray-mid); }
+    
     @media (max-width: 968px) {
       .nav { padding: 1.2rem 1.5rem; }
       .nav.scrolled { padding: 0.8rem 1.5rem; }
@@ -1048,14 +629,6 @@
 </head>
 <body>
 
-  <div class="preloader" id="preloader">
-    <div class="preloader-content">
-      <div class="preloader-logo">EGUNGUN<span>of Africa</span></div>
-      <div class="preloader-progress"></div>
-      <div class="preloader-text">SAY DAMN!</div>
-    </div>
-  </div>
-
   <nav class="nav" id="nav">
     <a href="index.html" class="nav__logo">EGUNGUN</a>
     <div class="nav__hamburger" id="hamburger">
@@ -1073,7 +646,7 @@
 
   <section class="hero" id="home">
     <div class="hero-image-container">
-      <img src="images/egungunoflagos.png" alt="Egungun of Africa">
+      <img src="images/egungunoflagos.png" alt="Egungun of Africa" loading="eager" width="1200" height="800">
     </div>
     <div class="hero-fade"></div>
     <div class="hero-content reveal delay-1">
@@ -1102,7 +675,7 @@
         </div>
         <div class="creator-image reveal-right">
           <div class="image-gallery" id="imageGallery">
-            <img class="gallery-image" id="galleryImg" src="https://yt3.googleusercontent.com/TZ3iizUUVxZMiUp9FU8adm8YO2RDylr8BnF_45XFYlulv2pprZpNoddea5jdtoAz5fXbNIwr3w=s900-c-k-c0x00ffffff-no-rj" alt="Egungun Profile">
+            <img class="gallery-image" id="galleryImg" src="https://yt3.googleusercontent.com/TZ3iizUUVxZMiUp9FU8adm8YO2RDylr8BnF_45XFYlulv2pprZpNoddea5jdtoAz5fXbNIwr3w=s900-c-k-c0x00ffffff-no-rj" alt="Egungun Profile" loading="lazy" width="500" height="500">
           </div>
         </div>
       </div>
@@ -1111,7 +684,6 @@
 
   <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
 
-  <!-- REDESIGNED STATS / INSIGHTS SECTION -->
   <div class="stats-wrapper" id="stats">
     <div class="dashboard-container">
       <div class="dashboard-header reveal">
@@ -1121,379 +693,180 @@
       </div>
       
       <div class="stats-grid" id="statsGrid">
-        <div class="stat-card reveal delay-1">
-          <div class="stat-icon"><i class="fab fa-instagram"></i></div>
-          <div class="stat-number" id="statIg">0</div>
-          <div class="stat-label">Instagram</div>
-          <div class="stat-growth">↑ 12.4%</div>
-        </div>
-        <div class="stat-card reveal delay-2">
-          <div class="stat-icon"><i class="fab fa-snapchat"></i></div>
-          <div class="stat-number" id="statSnap">0</div>
-          <div class="stat-label">Snapchat</div>
-          <div class="stat-growth">↑ 18.7%</div>
-        </div>
-        <div class="stat-card reveal delay-3">
-          <div class="stat-icon"><i class="fab fa-tiktok"></i></div>
-          <div class="stat-number" id="statTikTok">0</div>
-          <div class="stat-label">TikTok</div>
-          <div class="stat-growth">↑ 22.1%</div>
-        </div>
-        <div class="stat-card reveal delay-4">
-          <div class="stat-icon"><i class="fab fa-facebook"></i></div>
-          <div class="stat-number" id="statFb">0</div>
-          <div class="stat-label">Facebook</div>
-          <div class="stat-growth">↑ 8.3%</div>
-        </div>
-        <div class="stat-card reveal delay-5">
-          <div class="stat-icon"><i class="fab fa-youtube"></i></div>
-          <div class="stat-number" id="statYt">0</div>
-          <div class="stat-label">YouTube</div>
-          <div class="stat-growth">↑ 15.9%</div>
-        </div>
+        <div class="stat-card reveal delay-1"><div class="stat-icon"><i class="fab fa-instagram"></i></div><div class="stat-number" id="statIg">0</div><div class="stat-label">Instagram</div><div class="stat-growth">↑ 12.4%</div></div>
+        <div class="stat-card reveal delay-2"><div class="stat-icon"><i class="fab fa-snapchat"></i></div><div class="stat-number" id="statSnap">0</div><div class="stat-label">Snapchat</div><div class="stat-growth">↑ 18.7%</div></div>
+        <div class="stat-card reveal delay-3"><div class="stat-icon"><i class="fab fa-tiktok"></i></div><div class="stat-number" id="statTikTok">0</div><div class="stat-label">TikTok</div><div class="stat-growth">↑ 22.1%</div></div>
+        <div class="stat-card reveal delay-4"><div class="stat-icon"><i class="fab fa-facebook"></i></div><div class="stat-number" id="statFb">0</div><div class="stat-label">Facebook</div><div class="stat-growth">↑ 8.3%</div></div>
+        <div class="stat-card reveal delay-5"><div class="stat-icon"><i class="fab fa-youtube"></i></div><div class="stat-number" id="statYt">0</div><div class="stat-label">YouTube</div><div class="stat-growth">↑ 15.9%</div></div>
       </div>
 
-      <!-- Chart Section -->
-      <div class="reveal">
-        <div class="chart-container">
-          <div class="chart-header">
-            <div class="chart-title-group">
-              <h3>Audience Growth Trajectory</h3>
-              <p>6-month cross-platform performance</p>
-            </div>
-            <div class="chart-legend">
-              <div class="legend-item">
-                <span class="legend-dot growth"></span>
-                <span>Total Reach (Millions)</span>
-              </div>
-            </div>
-          </div>
-          <div class="chart-wrapper">
-            <canvas id="ecosystemPerformanceChart"></canvas>
-          </div>
-          
-          <!-- Platform Breakdown Bars -->
-          <div class="platform-breakdown">
-            <div class="platform-item">
-              <span class="platform-name">Instagram</span>
-              <div class="platform-bar">
-                <div class="platform-fill" style="width: 0%;" data-width="85%"></div>
-              </div>
-              <span class="platform-pct">85%</span>
-            </div>
-            <div class="platform-item">
-              <span class="platform-name">Snapchat</span>
-              <div class="platform-bar">
-                <div class="platform-fill" style="width: 0%;" data-width="92%"></div>
-              </div>
-              <span class="platform-pct">92%</span>
-            </div>
-            <div class="platform-item">
-              <span class="platform-name">TikTok</span>
-              <div class="platform-bar">
-                <div class="platform-fill" style="width: 0%;" data-width="78%"></div>
-              </div>
-              <span class="platform-pct">78%</span>
-            </div>
-            <div class="platform-item">
-              <span class="platform-name">YouTube</span>
-              <div class="platform-bar">
-                <div class="platform-fill" style="width: 0%;" data-width="65%"></div>
-              </div>
-              <span class="platform-pct">65%</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="reveal"><div class="chart-container"><div class="chart-header"><div class="chart-title-group"><h3>Audience Growth Trajectory</h3><p>6-month cross-platform performance</p></div><div class="chart-legend"><div class="legend-item"><span class="legend-dot growth"></span><span>Total Reach (Millions)</span></div></div></div><div class="chart-wrapper"><canvas id="ecosystemPerformanceChart"></canvas></div><div class="platform-breakdown"><div class="platform-item"><span class="platform-name">Instagram</span><div class="platform-bar"><div class="platform-fill" data-width="85"></div></div><span class="platform-pct">85%</span></div><div class="platform-item"><span class="platform-name">Snapchat</span><div class="platform-bar"><div class="platform-fill" data-width="92"></div></div><span class="platform-pct">92%</span></div><div class="platform-item"><span class="platform-name">TikTok</span><div class="platform-bar"><div class="platform-fill" data-width="78"></div></div><span class="platform-pct">78%</span></div><div class="platform-item"><span class="platform-name">YouTube</span><div class="platform-bar"><div class="platform-fill" data-width="65"></div></div><span class="platform-pct">65%</span></div></div></div></div>
     </div>
   </div>
 
   <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
 
-  <section class="effect-section" id="effect">
-    <div class="effect-header reveal"><h2 class="effect-title">THE "EGUNGUN"<br>Effect On Brands</h2></div>
-    <div class="effect-grid">
-      <div class="effect-persona reveal-left">
-        <h3>"Damn, It's Massive baby!"</h3>
-        <p class="effect-text">Egungun of Lagos is a digital content creator and lifestyle interviewer known for creating fun filled engaging content. His way of promoting brands doesn't feel scripted or forced, which makes his videos entertaining and easy for his audience to connect with.</p>
-        <p class="effect-text">His fans genuinely enjoy and engage with his content, helping brands gain more attention, wider audience reach, and increased sales through his adverts and lifestyle videos.</p>
-        <div class="live-metric"><div class="metric-number-group"><span class="metric-num" id="totalViews">0</span><span class="metric-lbl">B+ Total Media Views</span></div></div>
-      </div>
-      <div class="benefits-column reveal-right">
-        <div class="hyper-cards-container">
-          <div class="hyper-card"><h4>Media Partnerships</h4><p>Transform ROI into tangible revenue. Maximum visibility and substantial sales boost.</p></div>
-          <div class="hyper-card"><h4>Unparalleled Influencing</h4><p>Command immediate attention through high-retention video content.</p></div>
-          <div class="hyper-card"><h4>High-Impact Vlogging</h4><p>Integrate seamlessly into premium lifestyle vlogs.</p></div>
-          <div class="hyper-card"><h4>Massive Social Reach</h4><p>Reach an active, purchasing global audience across all platforms.</p></div>
-        </div>
-        <a href="#video" class="magnetic-btn-wrapper">Book Egungun Now →</a>
-      </div>
-    </div>
-  </section>
+  <section class="effect-section" id="effect"><div class="effect-header reveal"><h2 class="effect-title">THE "EGUNGUN"<br>Effect On Brands</h2></div><div class="effect-grid"><div class="effect-persona reveal-left"><h3>"Damn, It's Massive baby!"</h3><p class="effect-text">Egungun of Lagos is a digital content creator and lifestyle interviewer known for creating fun filled engaging content. His way of promoting brands doesn't feel scripted or forced, which makes his videos entertaining and easy for his audience to connect with.</p><p class="effect-text">His fans genuinely enjoy and engage with his content, helping brands gain more attention, wider audience reach, and increased sales through his adverts and lifestyle videos.</p><div class="live-metric"><div class="metric-number-group"><span class="metric-num" id="totalViews">0</span><span class="metric-lbl">B+ Total Media Views</span></div></div></div><div class="benefits-column reveal-right"><div class="hyper-cards-container"><div class="hyper-card"><h4>Media Partnerships</h4><p>Transform ROI into tangible revenue. Maximum visibility and substantial sales boost.</p></div><div class="hyper-card"><h4>Unparalleled Influencing</h4><p>Command immediate attention through high-retention video content.</p></div><div class="hyper-card"><h4>High-Impact Vlogging</h4><p>Integrate seamlessly into premium lifestyle vlogs.</p></div><div class="hyper-card"><h4>Massive Social Reach</h4><p>Reach an active, purchasing global audience across all platforms.</p></div></div><a href="#video" class="magnetic-btn-wrapper">Book Egungun Now →</a></div></div></section>
 
   <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
 
-  <section class="pivot-section" id="pivot">
-    <div class="pivot-container">
-      <div class="pivot-layout">
-        <div class="pivot-image reveal-left"><img src="https://imgur.com/MXEjfBM.jpeg" alt="Egungun of Lagos"></div>
-        <div class="pivot-content reveal-right">
-          <div class="pivot-badge">EGUNGUN VISION</div>
-          <h2 class="pivot-title">The Masquerade Pivot</h2>
-          <p class="pivot-description">Kuye Oghenevwede Adegoke, widely known to millions as Egungun of Lagos (or simply Egungun), is a pioneering Nigerian internet personality, lifestyle interviewer and influencer, digital content creator, YouTuber, and vlogger who has completely reshaped the landscape of digital entertainment in West Africa.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section class="pivot-section" id="pivot"><div class="pivot-container"><div class="pivot-layout"><div class="pivot-image reveal-left"><img src="https://imgur.com/MXEjfBM.jpeg" alt="Egungun of Lagos" loading="lazy" width="600" height="400"></div><div class="pivot-content reveal-right"><div class="pivot-badge">EGUNGUN VISION</div><h2 class="pivot-title">The Masquerade Pivot</h2><p class="pivot-description">Kuye Oghenevwede Adegoke, widely known to millions as Egungun of Lagos (or simply Egungun), is a pioneering Nigerian internet personality, lifestyle interviewer and influencer, digital content creator, YouTuber, and vlogger who has completely reshaped the landscape of digital entertainment in West Africa.</p></div></div></div></section>
 
   <div class="section-divider reveal"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
 
-  <section class="video-section" id="video">
-    <div class="video-card reveal">
-      <div class="video-viewport"><iframe id="godaddy-yt-player" src="https://www.youtube.com/embed/J6iCO5A9Hyg?autoplay=0&mute=1&modestbranding=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
-      <div class="control-panel"><div class="btn-group"><a href="https://www.youtube.com/@EGUNGUNOFLAGOS?sub_confirmation=1" target="_blank" class="action-btn subscribe-btn"><i class="fab fa-youtube"></i><span>Subscribe</span></a><button class="action-btn next-btn" id="nextVideoBtn"><i class="fas fa-forward"></i><span>Next Video</span></button></div></div>
-    </div>
-  </section>
+  <section class="video-section" id="video"><div class="video-card reveal"><div class="video-viewport"><iframe id="godaddy-yt-player" src="https://www.youtube.com/embed/J6iCO5A9Hyg?autoplay=0&mute=1&modestbranding=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="control-panel"><div class="btn-group"><a href="https://www.youtube.com/@EGUNGUNOFLAGOS?sub_confirmation=1" target="_blank" class="action-btn subscribe-btn"><i class="fab fa-youtube"></i><span>Subscribe</span></a><button class="action-btn next-btn" id="nextVideoBtn"><i class="fas fa-forward"></i><span>Next Video</span></button></div></div></div></section>
 
-  <footer class="footer" id="contact">
-    <div class="footer-container">
-      <div class="footer-grid">
-        <div class="footer-brand"><a href="index.html" class="footer-logo">EGUNGUN</a><p>The MOST POPULAR lifestyle interviewer in Africa. Digital creator, culture force, and media personality.</p></div>
-        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Egungun</a></li><li><a href="services.html">Services</a></li><li><a href="insights.html">Insights</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-        <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
-        <div class="footer-col"><h4>Connect</h4><div class="social-links"><a href="https://www.instagram.com/_egungun" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a><a href="https://www.tiktok.com/@_egungunnn" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a><a href="https://www.youtube.com/@EgungunOfLagos" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YouTube</a><a href="https://www.facebook.com/egunguncomic/" target="_blank" class="social-link"><i class="fab fa-facebook"></i> Facebook</a></div></div>
-      </div>
-      <div class="footer-bottom"><p>© 2025 Egungun of Africa. All rights reserved.</p></div>
-    </div>
-  </footer>
+  <footer class="footer" id="contact"><div class="footer-container"><div class="footer-grid"><div class="footer-brand"><a href="index.html" class="footer-logo">EGUNGUN</a><p>The MOST POPULAR lifestyle interviewer in Africa. Digital creator, culture force, and media personality.</p></div><div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Egungun</a></li><li><a href="services.html">Services</a></li><li><a href="insights.html">Insights</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div><div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div><div class="footer-col"><h4>Connect</h4><div class="social-links"><a href="https://www.instagram.com/_egungun" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a><a href="https://www.tiktok.com/@_egungunnn" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a><a href="https://www.youtube.com/@EgungunOfLagos" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YouTube</a><a href="https://www.facebook.com/egunguncomic/" target="_blank" class="social-link"><i class="fab fa-facebook"></i> Facebook</a></div></div></div><div class="footer-bottom"><p>© 2025 Egungun of Africa. All rights reserved.</p></div></div></footer>
 
+  <!-- Chatbot JS -->
   <script src="js/egungun-ai.js"></script>
 
   <script>
-    window.addEventListener('load', function() {
-      const preloader = document.getElementById('preloader');
-      if (preloader) setTimeout(() => preloader.classList.add('hide'), 1800);
-    });
+    (function() {
+      // Navigation
+      const nav = document.getElementById('nav');
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
 
-    const nav = document.getElementById('nav');
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 70) nav.classList.add('scrolled');
-      else nav.classList.remove('scrolled');
-    });
-
-    if (hamburger) {
-      hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
-    }
-
-    document.querySelectorAll('.nav__links a').forEach(link => {
-      link.addEventListener('click', () => navLinks.classList.remove('active'));
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        const target = document.querySelector(targetId);
-        if (target) {
-          e.preventDefault();
-          const offsetTop = target.offsetTop;
-          window.scrollTo({
-            top: offsetTop - 70,
-            behavior: 'smooth'
-          });
-        }
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 70) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
       });
-    });
 
-    const scrollIndicator = document.getElementById('scrollIndicator');
-    if (scrollIndicator) {
-      scrollIndicator.addEventListener('click', () => {
-        const creatorSection = document.getElementById('creator');
-        if (creatorSection) {
-          const offsetTop = creatorSection.offsetTop;
-          window.scrollTo({
-            top: offsetTop - 70,
-            behavior: 'smooth'
-          });
-        }
+      if (hamburger) {
+        hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+      }
+
+      document.querySelectorAll('.nav__links a').forEach(link => {
+        link.addEventListener('click', () => navLinks.classList.remove('active'));
       });
-    }
 
-    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          revealObserver.unobserve(entry.target);
-        }
+      // Smooth scroll for anchor links only (not for full page links)
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          const target = document.querySelector(targetId);
+          if (target) {
+            e.preventDefault();
+            const offsetTop = target.offsetTop;
+            window.scrollTo({ top: offsetTop - 70, behavior: 'smooth' });
+          }
+        });
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    revealElements.forEach(el => revealObserver.observe(el));
 
-    function animateNumber(elementId, target, suffix = '') {
-      const el = document.getElementById(elementId);
-      if (!el) return;
-      let current = 0;
-      const duration = 1500, stepTime = 16;
-      const steps = duration / stepTime;
-      const increment = target / steps;
-      const interval = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-          el.innerText = target.toLocaleString() + suffix;
-          clearInterval(interval);
-        } else {
-          el.innerText = Math.floor(current).toLocaleString() + suffix;
-        }
-      }, stepTime);
-    }
+      const scrollIndicator = document.getElementById('scrollIndicator');
+      if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+          const creatorSection = document.getElementById('creator');
+          if (creatorSection) window.scrollTo({ top: creatorSection.offsetTop - 70, behavior: 'smooth' });
+        });
+      }
 
-    function animatePlatformBars() {
-      const fills = document.querySelectorAll('.platform-fill');
-      fills.forEach(fill => {
-        const targetWidth = fill.getAttribute('data-width');
-        fill.style.width = targetWidth;
-      });
-    }
+      // Reveal animations
+      const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+      revealElements.forEach(el => revealObserver.observe(el));
 
-    const statsSection = document.getElementById('stats');
-    let statsAnimated = false;
-    new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !statsAnimated) {
-          statsAnimated = true;
-          animateNumber('statIg', 2.2, 'M');
-          animateNumber('statSnap', 5.5, 'M');
-          animateNumber('statTikTok', 2.3, 'M');
-          animateNumber('statFb', 2.1, 'M');
-          animateNumber('statYt', 110, 'K');
-          animateNumber('totalViews', 50, 'B+');
-          animatePlatformBars();
-        }
-      });
-    }, { threshold: 0.3 }).observe(statsSection);
+      // Number animation
+      function animateNumber(elementId, target, suffix = '') {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        let current = 0;
+        const duration = 1000, stepTime = 16;
+        const steps = duration / stepTime;
+        const increment = target / steps;
+        const interval = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            el.innerText = target.toLocaleString() + suffix;
+            clearInterval(interval);
+          } else {
+            el.innerText = Math.floor(current).toLocaleString() + suffix;
+          }
+        }, stepTime);
+      }
 
-    const images = ['https://yt3.googleusercontent.com/TZ3iizUUVxZMiUp9FU8adm8YO2RDylr8BnF_45XFYlulv2pprZpNoddea5jdtoAz5fXbNIwr3w=s900-c-k-c0x00ffffff-no-rj', 'https://imgur.com/u3JqA9s.jpeg'];
-    let currentImageIndex = 0;
-    const galleryImg = document.getElementById('galleryImg');
-    if (galleryImg && images.length > 1) {
-      setInterval(() => {
-        galleryImg.style.opacity = '0';
-        setTimeout(() => {
-          currentImageIndex = (currentImageIndex + 1) % images.length;
-          galleryImg.src = images[currentImageIndex];
-          galleryImg.style.opacity = '1';
-        }, 400);
-      }, 5000);
-    }
+      function animatePlatformBars() {
+        const fills = document.querySelectorAll('.platform-fill');
+        fills.forEach(fill => {
+          const targetWidth = fill.getAttribute('data-width');
+          if (targetWidth) fill.style.width = targetWidth + '%';
+        });
+      }
 
-    const videoPool = ['J6iCO5A9Hyg', 'kOJuYQ-hI5M', 'IXFHAyr-tZc', 'Zs8zeZz5sj0', '3BCAS35r1PY', 'RY0yUL2Zlvg', 'Ck1ggnzDIvY', '6pQccu5BtoU'];
-    const videoFrame = document.getElementById('godaddy-yt-player');
-    function loadRandomVideo() {
-      const randomId = videoPool[Math.floor(Math.random() * videoPool.length)];
-      if (videoFrame) {
+      const statsSection = document.getElementById('stats');
+      let statsAnimated = false;
+      new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !statsAnimated) {
+            statsAnimated = true;
+            animateNumber('statIg', 2.2, 'M');
+            animateNumber('statSnap', 5.5, 'M');
+            animateNumber('statTikTok', 2.3, 'M');
+            animateNumber('statFb', 2.1, 'M');
+            animateNumber('statYt', 110, 'K');
+            animateNumber('totalViews', 50, 'B+');
+            animatePlatformBars();
+          }
+        });
+      }, { threshold: 0.3 }).observe(statsSection);
+
+      // Gallery rotation
+      const images = [
+        'https://yt3.googleusercontent.com/TZ3iizUUVxZMiUp9FU8adm8YO2RDylr8BnF_45XFYlulv2pprZpNoddea5jdtoAz5fXbNIwr3w=s900-c-k-c0x00ffffff-no-rj',
+        'https://imgur.com/u3JqA9s.jpeg'
+      ];
+      let currentImageIndex = 0;
+      const galleryImg = document.getElementById('galleryImg');
+      if (galleryImg && images.length > 1) {
+        setInterval(() => {
+          galleryImg.style.opacity = '0';
+          setTimeout(() => {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            galleryImg.src = images[currentImageIndex];
+            galleryImg.style.opacity = '1';
+          }, 400);
+        }, 5000);
+      }
+
+      // Video player
+      const videoPool = ['J6iCO5A9Hyg', 'kOJuYQ-hI5M', 'IXFHAyr-tZc', 'Zs8zeZz5sj0', '3BCAS35r1PY', 'RY0yUL2Zlvg', 'Ck1ggnzDIvY', '6pQccu5BtoU'];
+      const videoFrame = document.getElementById('godaddy-yt-player');
+      function loadRandomVideo() {
+        if (!videoFrame) return;
+        const randomId = videoPool[Math.floor(Math.random() * videoPool.length)];
         videoFrame.src = `https://www.youtube.com/embed/${randomId}?autoplay=1&mute=1&modestbranding=1&rel=0`;
       }
-    }
-    const nextBtn = document.getElementById('nextVideoBtn');
-    if (nextBtn) nextBtn.addEventListener('click', loadRandomVideo);
-    loadRandomVideo();
-    setInterval(loadRandomVideo, 30000);
+      const nextBtn = document.getElementById('nextVideoBtn');
+      if (nextBtn) nextBtn.addEventListener('click', loadRandomVideo);
+      // Initial load
+      if (videoFrame && videoPool.length > 0) {
+        videoFrame.src = `https://www.youtube.com/embed/${videoPool[0]}?autoplay=0&mute=1&modestbranding=1&rel=0`;
+      }
 
-    const chartCtx = document.getElementById('ecosystemPerformanceChart');
-    if (chartCtx) {
-      const gradient = chartCtx.getContext('2d').createLinearGradient(0, 0, 0, 280);
-      gradient.addColorStop(0, 'rgba(0,0,0,0.08)');
-      gradient.addColorStop(1, 'rgba(0,0,0,0)');
-
-      new Chart(chartCtx, {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-          datasets: [{
-            label: 'Total Reach (Millions)',
-            data: [14.2, 19.5, 22.1, 31.8, 38.0, 45.2],
-            borderColor: '#000000',
-            borderWidth: 2.5,
-            backgroundColor: gradient,
-            fill: true,
-            tension: 0.4,
-            pointRadius: 5,
-            pointHoverRadius: 8,
-            pointBackgroundColor: '#ffffff',
-            pointBorderColor: '#000000',
-            pointBorderWidth: 2.5,
-            pointHoverBackgroundColor: '#000000',
-            pointHoverBorderColor: '#000000'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: {
-            intersect: false,
-            mode: 'index'
-          },
-          plugins: { 
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: '#000000',
-              titleColor: '#ffffff',
-              bodyColor: '#ffffff',
-              borderColor: '#000000',
-              borderWidth: 1,
-              padding: 12,
-              displayColors: false,
-              titleFont: {
-                family: 'Space Grotesk',
-                size: 11,
-                weight: '600'
-              },
-              bodyFont: {
-                family: 'Syne',
-                size: 14,
-                weight: '700'
-              },
-              callbacks: {
-                label: function(context) {
-                  return context.parsed.y + 'M';
-                }
-              }
-            }
-          },
-          scales: {
-            y: { 
-              beginAtZero: true,
-              ticks: { 
-                callback: (v) => v + 'M',
-                font: { family: 'Space Grotesk', size: 10 },
-                color: '#888888'
-              }, 
-              grid: { 
-                color: 'rgba(0,0,0,0.06)',
-                drawBorder: false
-              },
-              border: {
-                display: false
-              }
-            },
-            x: { 
-              grid: { display: false },
-              ticks: {
-                font: { family: 'Space Grotesk', size: 10 },
-                color: '#888888'
-              },
-              border: {
-                display: false
-              }
-            }
-          }
+      // Defer chart loading
+      setTimeout(() => {
+        const chartCtx = document.getElementById('ecosystemPerformanceChart');
+        if (chartCtx && typeof Chart !== 'undefined') {
+          const gradient = chartCtx.getContext('2d').createLinearGradient(0, 0, 0, 280);
+          gradient.addColorStop(0, 'rgba(0,0,0,0.08)');
+          gradient.addColorStop(1, 'rgba(0,0,0,0)');
+          new Chart(chartCtx, {
+            type: 'line',
+            data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], datasets: [{ label: 'Total Reach (Millions)', data: [14.2, 19.5, 22.1, 31.8, 38.0, 45.2], borderColor: '#000000', borderWidth: 2.5, backgroundColor: gradient, fill: true, tension: 0.4, pointRadius: 5, pointHoverRadius: 8, pointBackgroundColor: '#ffffff', pointBorderColor: '#000000', pointBorderWidth: 2.5 }] },
+            options: { responsive: true, maintainAspectRatio: false, interaction: { intersect: false, mode: 'index' }, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#000000', titleColor: '#ffffff', bodyColor: '#ffffff', borderColor: '#000000', borderWidth: 1, padding: 12, callbacks: { label: (ctx) => ctx.parsed.y + 'M' } } }, scales: { y: { beginAtZero: true, ticks: { callback: (v) => v + 'M', font: { size: 10 }, color: '#888888' }, grid: { color: 'rgba(0,0,0,0.06)' } }, x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#888888' } } } }
+          });
         }
-      });
-    }
+      }, 100);
+    })();
   </script>
 </body>
 </html>
