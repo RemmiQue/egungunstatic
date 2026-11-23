@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  <meta name="description" content="Administrator-only payment receipt generator for Egungun of Africa." />
+  <title>Payment Receipt Generator | Egungun Admin</title>
+
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="all" onload="this.media='all'">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Supabase Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Export Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @font-face {
+      font-family: 'Milchella';
+      src: url('fonts/Milchella-Regular.ttf') format('truetype');
+      font-weight: normal; font-style: normal; font-display: swap;
+    }
+
+    :root {
+      --bg: #080808;
+      --bg-elevated: #111111;
+      --text: #f5f5f5;
+      --text-soft: #b8b8b8;
+      --gray-light: #222222;
+      --gray-mid: #888888;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden; width: 100%;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+
+    /* ============ AUTH GATE ============ */
+    #authGate {
+      position: fixed; inset: 0; z-index: 99999;
+      background: var(--bg); display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .auth-box {
+      max-width: 380px; width: 100%; background: var(--bg-elevated);
+      border: 1px solid var(--gray-light); border-radius: 18px;
+      padding: 2.5rem 2rem; box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+    .auth-box h2 {
+      font-family: 'Milchella', 'Syne', serif; font-size: 1.5rem;
+      margin-bottom: 0.5rem; color: var(--text); text-align: center;
+    }
+    .auth-box p { font-size: 0.75rem; color: var(--gray-mid); margin-bottom: 1.5rem; text-align: center; }
+    .auth-box input {
+      width: 100%; padding: 0.8rem; margin-bottom: 0.8rem;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--gray-light);
+      border-radius: 10px; color: var(--text); font-family: inherit; font-size: 0.85rem;
+      outline: none; transition: border-color 0.25s;
+    }
+    .auth-box input:focus { border-color: rgba(255,255,255,0.3); }
+    .auth-box button {
+      width: 100%; padding: 0.9rem; border-radius: 999px;
+      background: var(--text); color: var(--bg); border: none;
+      font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      font-size: 0.7rem; cursor: pointer; transition: all 0.3s;
+    }
+    .auth-box button:hover { background: #ffffff; transform: translateY(-2px); }
+    .auth-box button:disabled { opacity: 0.5; pointer-events: none; }
+    #authError { color: #fca5a5; font-size: 0.7rem; margin-top: 0.8rem; text-align: center; min-height: 18px; }
+
+    /* ============ NAV ============ */
+    .admin-nav {
+      position: sticky; top: 0; width: 100%;
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 500;
+      background: rgba(8, 8, 8, 0.82);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .admin-nav__brand {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: 1.15rem; letter-spacing: 0.15em;
+      color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .admin-nav__brand i { font-size: 0.85rem; color: var(--gray-mid); }
+    .admin-nav__meta {
+      display: flex; align-items: center; gap: 0.9rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-mid);
+    }
+    .admin-nav__pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px; border: 1px solid var(--gray-light);
+      border-radius: 999px; font-size: 0.6rem; color: var(--text-soft);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .admin-nav__pill .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--success); box-shadow: 0 0 8px var(--success);
+    }
+    .btn-logout {
+      background: transparent; border: none; color: var(--gray-mid);
+      cursor: pointer; font-family: inherit; font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.2s;
+    }
+    .btn-logout:hover { color: var(--danger); }
+
+    /* ============ LAYOUT ============ */
+    .admin-wrap {
+      max-width: 1440px; margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: 2rem; align-items: start;
+    }
+    @media (max-width: 1080px) { .admin-wrap { grid-template-columns: 1fr; } }
+
+    /* ============ SECTION HEADERS ============ */
+    .sec-head { margin-bottom: 1.5rem; }
+    .sec-badge {
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem;
+      letter-spacing: 0.3em; color: var(--gray-mid);
+      text-transform: uppercase; margin-bottom: 0.5rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sec-badge::before {
+      content: ''; width: 18px; height: 1px;
+      background: rgba(255,255,255,0.25);
+    }
+    .sec-title {
+      font-family: 'Milchella', 'Syne', serif;
+      font-size: clamp(1.5rem, 2.6vw, 2rem);
+      color: var(--text); line-height: 1.15; letter-spacing: -0.01em;
+    }
+    .sec-title span {
+      font-family: 'Space Grotesk', sans-serif;
+      font-style: italic; font-weight: 300; color: var(--text-soft);
+    }
+    .sec-sub {
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem;
+      color: var(--text-soft); margin-top: 0.5rem; line-height: 1.55;
+      max-width: 520px;
+    }
+
+    /* ============ PANEL ============ */
+    .panel {
+      background: var(--bg-elevated);
+      border: 1px solid var(--gray-light);
+      border-radius: 18px; padding: 1.6rem;
+      transition: border-color 0.35s var(--ease);
+      position: relative; overflow: hidden;
+    }
+    .panel::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    }
+    .panel + .panel { margin-top: 1.25rem; }
+
+    /* ============ FORM ============ */
+    .form-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .form-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .field label {
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.62rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gray-mid); font-weight: 500;
+    }
+    .field label .opt {
+      color: #555; text-transform: none; letter-spacing: 0;
+      font-style: italic; font-weight: 400;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%; background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--gray-light); border-radius: 10px;
+      padding: 0.7rem 0.9rem; color: var(--text);
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem;
+      outline: none; transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+      -webkit-appearance: none; appearance: none;
+    }
+    .field textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .field input::placeholder, .field textarea::placeholder { color: #4a4a4a; }
+    .field select { cursor: pointer; }
+    .field select option { background: #111; color: #f5f5f5; }
+
+    .amount-wrap { position: relative; }
+    .amount-wrap .naira {
+      position: absolute; left: 12px; top: 50%;
+      transform: translateY(-50%); font-family: 'Syne', sans-serif;
+      font-size: 0.95rem; color: var(--text-soft);
+      pointer-events: none; font-weight: 600;
+    }
+    .amount-wrap input { padding-left: 32px; font-weight: 600; font-size: 1rem; }
+
+    .status-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .status-pills label {
+      flex: 1; min-width: 120px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 6px; padding: 0.6rem 0.75rem;
+      border: 1px solid var(--gray-light); border-radius: 10px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem;
+      letter-spacing: 0.06em; color: var(--text-soft);
+      cursor: pointer; transition: all 0.25s var(--ease);
+      background: rgba(255,255,255,0.02); user-select: none;
+    }
+    .status-pills input { display: none; }
+    .status-pills label i { font-size: 0.7rem; opacity: 0.7; }
+    .status-pills input:checked + label {
+      border-color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.07); color: var(--text);
+    }
+    .status-pills input:checked + label i { opacity: 1; }
+    .status-pills input#stPaid:checked + label { border-color: rgba(34,197,94,0.5); color: #86efac; }
+    .status-pills input#stPending:checked + label { border-color: rgba(245,158,11,0.5); color: #fcd34d; }
+    .status-pills input#stRefunded:checked + label { border-color: rgba(239,68,68,0.5); color: #fca5a5; }
+
+    /* ============ SMOOTH GLASS BUTTONS ============ */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 10px; padding: 0.85rem 1.6rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem;
+      font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; border-radius: 12px; color: #ffffff;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: all 0.3s var(--ease); cursor: pointer;
+      -webkit-appearance: none; appearance: none; line-height: 1;
+    }
+    .btn i { font-size: 0.8rem; }
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+    .btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .btn:disabled { opacity: 0.5; pointer-events: none; }
+
+    .btn-primary {
+      background: rgba(255, 255, 255, 0.9); color: #080808;
+      border-color: transparent; font-weight: 700;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
+    }
+    .btn-primary:hover { background: #ffffff; box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25); }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.2); color: #fca5a5;
+    }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); }
+
+    .btn-group { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .btn-group .btn { flex: 1; min-width: 130px; }
+
+    /* ============ RECEIPT PREVIEW (GLASS & MODERN) ============ */
+    .receipt-stage { position: sticky; top: 90px; }
+    @media (max-width: 1080px) { .receipt-stage { position: static; } }
+
+    .receipt-shell {
+      background: rgba(17, 17, 17, 0.6);
+      border-radius: 20px; padding: 3rem 2.8rem;
+      color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+      backdrop-filter: blur(30px) saturate(150%); -webkit-backdrop-filter: blur(30px) saturate(150%);
+      position: relative; overflow: hidden; min-height: 500px;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .receipt-shell::after {
+      content: 'EGUNGUN';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-family: 'Syne', sans-serif; font-size: 8rem; font-weight: 800;
+      color: rgba(255, 255, 255, 0.02); pointer-events: none; white-space: nowrap; z-index: 0;
+      letter-spacing: 0.1em;
+    }
+
+    .receipt-shell > * { position: relative; z-index: 1; }
+
+    /* Header */
+    .r-doc-head {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 2rem;
+    }
+    .r-doc-left { display: flex; align-items: center; gap: 1rem; }
+    .r-logo-mark {
+      width: 50px; height: 50px; border-radius: 12px;
+      background: #fff; color: #000; display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .r-company {
+      font-family: 'Milchella', 'Syne', serif; font-weight: 800;
+      font-size: 1.1rem; letter-spacing: 0.08em; color: var(--text); line-height: 1.2;
+    }
+    .r-company-sub {
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gray-mid); margin-top: 4px; font-weight: 500;
+    }
+    .r-doc-right { text-align: right; flex-shrink: 0; }
+    .r-doc-type {
+      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;
+      font-size: 1rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text);
+    }
+    .r-doc-id {
+      font-size: 0.75rem; color: var(--text-soft); margin-top: 6px; font-weight: 500;
+      font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.05);
+      padding: 4px 8px; border-radius: 4px; display: inline-block;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Meta Grid */
+    .r-meta-row {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 2rem; margin-bottom: 2rem;
+    }
+    @media (max-width: 520px) {
+      .r-meta-row { grid-template-columns: 1fr; gap: 1.5rem; }
+      .r-doc-head { flex-direction: column; gap: 1.5rem; }
+      .r-doc-right { text-align: left; }
+    }
+    .r-meta-cell { display: flex; flex-direction: column; gap: 4px; }
+    .r-label {
+      font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gray-mid);
+      font-weight: 700; margin-bottom: 2px;
+    }
+    .r-value {
+      font-size: 0.95rem; color: var(--text);
+      font-weight: 600; line-height: 1.4; word-break: break-word;
+    }
+    .r-value-sub {
+      font-size: 0.8rem; color: var(--text-soft); line-height: 1.5; word-break: break-word;
+    }
+
+    /* Service Block */
+    .r-service-block {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 2rem;
+    }
+    .r-service-text {
+      font-size: 0.95rem; color: var(--text);
+      line-height: 1.6; word-break: break-word;
+      white-space: pre-wrap; margin-top: 4px;
+    }
+
+    /* Total Row */
+    .r-total-row {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1.8rem;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .r-total-amount {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 800; color: #fff;
+      line-height: 1; letter-spacing: -0.02em; margin-top: 4px;
+    }
+    
+    /* REALISTIC INK STAMP */
+    .r-status-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 16px; border-radius: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.75rem;
+      font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+      border: 3px double; transform: rotate(-4deg);
+      position: relative; overflow: hidden;
+      /* Slight ink bleed effect */
+      text-shadow: 0 0 1px currentColor;
+      opacity: 0.85;
+    }
+    .r-status-pill::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply; pointer-events: none;
+    }
+    .r-status-pill.paid { border-color: #4ade80; color: #4ade80; background: rgba(74, 222, 128, 0.05); }
+    .r-status-pill.pending { border-color: #fbbf24; color: #fbbf24; background: rgba(251, 191, 36, 0.05); }
+    .r-status-pill.refunded { border-color: #f87171; color: #f87171; background: rgba(248, 113, 113, 0.05); }
+    .r-status-pill i { font-size: 0.85rem; }
+
+    /* Notes */
+    .r-notes-row {
+      margin-bottom: 2rem; padding: 1rem; background: rgba(255,255,255,0.02);
+      border-radius: 8px; border-left: 3px solid var(--gray-mid);
+    }
+    .r-notes-row p {
+      font-size: 0.85rem; color: var(--text-soft); line-height: 1.6;
+      margin-top: 4px; white-space: pre-wrap; word-break: break-word;
+    }
+
+    /* Footer */
+    .r-foot-row {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      gap: 2rem; padding-top: 1rem; flex-wrap: wrap;
+    }
+    .r-foot-left { min-width: 160px; }
+    .r-foot-line { width: 140px; height: 1px; background: rgba(255,255,255,0.2); margin-bottom: 8px; }
+    .r-foot-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray-mid); font-weight: 600; }
+    .r-foot-right { text-align: right; display: flex; flex-direction: column; gap: 4px; }
+    .r-foot-note { font-size: 0.7rem; color: var(--gray-mid); letter-spacing: 0.02em; }
+
+    .r-empty {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; min-height: 400px; gap: 1rem;
+      color: var(--gray-mid); position: relative; z-index: 1;
+    }
+    .r-empty i { font-size: 2.5rem; opacity: 0.5; }
+    .r-empty p { font-size: 0.9rem; max-width: 260px; line-height: 1.6; }
+
+    /* Export / Print Overrides */
+    .receipt-shell.export-mode {
+      background: #ffffff !important; color: #111 !important;
+      box-shadow: none !important; border: none !important;
+      backdrop-filter: none !important; border-radius: 0 !important;
+    }
+    .receipt-shell.export-mode .r-company, 
+    .receipt-shell.export-mode .r-doc-type, 
+    .receipt-shell.export-mode .r-value, 
+    .receipt-shell.export-mode .r-service-text, 
+    .receipt-shell.export-mode .r-total-amount { color: #111 !important; }
+    .receipt-shell.export-mode .r-doc-head,
+    .receipt-shell.export-mode .r-total-row { border-color: #111 !important; }
+    .receipt-shell.export-mode .r-logo-mark { background: #111 !important; color: #fff !important; }
+    .receipt-shell.export-mode .r-service-block { background: #f8f8f8 !important; border-color: #eee !important; }
+    .receipt-shell.export-mode .r-notes-row { background: #fafafa !important; border-color: #ddd !important; }
+    .receipt-shell.export-mode .r-notes-row p { color: #555 !important; }
+    .receipt-shell.export-mode .r-foot-line { background: #111 !important; }
+    .receipt-shell.export-mode .r-doc-id { background: #f5f5f5 !important; color: #555 !important; border-color: #ddd !important; }
+    .receipt-shell.export-mode .r-status-pill.paid { border-color: #16a34a !important; color: #16a34a !important; background: rgba(22, 163, 74, 0.05) !important; }
+    .receipt-shell.export-mode .r-status-pill.pending { border-color: #d97706 !important; color: #d97706 !important; background: rgba(217, 119, 6, 0.05) !important; }
+    .receipt-shell.export-mode .r-status-pill.refunded { border-color: #dc2626 !important; color: #dc2626 !important; background: rgba(220, 38, 38, 0.05) !important; }
+    .receipt-shell.export-mode::after { color: rgba(0, 0, 0, 0.03) !important; }
+    .receipt-shell.export-mode .r-status-pill::before { display: none !important; }
+
+    /* ============ HISTORY ============ */
+    .history-panel { margin-top: 1.25rem; }
+    .history-toolbar { display: flex; gap: 0.6rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .history-toolbar input {
+      flex: 1; min-width: 160px; background: rgba(255,255,255,0.03);
+      border: 1px solid var(--gray-light); border-radius: 10px;
+      padding: 0.6rem 0.9rem; color: var(--text);
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; outline: none;
+    }
+    .history-toolbar input:focus { border-color: rgba(255,255,255,0.3); }
+    .history-toolbar select {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--gray-light);
+      border-radius: 10px; padding: 0.6rem 0.9rem; color: var(--text);
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; outline: none; cursor: pointer;
+    }
+    .history-toolbar select option { background: #111; }
+
+    .history-list { display: flex; flex-direction: column; gap: 0.6rem; max-height: 520px; overflow-y: auto; padding-right: 4px; }
+    .history-item {
+      display: grid; grid-template-columns: auto 1fr auto auto;
+      gap: 0.9rem; align-items: center; padding: 0.85rem 1rem;
+      background: rgba(255,255,255,0.02); border: 1px solid var(--gray-light);
+      border-radius: 12px; transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+    }
+    .history-item:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.035); }
+    @media (max-width: 640px) {
+      .history-item { grid-template-columns: 1fr auto; gap: 0.6rem; }
+      .history-item .h-id { grid-column: 1 / -1; }
+      .history-item .h-amt { text-align: left; }
+    }
+
+    .h-id { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.75rem; color: var(--text-soft); white-space: nowrap; }
+    .h-cust { min-width: 0; }
+    .h-cust .name { font-size: 0.85rem; color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .h-cust .meta { font-size: 0.65rem; color: var(--gray-mid); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .h-amt { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--text); text-align: right; white-space: nowrap; }
+    
+    .h-actions { display: flex; gap: 0.4rem; }
+    .h-actions button {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--gray-light);
+      color: var(--text-soft); width: 32px; height: 32px; border-radius: 8px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; transition: all 0.2s var(--ease);
+    }
+    .h-actions button:hover { color: var(--text); border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); }
+
+    .history-empty { text-align: center; padding: 2rem 1rem; color: var(--gray-mid); font-size: 0.8rem; line-height: 1.6; }
+    .history-empty i { font-size: 1.6rem; display: block; margin-bottom: 0.6rem; opacity: 0.5; }
+    .history-summary {
+      display: flex; gap: 1rem; flex-wrap: wrap; padding: 0.8rem 0; margin-bottom: 0.8rem;
+      border-bottom: 1px solid var(--gray-light); font-size: 0.65rem; color: var(--gray-mid);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .history-summary strong { color: var(--text); font-weight: 600; }
+
+    /* ============ TOAST ============ */
+    .toast-zone { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; max-width: calc(100vw - 3rem); }
+    .toast {
+      display: flex; align-items: center; gap: 10px; padding: 0.85rem 1.1rem;
+      border-radius: 12px; background: rgba(20, 20, 20, 0.96); backdrop-filter: blur(14px);
+      border: 1px solid var(--gray-light); color: var(--text);
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.55); animation: toastIn 0.35s var(--ease); line-height: 1.4;
+    }
+    .toast i { font-size: 0.9rem; }
+    .toast.success i { color: var(--success); }
+    .toast.error i { color: var(--danger); }
+    .toast.info i { color: #93c5fd; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ============ MISC ============ */
+    .field-error { border-color: rgba(239, 68, 68, 0.6) !important; background: rgba(239, 68, 68, 0.04) !important; }
+    .spin { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    ::-webkit-scrollbar { width: 3px; height: 3px; }
+    ::-webkit-scrollbar-track { background: var(--gray-light); }
+    ::-webkit-scrollbar-thumb { background: var(--text); }
+
+    @media print {
+      body * { visibility: hidden !important; }
+      #receiptShell, #receiptShell * { visibility: visible !important; }
+      #receiptShell {
+        position: absolute !important; left: 0; top: 0; width: 100%;
+        box-shadow: none !important; border-radius: 0 !important;
+        background: #ffffff !important; padding: 24px !important; border: none !important;
+        color: #111 !important; backdrop-filter: none !important;
+      }
+      .admin-nav, .toast-zone, #authGate { display: none !important; }
+      .r-status-pill.paid { border-color: #16a34a !important; color: #16a34a !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="authGate">
+    <div class="auth-box">
+      <h2>Admin Access</h2>
+      <p>Sign in to manage receipts.</p>
+      <input id="authEmail" type="email" placeholder="Email" autocomplete="username" />
+      <input id="authPass" type="password" placeholder="Password" autocomplete="current-password" />
+      <button id="authLogin">Sign In</button>
+      <div id="authError"></div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="appContainer" style="display:none;">
+    <header class="admin-nav">
+      <a href="#" class="admin-nav__brand" aria-label="Egungun Admin">
+        <i class="fas fa-lock"></i> EGUNGUN
+      </a>
+      <div class="admin-nav__meta">
+        <span class="admin-nav__pill"><span class="dot"></span> Admin · Secure Session</span>
+        <button class="btn-logout" id="btnLogout">Logout</button>
+      </div>
+    </header>
+
+    <main class="admin-wrap">
+      <!-- LEFT: FORM -->
+      <section aria-labelledby="formHeading">
+        <div class="sec-head">
+          <div class="sec-badge">Receipt Generator</div>
+          <h1 class="sec-title" id="formHeading">Issue a <span>Payment Receipt</span></h1>
+          <p class="sec-sub">Create a professional receipt for client payments. All fields marked required must be completed.</p>
+        </div>
+
+        <div class="panel">
+          <div class="sec-badge" style="margin-bottom:1rem;">Customer Information</div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="custName">Full Name <span class="opt">(required)</span></label>
+              <input id="custName" type="text" placeholder="e.g. Adaeze Okonkwo" autocomplete="off" required />
+            </div>
+            <div class="field">
+              <label for="custPhone">Phone Number <span class="opt">(optional)</span></label>
+              <input id="custPhone" type="tel" placeholder="+1 234 567 8900" autocomplete="off" />
+            </div>
+            <div class="field full">
+              <label for="custEmail">Email <span class="opt">(optional)</span></label>
+              <input id="custEmail" type="email" placeholder="client@email.com" autocomplete="off" />
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="sec-badge" style="margin-bottom:1rem;">Payment Details</div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="amount">Amount Paid (₦) <span class="opt">(required)</span></label>
+              <div class="amount-wrap">
+                <span class="naira">₦</span>
+                <input id="amount" type="text" inputmode="numeric" placeholder="0" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="payMethod">Payment Method</label>
+              <select id="payMethod">
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Card Payment">Card Payment</option>
+                <option value="Cash">Cash</option>
+                <option value="USSD">USSD</option>
+                <option value="Mobile Money">Mobile Money</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="payDate">Payment Date <span class="opt">(required)</span></label>
+              <input id="payDate" type="date" required />
+            </div>
+            <div class="field">
+              <label for="payTime">Payment Time <span class="opt">(required)</span></label>
+              <input id="payTime" type="time" required />
+            </div>
+            <div class="field full">
+              <label for="txRef">Transaction Reference <span class="opt">(optional)</span></label>
+              <input id="txRef" type="text" placeholder="e.g. TRX-20250312-001" autocomplete="off" />
+            </div>
+          </div>
+
+          <div class="divider-fade"></div>
+
+          <div class="field">
+            <label>Payment Status <span class="opt">(verify before marking paid)</span></label>
+            <div class="status-pills">
+              <input type="radio" name="payStatus" id="stPaid" value="paid" />
+              <label for="stPaid"><i class="fas fa-circle-check"></i> Paid</label>
+              <input type="radio" name="payStatus" id="stPending" value="pending" checked />
+              <label for="stPending"><i class="fas fa-hourglass-half"></i> Pending</label>
+              <input type="radio" name="payStatus" id="stRefunded" value="refunded" />
+              <label for="stRefunded"><i class="fas fa-rotate-left"></i> Refunded</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="sec-badge" style="margin-bottom:1rem;">Service & Notes</div>
+          <div class="form-grid">
+            <div class="field full">
+              <label for="serviceDesc">Consultation / Service Description <span class="opt">(required)</span></label>
+              <textarea id="serviceDesc" placeholder="e.g. Brand consultation &amp; content strategy session — 2 hours" required></textarea>
+            </div>
+            <div class="field full">
+              <label for="notes">Additional Notes <span class="opt">(optional)</span></label>
+              <textarea id="notes" placeholder="Any extra details for the client..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="padding:1.3rem 1.6rem;">
+          <div class="btn-group" style="margin-bottom:0.7rem;">
+            <button class="btn btn-primary" id="btnGenerate"><i class="fas fa-file-invoice"></i> Generate Receipt</button>
+            <button class="btn btn-danger" id="btnReset"><i class="fas fa-plus"></i> New Receipt</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: PREVIEW + HISTORY -->
+      <section aria-labelledby="previewHeading" class="receipt-stage">
+        <div class="sec-head">
+          <div class="sec-badge">Live Preview</div>
+          <h2 class="sec-title" id="previewHeading">Receipt <span>Document</span></h2>
+        </div>
+
+        <div class="receipt-shell" id="receiptShell">
+          <div class="r-empty" id="rEmpty">
+            <i class="fas fa-file-invoice"></i>
+            <p>Fill the form and tap <strong>Generate Receipt</strong>.</p>
+          </div>
+
+          <div id="rContent" style="display:none;">
+            <div class="r-doc-head">
+              <div class="r-doc-left">
+                <div class="r-logo-mark">E</div>
+                <div>
+                  <div class="r-company">EGUNGUN OF AFRICA</div>
+                  <div class="r-company-sub">Digital Creator &amp; Culture Force</div>
+                </div>
+              </div>
+              <div class="r-doc-right">
+                <div class="r-doc-type">Payment Receipt</div>
+                <div class="r-doc-id" id="rReceiptNo">EOL-00000000-0000</div>
+              </div>
+            </div>
+
+            <div class="r-meta-row">
+              <div class="r-meta-cell">
+                <span class="r-label">Issued To</span>
+                <span class="r-value" id="rCustName">—</span>
+                <span class="r-value-sub" id="rCustContact"></span>
+              </div>
+              <div class="r-meta-cell">
+                <span class="r-label">Payment Date</span>
+                <span class="r-value" id="rPayDate">—</span>
+                <span class="r-value-sub" id="rPayTime"></span>
+              </div>
+              <div class="r-meta-cell">
+                <span class="r-label">Method</span>
+                <span class="r-value" id="rMethod">—</span>
+                <span class="r-value-sub" id="rTxRef"></span>
+              </div>
+            </div>
+
+            <div class="r-service-block">
+              <span class="r-label">Service Rendered</span>
+              <p class="r-service-text" id="rService">—</p>
+            </div>
+
+            <div class="r-total-row">
+              <div class="r-total-left">
+                <span class="r-label">Total Amount Paid</span>
+                <div class="r-total-amount" id="rAmount">₦0.00</div>
+              </div>
+              <div class="r-status-pill" id="rStatusBadge">
+                <i class="fas fa-circle-check"></i> <span id="rStatusText">PAID</span>
+              </div>
+            </div>
+
+            <div class="r-notes-row" id="rNotesWrap" style="display:none;">
+              <span class="r-label">Notes</span>
+              <p id="rNotes"></p>
+            </div>
+
+            <div class="r-foot-row">
+              <div class="r-foot-left">
+                <div class="r-foot-line"></div>
+                <span class="r-foot-label">Authorised Signature</span>
+              </div>
+              <div class="r-foot-right">
+                <span class="r-foot-note">Egungun of Africa · Admin Office</span>
+                <span class="r-foot-note">This is a computer-generated receipt.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" id="exportPanel" style="margin-top:1.25rem; display:none;">
+          <div class="sec-badge" style="margin-bottom:1rem;">Export &amp; Share</div>
+          <div class="btn-group">
+            <button class="btn" id="btnJpg"><i class="fas fa-image"></i> JPG</button>
+            <button class="btn" id="btnPdf"><i class="fas fa-file-pdf"></i> PDF</button>
+            <button class="btn" id="btnPrint"><i class="fas fa-print"></i> Print</button>
+          </div>
+          <div class="btn-group" style="margin-top:0.6rem;">
+            <button class="btn" id="btnEdit"><i class="fas fa-pen"></i> Edit Details</button>
+            <button class="btn btn-primary" id="btnNewFromPreview"><i class="fas fa-plus"></i> Create New</button>
+          </div>
+        </div>
+
+        <div class="panel history-panel" id="historyPanel">
+          <div class="sec-badge" style="margin-bottom:1rem;">Receipt History</div>
+          <div class="history-summary" id="historySummary">
+            <span><strong id="histCount">0</strong> receipts</span>
+            <span>Total: <strong id="histTotal">₦0.00</strong></span>
+            <span>Paid: <strong id="histPaid">₦0.00</strong></span>
+          </div>
+          <div class="history-toolbar">
+            <input id="histSearch" type="text" placeholder="Search by receipt no, name, or reference…" />
+            <select id="histFilter">
+              <option value="all">All Statuses</option>
+              <option value="paid">Paid</option>
+              <option value="pending">Pending</option>
+              <option value="refunded">Refunded</option>
+            </select>
+          </div>
+          <div class="history-list" id="historyList"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast-zone" id="toastZone" aria-live="polite"></div>
+
+  <script>
+  (function() {
+    'use strict';
+
+    // --- SUPABASE SETUP ---
+    const SUPABASE_URL = 'https://taihioakiyhwagettbrs.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_rHjs-4MLyEUqfoZ3eJPU2A_wV6TJb5c';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const PREFIX = 'EOL';
+
+    const $ = (s, c = document) => c.querySelector(s);
+    const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+
+    const el = {
+      authGate: $('#authGate'), authEmail: $('#authEmail'), authPass: $('#authPass'),
+      authLogin: $('#authLogin'), authError: $('#authError'), btnLogout: $('#btnLogout'),
+      appContainer: $('#appContainer'),
+
+      custName: $('#custName'), custEmail: $('#custEmail'), custPhone: $('#custPhone'),
+      amount: $('#amount'), payMethod: $('#payMethod'), payDate: $('#payDate'),
+      payTime: $('#payTime'), txRef: $('#txRef'), serviceDesc: $('#serviceDesc'),
+      notes: $('#notes'), statusRadios: $$('input[name="payStatus"]'),
+
+      btnGenerate: $('#btnGenerate'), btnReset: $('#btnReset'),
+      btnJpg: $('#btnJpg'), btnPdf: $('#btnPdf'), btnPrint: $('#btnPrint'),
+      btnEdit: $('#btnEdit'), btnNewFromPreview: $('#btnNewFromPreview'),
+
+      receiptShell: $('#receiptShell'), rEmpty: $('#rEmpty'), rContent: $('#rContent'),
+      rReceiptNo: $('#rReceiptNo'), rCustName: $('#rCustName'), rCustContact: $('#rCustContact'),
+      rPayDate: $('#rPayDate'), rPayTime: $('#rPayTime'), rTxRef: $('#rTxRef'),
+      rMethod: $('#rMethod'), rService: $('#rService'), rAmount: $('#rAmount'),
+      rStatusBadge: $('#rStatusBadge'), rNotesWrap: $('#rNotesWrap'), rNotes: $('#rNotes'),
+
+      exportPanel: $('#exportPanel'), toastZone: $('#toastZone'),
+
+      histList: $('#historyList'), histSearch: $('#histSearch'), histFilter: $('#histFilter'),
+      histCount: $('#histCount'), histTotal: $('#histTotal'), histPaid: $('#histPaid')
+    };
+
+    let currentReceipt = null;
+
+    // --- AUTH LOGIC ---
+    async function checkAuth() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        el.authGate.style.display = 'none';
+        el.appContainer.style.display = 'block';
+        renderHistory();
+      } else {
+        el.authGate.style.display = 'flex';
+        el.appContainer.style.display = 'none';
+      }
+    }
+
+    el.authLogin.addEventListener('click', async () => {
+      el.authLogin.disabled = true;
+      el.authLogin.textContent = 'Signing in...';
+      el.authError.textContent = '';
+      
+      const { error } = await supabase.auth.signInWithPassword({
+        email: el.authEmail.value,
+        password: el.authPass.value
+      });
+
+      if (error) {
+        el.authError.textContent = error.message;
+        el.authLogin.disabled = false;
+        el.authLogin.textContent = 'Sign In';
+      } else {
+        checkAuth();
+      }
+    });
+
+    el.btnLogout.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      checkAuth();
+    });
+
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        el.authGate.style.display = 'none';
+        el.appContainer.style.display = 'block';
+      } else {
+        el.authGate.style.display = 'flex';
+        el.appContainer.style.display = 'none';
+      }
+    });
+
+    // --- UTILITIES ---
+    function toast(msg, type = 'info') {
+      const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', info: 'fa-circle-info' };
+      const node = document.createElement('div');
+      node.className = `toast ${type}`;
+      node.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i><span>${msg}</span>`;
+      el.toastZone.appendChild(node);
+      setTimeout(() => {
+        node.style.opacity = '0'; node.style.transform = 'translateY(10px)';
+        node.style.transition = 'all 0.3s ease';
+        setTimeout(() => node.remove(), 320);
+      }, 4200);
+    }
+
+    function formatNaira(v) {
+      const n = Number(v);
+      if (!isFinite(n)) return '₦0.00';
+      return '₦' + n.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function formatDateDisplay(iso) {
+      if (!iso) return '—';
+      const d = new Date(iso + 'T00:00:00');
+      if (isNaN(d)) return iso;
+      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    function formatTimeDisplay(t) {
+      if (!t) return '—';
+      const [h, m] = t.split(':').map(Number);
+      const d = new Date(); d.setHours(h, m, 0, 0);
+      return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function setDefaultDateTime() {
+      const now = new Date();
+      el.payDate.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+      el.payTime.value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    }
+
+    function getSelectedStatus() {
+      const checked = el.statusRadios.find(r => r.checked);
+      return checked ? checked.value : 'pending';
+    }
+
+    function clearErrors() {
+      $$('.field-error', document).forEach(n => n.classList.remove('field-error'));
+    }
+
+    function validateForm() {
+      clearErrors();
+      const errors = [];
+      if (!el.custName.value.trim()) { el.custName.classList.add('field-error'); errors.push('Customer full name is required.'); }
+      if (!el.amount.value || Number(el.amount.value.replace(/,/g, '')) <= 0) { el.amount.classList.add('field-error'); errors.push('A valid amount greater than zero is required.'); }
+      if (!el.serviceDesc.value.trim()) { el.serviceDesc.classList.add('field-error'); errors.push('Service description is required.'); }
+      if (!el.payDate.value) { el.payDate.classList.add('field-error'); errors.push('Payment date is required.'); }
+      if (!el.payTime.value) { el.payTime.classList.add('field-error'); errors.push('Payment time is required.'); }
+      if (el.custEmail.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.custEmail.value.trim())) {
+        el.custEmail.classList.add('field-error'); errors.push('Please enter a valid email address.');
+      }
+      return { ok: errors.length === 0, errors };
+    }
+
+    // --- SUPABASE CRUD ---
+    async function generateReceiptNumber() {
+      const now = new Date();
+      const dayPrefix = `${PREFIX}-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-`;
+
+      const { data, error } = await supabase
+        .from('receipts')
+        .select('receipt_no')
+        .like('receipt_no', dayPrefix + '%')
+        .order('receipt_no', { ascending: false })
+        .limit(1);
+
+      let seq = 1;
+      if (data && data.length > 0) {
+        const last = data[0].receipt_no;
+        const lastSeq = parseInt(last.slice(dayPrefix.length), 10);
+        if (!isNaN(lastSeq)) seq = lastSeq + 1;
+      }
+      return dayPrefix + String(seq).padStart(4, '0');
+    }
+
+    async function loadHistory() {
+      const { data, error } = await supabase
+        .from('receipts')
+        .select('*')
+        .order('generated_at', { ascending: false });
+      if (error) { console.error(error); toast('Could not load history.', 'error'); return []; }
+      
+      return data.map(r => ({
+        receiptNo: r.receipt_no, custName: r.customer_name, custEmail: r.customer_email,
+        custPhone: r.customer_phone, amount: Number(r.amount), payMethod: r.pay_method,
+        payDate: r.pay_date, payTime: r.pay_time, txRef: r.tx_ref,
+        serviceDesc: r.service_desc, notes: r.notes, status: r.status,
+        generatedAt: r.generated_at, lastUpdated: r.last_updated
+      }));
+    }
+
+    async function saveToHistory(receipt, isUpdate = false) {
+      const payload = {
+        receipt_no: receipt.receiptNo,
+        customer_name: receipt.custName,
+        customer_email: receipt.custEmail || null,
+        customer_phone: receipt.custPhone || null,
+        amount: receipt.amount,
+        pay_method: receipt.payMethod,
+        pay_date: receipt.payDate,
+        pay_time: receipt.payTime,
+        tx_ref: receipt.txRef || null,
+        service_desc: receipt.serviceDesc,
+        notes: receipt.notes || null,
+        status: receipt.status,
+        last_updated: new Date().toISOString()
+      };
+
+      if (isUpdate) {
+        const { error } = await supabase.from('receipts').update(payload).eq('receipt_no', receipt.receiptNo);
+        if (error) { console.error(error); toast('Could not update receipt.', 'error'); return false; }
+      } else {
+        const { error } = await supabase.from('receipts').insert(payload);
+        if (error) { console.error(error); toast('Could not save receipt.', 'error'); return false; }
+      }
+      return true;
+    }
+
+    // --- UI LOGIC ---
+    function renderReceipt(data) {
+      currentReceipt = data;
+      el.rEmpty.style.display = 'none';
+      el.rContent.style.display = 'block';
+
+      el.rReceiptNo.textContent = data.receiptNo;
+      el.rCustName.textContent = data.custName || '—';
+      const contactParts = [data.custPhone, data.custEmail].filter(Boolean);
+      el.rCustContact.textContent = contactParts.join(' · ') || '';
+      el.rPayDate.textContent = formatDateDisplay(data.payDate);
+      el.rPayTime.textContent = formatTimeDisplay(data.payTime) + (data.payTime ? ' WAT' : '');
+      el.rMethod.textContent = data.payMethod || '—';
+      el.rTxRef.textContent = data.txRef ? 'Ref: ' + data.txRef : '';
+      el.rService.textContent = data.serviceDesc || '—';
+      el.rAmount.textContent = formatNaira(data.amount);
+
+      el.rStatusBadge.className = 'r-status-pill ' + data.status;
+      const statusMap = {
+        paid: { icon: 'fa-circle-check', text: 'PAID' },
+        pending: { icon: 'fa-hourglass-half', text: 'PENDING' },
+        refunded: { icon: 'fa-rotate-left', text: 'REFUNDED' }
+      };
+      const s = statusMap[data.status] || statusMap.pending;
+      el.rStatusBadge.innerHTML = `<i class="fas ${s.icon}"></i> <span>${s.text}</span>`;
+
+      if (data.notes && data.notes.trim()) {
+        el.rNotesWrap.style.display = 'block';
+        el.rNotes.textContent = data.notes.trim();
+      } else {
+        el.rNotesWrap.style.display = 'none';
+      }
+
+      el.exportPanel.style.display = 'block';
+      el.exportPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function collectFormData() {
+      return {
+        custName: el.custName.value.trim(), custEmail: el.custEmail.value.trim(),
+        custPhone: el.custPhone.value.trim(), amount: parseFloat(el.amount.value.replace(/,/g, '')),
+        payMethod: el.payMethod.value, payDate: el.payDate.value,
+        payTime: el.payTime.value, txRef: el.txRef.value.trim(),
+        serviceDesc: el.serviceDesc.value.trim(), notes: el.notes.value.trim(),
+        status: getSelectedStatus()
+      };
+    }
+
+    async function handleGenerate() {
+      const { ok, errors } = validateForm();
+      if (!ok) { toast(errors[0], 'error'); return; }
+
+      el.btnGenerate.disabled = true;
+      el.btnGenerate.innerHTML = '<span class="spin"></span> Saving...';
+
+      const data = collectFormData();
+      const isEditing = currentReceipt && currentReceipt.receiptNo;
+
+      if (isEditing) {
+        data.receiptNo = currentReceipt.receiptNo;
+        data.generatedAt = currentReceipt.generatedAt;
+        const success = await saveToHistory(data, true);
+        if (success) toast('Receipt updated.', 'success');
+      } else {
+        data.receiptNo = await generateReceiptNumber();
+        data.generatedAt = new Date().toISOString();
+        const success = await saveToHistory(data, false);
+        if (success) toast('Receipt ' + data.receiptNo + ' saved.', 'success');
+      }
+
+      el.btnGenerate.disabled = false;
+      el.btnGenerate.innerHTML = '<i class="fas fa-file-invoice"></i> Generate Receipt';
+
+      renderReceipt(data);
+      await renderHistory();
+    }
+
+    function resetForm() {
+      el.custName.value = ''; el.custEmail.value = ''; el.custPhone.value = '';
+      el.amount.value = ''; el.txRef.value = ''; el.serviceDesc.value = ''; el.notes.value = '';
+      el.payMethod.value = 'Bank Transfer';
+      el.statusRadios.forEach(r => { r.checked = r.value === 'pending'; });
+      setDefaultDateTime(); clearErrors();
+
+      currentReceipt = null;
+      el.rEmpty.style.display = 'flex'; el.rContent.style.display = 'none';
+      el.exportPanel.style.display = 'none';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      toast('Form cleared. Ready for a new receipt.', 'info');
+    }
+
+    async function renderHistory() {
+      const list = await loadHistory();
+      const search = (el.histSearch.value || '').trim().toLowerCase();
+      const filter = el.histFilter.value;
+
+      const filtered = list.filter(r => {
+        if (filter !== 'all' && r.status !== filter) return false;
+        if (!search) return true;
+        const hay = [r.receiptNo, r.custName, r.custEmail, r.custPhone, r.txRef, r.serviceDesc]
+          .filter(Boolean).join(' ').toLowerCase();
+        return hay.includes(search);
+      });
+
+      el.histCount.textContent = list.length;
+      const total = list.reduce((s, r) => s + (Number(r.amount) || 0), 0);
+      const paid = list.filter(r => r.status === 'paid').reduce((s, r) => s + (Number(r.amount) || 0), 0);
+      el.histTotal.textContent = formatNaira(total);
+      el.histPaid.textContent = formatNaira(paid);
+
+      if (!filtered.length) {
+        el.histList.innerHTML = `<div class="history-empty">
+          <i class="fas fa-inbox"></i>
+          ${list.length ? 'No receipts match your search.' : 'No receipts yet. Generate one above.'}
+        </div>`;
+        return;
+      }
+
+      el.histList.innerHTML = filtered.map(r => `
+        <div class="history-item" data-receipt="${escapeHtml(r.receiptNo)}">
+          <div class="h-id">${escapeHtml(r.receiptNo)}</div>
+          <div class="h-cust">
+            <div class="name">${escapeHtml(r.custName || '—')}</div>
+            <div class="meta">${escapeHtml(formatDateDisplay(r.payDate))} · ${escapeHtml(r.payMethod || '')}</div>
+          </div>
+          <div class="h-amt">${formatNaira(r.amount)}</div>
+          <div class="h-actions">
+            <button title="View / Load" data-action="view"><i class="fas fa-eye"></i></button>
+          </div>
+        </div>
+      `).join('');
+
+      el.histList.querySelectorAll('.history-item').forEach(item => {
+        const rNo = item.getAttribute('data-receipt');
+        item.querySelectorAll('button[data-action]').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const action = btn.getAttribute('data-action');
+            const record = (await loadHistory()).find(x => x.receiptNo === rNo);
+            if (!record) return;
+
+            if (action === 'view') {
+              renderReceipt(record);
+              toast('Loaded receipt ' + rNo, 'info');
+            }
+          });
+        });
+      });
+    }
+
+    // --- EXPORTS ---
+    async function exportImage() {
+      if (!currentReceipt) return;
+      const btn = el.btnJpg; const orig = btn.innerHTML;
+      btn.innerHTML = '<span class="spin"></span>'; btn.disabled = true;
+
+      el.receiptShell.classList.add('export-mode');
+      
+      try {
+        const canvas = await html2canvas(el.receiptShell, { scale: 3, backgroundColor: '#ffffff', useCORS: true, logging: false });
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        
+        const a = document.createElement('a');
+        a.href = imgData;
+        a.download = `Receipt-${currentReceipt.receiptNo}.jpg`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        toast('JPG downloaded.', 'success');
+      } catch (err) { 
+        console.error(err);
+        toast('Export failed.', 'error'); 
+      } finally {
+        el.receiptShell.classList.remove('export-mode');
+        btn.innerHTML = orig; btn.disabled = false; 
+      }
+    }
+
+    async function exportPdf() {
+      if (!currentReceipt) return;
+      const btn = el.btnPdf; const orig = btn.innerHTML;
+      btn.innerHTML = '<span class="spin"></span>'; btn.disabled = true;
+
+      el.receiptShell.classList.add('export-mode');
+
+      try {
+        const canvas = await html2canvas(el.receiptShell, { scale: 3, backgroundColor: '#ffffff', useCORS: true, logging: false });
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        const ratio = canvas.height / canvas.width;
+        let imgW = pageW - 20; let imgH = imgW * ratio;
+        if (imgH > pageH - 20) { imgH = pageH - 20; imgW = imgH / ratio; }
+        pdf.addImage(imgData, 'JPEG', (pageW - imgW) / 2, 10, imgW, imgH);
+        pdf.save(`Receipt-${currentReceipt.receiptNo}.pdf`);
+        toast('PDF downloaded.', 'success');
+      } catch (err) { 
+        console.error(err);
+        toast('Export failed.', 'error'); 
+      } finally {
+        el.receiptShell.classList.remove('export-mode');
+        btn.innerHTML = orig; btn.disabled = false; 
+      }
+    }
+
+    function handleEdit() {
+      if (!currentReceipt) return;
+      const r = currentReceipt;
+      el.custName.value = r.custName || ''; el.custEmail.value = r.custEmail || '';
+      el.custPhone.value = r.custPhone || ''; el.amount.value = r.amount || '';
+      el.payMethod.value = r.payMethod || 'Bank Transfer'; el.payDate.value = r.payDate || '';
+      el.payTime.value = r.payTime || ''; el.txRef.value = r.txRef || '';
+      el.serviceDesc.value = r.serviceDesc || ''; el.notes.value = r.notes || '';
+      el.statusRadios.forEach(radio => { radio.checked = radio.value === r.status; });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      toast('Details loaded. Same receipt number will be kept.', 'info');
+    }
+
+    // --- EVENTS ---
+    el.btnGenerate.addEventListener('click', handleGenerate);
+    el.btnReset.addEventListener('click', resetForm);
+    el.btnNewFromPreview.addEventListener('click', resetForm);
+    el.btnJpg.addEventListener('click', exportImage);
+    el.btnPdf.addEventListener('click', exportPdf);
+    el.btnPrint.addEventListener('click', () => window.print());
+    el.btnEdit.addEventListener('click', handleEdit);
+    
+    el.histSearch.addEventListener('input', renderHistory);
+    el.histFilter.addEventListener('change', renderHistory);
+
+    // --- AMOUNT COMMA FORMATTING ---
+    el.amount.addEventListener('input', function(e) {
+      let value = this.value.replace(/[^\d]/g, '');
+      if (value) {
+        this.value = Number(value).toLocaleString('en-US');
+      } else {
+        this.value = '';
+      }
+    });
+
+    // --- INIT ---
+    setDefaultDateTime();
+    checkAuth();
+
+  })();
+  </script>
+</body>
+</html>
