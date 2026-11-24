@@ -52,6 +52,7 @@
       content: ''; position: fixed; width: 70vmax; height: 70vmax;
       background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 70%);
       top: -30%; right: -20%; pointer-events: none; z-index: 0;
+      transition: transform 1s var(--ease);
     }
 
     /* ============ AUTH GATE ============ */
@@ -167,7 +168,10 @@
       background: var(--panel-bg); border: 1px solid var(--border);
       border-radius: 24px; padding: 2rem; margin-bottom: 1.5rem;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: border-color 0.3s;
     }
+    .form-group:focus-within { border-color: rgba(255,255,255,0.15); }
+    
     .form-grid {
       display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.5rem;
@@ -278,7 +282,7 @@
     .btn-group .btn { flex: 1; min-width: 140px; }
 
     /* ============ RECEIPT PREVIEW (RATE CARD STYLE) ============ */
-    .receipt-stage { position: sticky; top: 100px; perspective: 1000px; }
+    .receipt-stage { position: sticky; top: 100px; perspective: 1200px; }
     @media (max-width: 1080px) { .receipt-stage { position: static; } }
 
     .receipt-shell {
@@ -292,13 +296,13 @@
       overflow: hidden;
       min-height: 550px;
       transform-origin: top center;
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     /* The Magic Transition when it appears */
     .receipt-shell.hidden {
       opacity: 0;
-      transform: rotateX(-15deg) translateY(40px) scale(0.95);
+      transform: rotateX(-20deg) translateY(60px) scale(0.9);
       pointer-events: none;
     }
     .receipt-shell.visible {
@@ -406,6 +410,16 @@
       border: 3px double; transform: rotate(-4deg);
       opacity: 0.9;
     }
+    /* Stamp Slam Animation */
+    .stamp-anim {
+      animation: slam 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+    @keyframes slam {
+      0% { transform: scale(2) rotate(-15deg); opacity: 0; }
+      70% { transform: scale(0.9) rotate(-2deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-4deg); opacity: 0.9; }
+    }
+
     .r-status-pill.paid { border-color: #16a34a; color: #16a34a; background: rgba(22, 163, 74, 0.05); }
     .r-status-pill.pending { border-color: #d97706; color: #d97706; background: rgba(217, 119, 6, 0.05); }
     .r-status-pill.refunded { border-color: #dc2626; color: #dc2626; background: rgba(220, 38, 38, 0.05); }
@@ -646,6 +660,7 @@
                 <option value="" disabled selected>Select a service from the Rate Card</option>
                 <!-- Rate Card Populated via JS -->
               </select>
+              <div id="serviceHint" style="display:none; font-size:0.7rem; color:var(--text-soft); margin-top:4px;"></div>
             </div>
             <div class="field full" id="customServiceWrap" style="display:none;">
               <label for="customService">Custom Service Details</label>
@@ -793,7 +808,8 @@
       custName: $('#custName'), custEmail: $('#custEmail'), custPhone: $('#custPhone'), phoneCode: $('#phoneCode'),
       amount: $('#amount'), payMethod: $('#payMethod'), payDate: $('#payDate'),
       payTime: $('#payTime'), txRef: $('#txRef'), 
-      serviceDesc: $('#serviceDesc'), customServiceWrap: $('#customServiceWrap'), customService: $('#customService'),
+      serviceDesc: $('#serviceDesc'), serviceHint: $('#serviceHint'), 
+      customServiceWrap: $('#customServiceWrap'), customService: $('#customService'),
       notes: $('#notes'), statusRadios: $$('input[name="payStatus"]'),
 
       btnGenerate: $('#btnGenerate'), btnReset: $('#btnReset'),
@@ -816,37 +832,43 @@
 
     // --- RATE CARD SERVICES ---
     const rateCardServices = [
-      "Instagram Post",
-      "Snapchat",
-      "TikTok",
-      "Facebook",
-      "Instagram Story",
-      "YouTube",
-      "All Platform Combo",
-      "Brand Ambassador (1 Month - 2 posts)",
-      "Brand Ambassador (3 Months - 6 posts)",
-      "Brand Ambassador (6 Months - 12 posts)",
-      "Brand Ambassador (9 Months - 18 posts)",
-      "Brand Ambassador (12 Months - 24 posts)",
-      "Show Appearance (Single Event)",
-      "Custom Service (Type manually)"
+      { name: "Instagram Post", desc: "Static or carousel post" },
+      { name: "Snapchat", desc: "Snapchat feature" },
+      { name: "TikTok", desc: "TikTok video" },
+      { name: "Facebook", desc: "Facebook post" },
+      { name: "Instagram Story", desc: "Story post" },
+      { name: "YouTube", desc: "Dedicated YouTube feature" },
+      { name: "All Platform Combo", desc: "Cross-platform campaign" },
+      { name: "Brand Ambassador (1 Month - 2 posts)", desc: "One month partnership" },
+      { name: "Brand Ambassador (3 Months - 6 posts)", desc: "Three month partnership" },
+      { name: "Brand Ambassador (6 Months - 12 posts)", desc: "Six month partnership" },
+      { name: "Brand Ambassador (9 Months - 18 posts)", desc: "Nine month partnership" },
+      { name: "Brand Ambassador (12 Months - 24 posts)", desc: "Twelve month partnership" },
+      { name: "Show Appearance (Single Event)", desc: "Live event appearance" },
+      { name: "Custom Service (Type manually)", desc: "Enter your own service description" }
     ];
 
     function populateServices() {
       rateCardServices.forEach(s => {
         const opt = document.createElement('option');
-        opt.value = s;
-        opt.textContent = s;
+        opt.value = s.name;
+        opt.textContent = s.name;
         el.serviceDesc.appendChild(opt);
       });
 
       el.serviceDesc.addEventListener('change', (e) => {
+        const selected = rateCardServices.find(s => s.name === e.target.value);
         if (e.target.value === 'Custom Service (Type manually)') {
           el.customServiceWrap.style.display = 'flex';
           el.customService.required = true;
+          el.serviceHint.style.display = 'none';
         } else {
           el.customServiceWrap.style.display = 'none';
           el.customService.required = false;
+          if (selected) {
+            el.serviceHint.style.display = 'block';
+            el.serviceHint.textContent = selected.desc;
+          }
         }
       });
     }
@@ -1163,7 +1185,21 @@
       el.rMethod.textContent = data.payMethod || '—';
       el.rTxRef.textContent = data.txRef ? 'Ref: ' + data.txRef : '';
       el.rService.textContent = data.serviceDesc || '—';
-      el.rAmount.textContent = formatNaira(data.amount);
+      
+      // Number counting animation
+      const finalAmount = data.amount;
+      let currentAmount = 0;
+      const duration = 800; // 0.8s
+      const steps = 30;
+      const increment = finalAmount / steps;
+      const timer = setInterval(() => {
+        currentAmount += increment;
+        if (currentAmount >= finalAmount) {
+          currentAmount = finalAmount;
+          clearInterval(timer);
+        }
+        el.rAmount.textContent = formatNaira(currentAmount);
+      }, duration / steps);
 
       el.rStatusBadge.className = 'r-status-pill ' + data.status;
       const statusMap = {
@@ -1173,6 +1209,11 @@
       };
       const s = statusMap[data.status] || statusMap.pending;
       el.rStatusBadge.innerHTML = `<i class="fas ${s.icon}"></i> <span>${s.text}</span>`;
+      
+      // Trigger stamp slam animation
+      el.rStatusBadge.classList.remove('stamp-anim');
+      void el.rStatusBadge.offsetWidth; // Trigger reflow
+      el.rStatusBadge.classList.add('stamp-anim');
 
       if (data.notes && data.notes.trim()) {
         el.rNotesWrap.style.display = 'block';
@@ -1245,6 +1286,7 @@
       el.custName.value = ''; el.custEmail.value = ''; el.custPhone.value = '';
       el.phoneCode.value = '+234';
       el.amount.value = ''; el.txRef.value = ''; el.serviceDesc.value = ''; 
+      el.serviceHint.style.display = 'none';
       el.customService.value = ''; el.customServiceWrap.style.display = 'none';
       el.notes.value = '';
       el.payMethod.value = 'Bank Transfer';
@@ -1390,13 +1432,21 @@
       }
 
       // Handle Service Dropdown logic on edit
-      if (rateCardServices.includes(r.serviceDesc)) {
+      const serviceNames = rateCardServices.map(s => s.name);
+      if (serviceNames.includes(r.serviceDesc)) {
         el.serviceDesc.value = r.serviceDesc;
         el.customServiceWrap.style.display = 'none';
+        
+        const selected = rateCardServices.find(s => s.name === r.serviceDesc);
+        if (selected) {
+          el.serviceHint.style.display = 'block';
+          el.serviceHint.textContent = selected.desc;
+        }
       } else {
         el.serviceDesc.value = 'Custom Service (Type manually)';
         el.customServiceWrap.style.display = 'flex';
         el.customService.value = r.serviceDesc;
+        el.serviceHint.style.display = 'none';
       }
 
       el.amount.value = r.amount || '';
@@ -1428,6 +1478,24 @@
       } else {
         this.value = '';
       }
+    });
+
+    // Live Preview logic (Optional: update receipt in real-time without saving)
+    // We will just reset the receipt if the form changes significantly
+    const formFields = [el.custName, el.amount, el.serviceDesc, el.custEmail, el.custPhone, el.txRef, el.notes];
+    formFields.forEach(field => {
+      field.addEventListener('input', () => {
+        if (currentReceipt) {
+          // If they start typing after generating, hide the receipt to show it's a new draft
+          if (el.receiptShell.classList.contains('visible')) {
+            el.receiptShell.classList.remove('visible');
+            el.receiptShell.classList.add('hidden');
+            el.exportPanel.style.display = 'none';
+            el.rEmpty.style.display = 'flex'; el.rContent.style.display = 'none';
+            currentReceipt = null;
+          }
+        }
+      });
     });
 
     setDefaultDateTime();
