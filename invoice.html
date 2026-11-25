@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
-  <meta name="description" content="Administrator-only payment receipt generator for Egungun of Africa." />
-  <title>Payment Receipt Generator | Egungun Admin</title>
+  <meta name="description" content="Administrator-only invoice generator for Egungun of Africa." />
+  <title>Invoice Generator | Egungun Admin</title>
 
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -283,138 +283,155 @@
     .btn-group { display: flex; gap: 0.8rem; flex-wrap: wrap; }
     .btn-group .btn { flex: 1; min-width: 140px; }
 
-    /* ============ RECEIPT PREVIEW (GLASS & COLORFUL) ============ */
-    .receipt-stage { position: sticky; top: 100px; perspective: 1200px; }
-    @media (max-width: 1080px) { .receipt-stage { position: static; } }
+    /* ============ INVOICE PREVIEW (LUXURY EDITORIAL DESIGN) ============ */
+    .invoice-stage { position: sticky; top: 100px; perspective: 1200px; }
+    @media (max-width: 1080px) { .invoice-stage { position: static; } }
 
-    .receipt-shell {
-      background: rgba(18, 18, 24, 0.7);
-      border-radius: 24px;
-      padding: 2.5rem;
-      color: #fff;
-      font-family: 'Space Grotesk', sans-serif;
-      box-shadow: 0 30px 70px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
-      backdrop-filter: blur(30px) saturate(150%); -webkit-backdrop-filter: blur(30px) saturate(150%);
-      border: 1px solid rgba(255,255,255,0.08);
-      position: relative;
+    .invoice-shell {
+      background: #ffffff;
+      border-radius: 16px;
       overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.1) inset;
+      position: relative;
       transform-origin: top center;
       transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      min-height: 500px;
     }
     
     /* The Magic Transition */
-    .receipt-shell.hidden {
+    .invoice-shell.hidden {
       opacity: 0;
       transform: rotateX(-20deg) translateY(60px) scale(0.9);
       pointer-events: none;
     }
-    .receipt-shell.visible {
+    .invoice-shell.visible {
       opacity: 1;
       transform: rotateX(0) translateY(0) scale(1);
     }
 
-    @media (max-width: 640px) { .receipt-shell { padding: 1.5rem; } }
-
-    /* Watermark */
-    .receipt-shell::after {
-      content: 'EGUNGUN';
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%) rotate(-30deg);
-      font-family: 'Syne', sans-serif; font-size: 8rem; font-weight: 800;
-      color: rgba(255, 255, 255, 0.02); pointer-events: none; white-space: nowrap; z-index: 0;
-      letter-spacing: 0.1em;
+    /* Top Color Bar */
+    .inv-top-bar {
+      height: 8px;
+      background: linear-gradient(90deg, #8b5cf6, #d946ef, #8b5cf6);
+      width: 100%;
     }
 
-    .receipt-shell > * { position: relative; z-index: 1; }
-
-    /* Header - Compact */
-    .r-doc-head {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1.5rem;
+    /* Header Section */
+    .inv-header {
+      padding: 2rem 2.5rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      background: #fff;
     }
-    .r-company {
+    .inv-brand {
       font-family: 'Milchella', 'Syne', serif; font-weight: 800;
-      font-size: 1.4rem; letter-spacing: 0.05em; color: #fff; line-height: 1;
+      font-size: 1.6rem; letter-spacing: 0.02em; color: #111; line-height: 1;
     }
-    .r-tagline {
+    .inv-tagline {
       font-family: 'Syne', sans-serif; font-size: 0.6rem;
-      letter-spacing: 4px; text-transform: uppercase; color: var(--text-soft); font-weight: 700;
-      margin-top: 4px;
+      letter-spacing: 4px; text-transform: uppercase; color: #888; font-weight: 700;
+      margin-top: 6px;
     }
-    .r-doc-right { text-align: right; flex-shrink: 0; }
-    .r-doc-type {
+    .inv-doc-type {
+      text-align: right;
+    }
+    .inv-doc-type h2 {
       font-family: 'Unbounded', sans-serif; font-weight: 800;
-      font-size: 0.85rem; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent-light);
+      font-size: 1.2rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #111;
     }
-    .r-doc-id {
-      font-size: 0.7rem; color: var(--text-soft); margin-top: 6px; font-weight: 600;
-      font-family: 'Space Grotesk', monospace; background: rgba(255,255,255,0.05);
-      padding: 4px 8px; border-radius: 4px; display: inline-block;
-      border: 1px solid rgba(255,255,255,0.1);
+    .inv-doc-id {
+      font-size: 0.75rem; color: #555; margin-top: 8px; font-weight: 600;
+      font-family: 'Space Grotesk', monospace; background: #f5f5f5;
+      padding: 6px 12px; border-radius: 4px; display: inline-block;
+      border: 1px solid #eaeaea;
     }
     @media (max-width: 520px) {
-      .r-doc-head { flex-direction: column; gap: 1rem; }
-      .r-doc-right { text-align: left; }
+      .inv-header { padding: 1.5rem; flex-direction: column; gap: 1rem; }
+      .inv-doc-type { text-align: left; }
     }
 
-    /* Meta Grid */
-    .r-meta-row {
+    /* Colorful Striped Section */
+    .inv-stripe {
+      background: #f8f9fa;
+      padding: 1.5rem 2.5rem;
+      border-top: 1px solid #eaeaea;
+      border-bottom: 1px solid #eaeaea;
+    }
+    .inv-grid-3 {
       display: grid; grid-template-columns: 1.5fr 1fr 1fr;
-      gap: 1.5rem; margin-bottom: 1.5rem;
+      gap: 1.5rem;
     }
     @media (max-width: 520px) {
-      .r-meta-row { grid-template-columns: 1fr; gap: 1rem; }
-    }
-    .r-meta-cell { display: flex; flex-direction: column; gap: 4px; }
-    .r-label {
-      font-family: 'Syne', sans-serif; font-size: 0.55rem; letter-spacing: 0.15em;
-      text-transform: uppercase; color: var(--text-soft); font-weight: 700;
-    }
-    .r-value {
-      font-size: 0.9rem; color: #fff; font-weight: 600; line-height: 1.3; word-break: break-word;
-    }
-    .r-value-sub {
-      font-size: 0.75rem; color: var(--text-soft); line-height: 1.4; word-break: break-word;
-    }
-
-    /* Service Block - Colorful Accent */
-    .r-service-block {
-      background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.2);
-      border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1.5rem;
-    }
-    .r-service-text {
-      font-size: 0.95rem; color: var(--accent-light);
-      line-height: 1.5; word-break: break-word;
-      white-space: pre-wrap; margin-top: 4px; font-weight: 600;
-    }
-
-    /* Total Row */
-    .r-total-row {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      padding: 1.2rem 0; border-top: 1px solid rgba(255,255,255,0.1);
-      border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1.5rem;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .r-total-amount {
-      font-family: 'Unbounded', sans-serif;
-      font-size: clamp(1.8rem, 4vw, 2.4rem);
-      font-weight: 800; color: #fff;
-      line-height: 1; letter-spacing: -0.02em; margin-top: 4px;
+      .inv-grid-3 { grid-template-columns: 1fr; gap: 1rem; }
+      .inv-stripe { padding: 1.5rem; }
     }
     
-    /* REALISTIC INK STAMP */
-    .r-status-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 16px; border-radius: 6px;
-      font-family: 'Unbounded', sans-serif; font-size: 0.7rem;
-      font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;
-      border: 2px double; transform: rotate(-4deg);
-      opacity: 0.9;
+    .inv-label {
+      font-family: 'Syne', sans-serif; font-size: 0.55rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #888; font-weight: 700; margin-bottom: 4px;
     }
-    .r-status-pill.paid { border-color: #4ade80; color: #4ade80; background: rgba(74, 222, 128, 0.1); }
-    .r-status-pill.pending { border-color: #fbbf24; color: #fbbf24; background: rgba(251, 191, 36, 0.1); }
-    .r-status-pill.refunded { border-color: #f87171; color: #f87171; background: rgba(248, 113, 113, 0.1); }
+    .inv-value {
+      font-size: 0.95rem; color: #111; font-weight: 600; line-height: 1.4;
+    }
+    .inv-value-sub {
+      font-size: 0.8rem; color: #666; margin-top: 2px;
+    }
+
+    /* Service Block */
+    .inv-service-block {
+      padding: 2rem 2.5rem;
+      background: #fff;
+    }
+    @media (max-width: 520px) { .inv-service-block { padding: 1.5rem; } }
+    
+    .inv-service-box {
+      background: #f3e8ff; /* Light purple */
+      border-left: 4px solid #8b5cf6;
+      border-radius: 0 8px 8px 0;
+      padding: 1.2rem 1.5rem;
+    }
+    .inv-service-label {
+      font-family: 'Syne', sans-serif; font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #6b21a8; font-weight: 700;
+    }
+    .inv-service-text {
+      font-size: 1rem; color: #111; font-weight: 600; line-height: 1.5;
+      margin-top: 6px;
+    }
+
+    /* Total & Status */
+    .inv-total-section {
+      padding: 1.5rem 2.5rem 2rem;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      background: #fff;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    @media (max-width: 520px) { .inv-total-section { padding: 1.5rem; } }
+
+    .inv-total-amount {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 800; color: #111;
+      line-height: 1; letter-spacing: -0.02em; margin-top: 6px;
+    }
+
+    /* Realistic Ink Stamp */
+    .inv-stamp {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 8px;
+      font-family: 'Unbounded', sans-serif; font-size: 0.75rem;
+      font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;
+      border: 3px double; transform: rotate(-4deg);
+      opacity: 0.9;
+      text-shadow: 0 0 1px currentColor;
+    }
+    .inv-stamp.paid { border-color: #16a34a; color: #16a34a; }
+    .inv-stamp.pending { border-color: #d97706; color: #d97706; }
+    .inv-stamp.refunded { border-color: #dc2626; color: #dc2626; }
 
     /* Stamp Slam Animation */
     .stamp-anim {
@@ -427,50 +444,42 @@
     }
 
     /* Notes */
-    .r-notes-row {
-      margin-bottom: 1.5rem; padding-top: 0.5rem;
+    .inv-notes {
+      padding: 0 2.5rem 1.5rem;
+      background: #fff;
     }
-    .r-notes-row p {
-      font-size: 0.8rem; color: var(--text-soft); line-height: 1.5;
-      margin-top: 4px; white-space: pre-wrap; word-break: break-word;
+    @media (max-width: 520px) { .inv-notes { padding: 0 1.5rem 1.5rem; } }
+    .inv-notes p {
+      font-size: 0.85rem; color: #555; line-height: 1.6;
+      margin-top: 6px;
     }
 
     /* Footer */
-    .r-foot-row {
-      display: flex; justify-content: flex-end; align-items: flex-end;
-      padding-top: 1rem; flex-wrap: wrap;
+    .inv-footer {
+      margin-top: auto;
+      padding: 1.5rem 2.5rem;
+      background: #111; /* Dark footer */
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
     }
-    .r-foot-right { text-align: right; display: flex; flex-direction: column; gap: 4px; }
-    .r-foot-note { font-size: 0.65rem; color: var(--text-soft); }
+    @media (max-width: 520px) { .inv-footer { padding: 1.5rem; flex-direction: column; text-align: center; } }
+    .inv-footer-left {
+      font-family: 'Milchella', 'Syne', serif; font-size: 1rem;
+      color: #fff; letter-spacing: 0.05em;
+    }
+    .inv-footer-right {
+      text-align: right; display: flex; flex-direction: column; gap: 2px;
+    }
+    @media (max-width: 520px) { .inv-footer-right { text-align: center; } }
+    .inv-footer-note { font-size: 0.65rem; color: #888; }
 
-    .r-empty {
+    .inv-empty {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; min-height: 350px; gap: 1rem;
-      color: var(--text-soft); position: relative; z-index: 1;
+      text-align: center; min-height: 400px; gap: 1.5rem;
+      color: #888; background: #fff; padding: 2rem;
     }
-    .r-empty i { font-size: 2.5rem; color: var(--border); }
-    .r-empty p { font-size: 0.9rem; max-width: 260px; line-height: 1.6; font-weight: 500; }
-
-    /* Export Mode - Converts to Clean White Paper */
-    .receipt-shell.export-mode {
-      background: #ffffff !important; color: #111 !important;
-      box-shadow: none !important; border: none !important;
-      backdrop-filter: none !important; border-radius: 0 !important;
-      padding: 2rem !important;
-    }
-    .receipt-shell.export-mode .r-company,
-    .receipt-shell.export-mode .r-doc-type,
-    .receipt-shell.export-mode .r-value,
-    .receipt-shell.export-mode .r-total-amount { color: #111 !important; }
-    .receipt-shell.export-mode .r-doc-head,
-    .receipt-shell.export-mode .r-total-row { border-color: #111 !important; }
-    .receipt-shell.export-mode .r-service-block { background: #f3e8ff !important; border-color: #d8b4fe !important; }
-    .receipt-shell.export-mode .r-service-text { color: #6b21a8 !important; }
-    .receipt-shell.export-mode .r-notes-row p { color: #555 !important; }
-    .receipt-shell.export-mode .r-status-pill.paid { border-color: #16a34a !important; color: #16a34a !important; background: rgba(22, 163, 74, 0.1) !important; }
-    .receipt-shell.export-mode .r-status-pill.pending { border-color: #d97706 !important; color: #d97706 !important; background: rgba(217, 119, 6, 0.1) !important; }
-    .receipt-shell.export-mode .r-status-pill.refunded { border-color: #dc2626 !important; color: #dc2626 !important; background: rgba(220, 38, 38, 0.1) !important; }
-    .receipt-shell.export-mode::after { color: rgba(0, 0, 0, 0.03) !important; }
+    .inv-empty i { font-size: 3rem; color: #ccc; }
+    .inv-empty p { font-size: 1rem; max-width: 260px; line-height: 1.6; font-weight: 500; }
 
     /* ============ HISTORY ============ */
     .history-panel { margin-top: 1.5rem; }
@@ -559,11 +568,10 @@
 
     @media print {
       body * { visibility: hidden !important; }
-      #receiptShell, #receiptShell * { visibility: visible !important; }
-      #receiptShell {
+      #invoiceShell, #invoiceShell * { visibility: visible !important; }
+      #invoiceShell {
         position: absolute !important; left: 0; top: 0; width: 100%;
         box-shadow: none !important; border-radius: 0 !important;
-        background: #ffffff !important; padding: 24px !important; border: none !important;
         transform: none !important; opacity: 1 !important;
       }
       .admin-nav, .toast-zone, #authGate { display: none !important; }
@@ -576,7 +584,7 @@
   <div id="authGate">
     <div class="auth-box">
       <h2>Admin Access</h2>
-      <p>Sign in to manage receipts securely.</p>
+      <p>Sign in to manage invoices securely.</p>
       <input id="authEmail" type="email" placeholder="Email address" autocomplete="username" />
       <input id="authPass" type="password" placeholder="Password" autocomplete="current-password" />
       <button id="authLogin">Sign In</button>
@@ -600,8 +608,8 @@
       <!-- LEFT: FORM -->
       <section aria-labelledby="formHeading">
         <div class="sec-head">
-          <div class="sec-badge">Receipt Generator</div>
-          <h1 class="sec-title" id="formHeading">Issue a <span>Payment Receipt</span></h1>
+          <div class="sec-badge">Invoice Generator</div>
+          <h1 class="sec-title" id="formHeading">Issue an <span>Invoice</span></h1>
         </div>
 
         <div class="form-group">
@@ -677,7 +685,7 @@
           <div class="sec-badge" style="margin-bottom:1.5rem;">Service & Notes</div>
           <div class="form-grid">
             <div class="field full">
-              <label for="serviceDesc">Consultation / Service Description <span class="opt">(required)</span></label>
+              <label for="serviceDesc">Service Description <span class="opt">(required)</span></label>
               <select id="serviceDesc" required>
                 <option value="" disabled selected>Select a service from the Rate Card</option>
                 <!-- Rate Card Populated via JS -->
@@ -696,78 +704,92 @@
         </div>
 
         <div class="btn-group" style="margin-top: 2rem;">
-          <button class="btn btn-primary" id="btnGenerate"><i class="fas fa-bolt"></i> Generate Receipt</button>
-          <button class="btn btn-danger" id="btnReset"><i class="fas fa-plus"></i> New Receipt</button>
+          <button class="btn btn-primary" id="btnGenerate"><i class="fas fa-file-invoice"></i> Generate Invoice</button>
+          <button class="btn btn-danger" id="btnReset"><i class="fas fa-plus"></i> New Invoice</button>
         </div>
       </section>
 
       <!-- RIGHT: PREVIEW + HISTORY -->
-      <section aria-labelledby="previewHeading" class="receipt-stage">
+      <section aria-labelledby="previewHeading" class="invoice-stage">
         <div class="sec-head">
           <div class="sec-badge">Live Preview</div>
-          <h2 class="sec-title" id="previewHeading">Receipt <span>Document</span></h2>
+          <h2 class="sec-title" id="previewHeading">Invoice <span>Document</span></h2>
         </div>
 
-        <div class="receipt-shell hidden" id="receiptShell">
-          <div class="r-empty" id="rEmpty">
+        <div class="invoice-shell hidden" id="invoiceShell">
+          <div class="inv-empty" id="invEmpty">
             <i class="fas fa-file-invoice"></i>
-            <p>Fill the form and tap <strong>Generate Receipt</strong>.</p>
+            <p>Fill the form and tap <strong>Generate Invoice</strong>.</p>
           </div>
 
-          <div id="rContent" style="display:none;">
-            <div class="r-doc-head">
-              <div class="r-doc-left">
-                <div class="r-company">EGUNGUN OF AFRICA</div>
-                <div class="r-tagline">OFFICIAL RECEIPT</div>
+          <div id="invContent" style="display:none;">
+            <!-- Top Color Bar -->
+            <div class="inv-top-bar"></div>
+
+            <!-- Header -->
+            <div class="inv-header">
+              <div class="inv-brand-wrap">
+                <div class="inv-brand">EGUNGUN OF AFRICA</div>
+                <div class="inv-tagline">OFFICIAL DOCUMENT</div>
               </div>
-              <div class="r-doc-right">
-                <div class="r-doc-type">Payment Receipt</div>
-                <div class="r-doc-id" id="rReceiptNo">EOL-00000000-0000</div>
+              <div class="inv-doc-type">
+                <h2>Invoice</h2>
+                <div class="inv-doc-id" id="rInvoiceNo">INV-00000000-0000</div>
               </div>
             </div>
 
-            <div class="r-meta-row">
-              <div class="r-meta-cell">
-                <span class="r-label">Issued To</span>
-                <span class="r-value" id="rCustName">—</span>
-                <span class="r-value-sub" id="rCustContact"></span>
-              </div>
-              <div class="r-meta-cell">
-                <span class="r-label">Payment Date</span>
-                <span class="r-value" id="rPayDate">—</span>
-                <span class="r-value-sub" id="rPayTime"></span>
-              </div>
-              <div class="r-meta-cell">
-                <span class="r-label">Method</span>
-                <span class="r-value" id="rMethod">—</span>
-                <span class="r-value-sub" id="rTxRef"></span>
+            <!-- Info Grid -->
+            <div class="inv-stripe">
+              <div class="inv-grid-3">
+                <div class="inv-cell">
+                  <div class="inv-label">Billed To</div>
+                  <div class="inv-value" id="rCustName">—</div>
+                  <div class="inv-value-sub" id="rCustContact"></div>
+                </div>
+                <div class="inv-cell">
+                  <div class="inv-label">Date & Time</div>
+                  <div class="inv-value" id="rPayDate">—</div>
+                  <div class="inv-value-sub" id="rPayTime"></div>
+                </div>
+                <div class="inv-cell">
+                  <div class="inv-label">Method</div>
+                  <div class="inv-value" id="rMethod">—</div>
+                  <div class="inv-value-sub" id="rTxRef"></div>
+                </div>
               </div>
             </div>
 
-            <div class="r-service-block">
-              <span class="r-label">Service Rendered</span>
-              <p class="r-service-text" id="rService">—</p>
+            <!-- Service Box -->
+            <div class="inv-service-block">
+              <div class="inv-service-box">
+                <div class="inv-service-label">Service Rendered</div>
+                <div class="inv-service-text" id="rService">—</div>
+              </div>
             </div>
 
-            <div class="r-total-row">
-              <div class="r-total-left">
-                <span class="r-label">Total Amount Paid</span>
-                <div class="r-total-amount" id="rAmount">₦0.00</div>
+            <!-- Total & Stamp -->
+            <div class="inv-total-section">
+              <div>
+                <div class="inv-label">Total Amount Paid</div>
+                <div class="inv-total-amount" id="rAmount">₦0.00</div>
               </div>
-              <div class="r-status-pill" id="rStatusBadge">
+              <div class="inv-stamp" id="rStatusBadge">
                 <i class="fas fa-circle-check"></i> <span id="rStatusText">PAID</span>
               </div>
             </div>
 
-            <div class="r-notes-row" id="rNotesWrap" style="display:none;">
-              <span class="r-label">Notes</span>
+            <!-- Notes -->
+            <div class="inv-notes" id="rNotesWrap" style="display:none;">
+              <div class="inv-label">Notes</div>
               <p id="rNotes"></p>
             </div>
 
-            <div class="r-foot-row">
-              <div class="r-foot-right">
-                <span class="r-foot-note">Egungunofafrica.com</span>
-                <span class="r-foot-note">This is a computer-generated receipt.</span>
+            <!-- Footer -->
+            <div class="inv-footer">
+              <div class="inv-footer-left">EGUNGUN OF AFRICA</div>
+              <div class="inv-footer-right">
+                <span class="inv-footer-note">Egungunofafrica.com</span>
+                <span class="inv-footer-note">Computer-generated invoice.</span>
               </div>
             </div>
           </div>
@@ -786,14 +808,14 @@
         </div>
 
         <div class="form-group history-panel" id="historyPanel" style="margin-top: 2rem;">
-          <div class="sec-badge" style="margin-bottom:1.5rem;">Receipt History</div>
+          <div class="sec-badge" style="margin-bottom:1.5rem;">Invoice History</div>
           <div class="history-summary" id="historySummary">
-            <span><strong id="histCount">0</strong> receipts</span>
+            <span><strong id="histCount">0</strong> invoices</span>
             <span>Total: <strong id="histTotal">₦0.00</strong></span>
             <span>Paid: <strong id="histPaid">₦0.00</strong></span>
           </div>
           <div class="history-toolbar">
-            <input id="histSearch" type="text" placeholder="Search receipts..." />
+            <input id="histSearch" type="text" placeholder="Search invoices..." />
             <select id="histFilter">
               <option value="all">All Statuses</option>
               <option value="paid">Paid</option>
@@ -817,7 +839,7 @@
     const SUPABASE_KEY = 'sb_publishable_rHjs-4MLyEUqfoZ3eJPU2A_wV6TJb5c';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const PREFIX = 'EOL';
+    const PREFIX = 'INV';
     const $ = (s, c = document) => c.querySelector(s);
     const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
 
@@ -837,8 +859,8 @@
       btnJpg: $('#btnJpg'), btnPdf: $('#btnPdf'), btnPrint: $('#btnPrint'),
       btnEdit: $('#btnEdit'), btnNewFromPreview: $('#btnNewFromPreview'),
 
-      receiptShell: $('#receiptShell'), rEmpty: $('#rEmpty'), rContent: $('#rContent'),
-      rReceiptNo: $('#rReceiptNo'), rCustName: $('#rCustName'), rCustContact: $('#rCustContact'),
+      invoiceShell: $('#invoiceShell'), invEmpty: $('#invEmpty'), invContent: $('#invContent'),
+      rInvoiceNo: $('#rInvoiceNo'), rCustName: $('#rCustName'), rCustContact: $('#rCustContact'),
       rPayDate: $('#rPayDate'), rPayTime: $('#rPayTime'), rTxRef: $('#rTxRef'),
       rMethod: $('#rMethod'), rService: $('#rService'), rAmount: $('#rAmount'),
       rStatusBadge: $('#rStatusBadge'), rNotesWrap: $('#rNotesWrap'), rNotes: $('#rNotes'),
@@ -849,7 +871,7 @@
       histCount: $('#histCount'), histTotal: $('#histTotal'), histPaid: $('#histPaid')
     };
 
-    let currentReceipt = null;
+    let currentInvoice = null;
 
     // --- RATE CARD SERVICES ---
     const rateCardServices = [
@@ -1128,7 +1150,7 @@
     }
 
     // --- SUPABASE CRUD ---
-    async function generateReceiptNumber() {
+    async function generateInvoiceNumber() {
       const now = new Date();
       const dayPrefix = `${PREFIX}-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-`;
 
@@ -1164,40 +1186,42 @@
       }));
     }
 
-    async function saveToHistory(receipt, isUpdate = false) {
+    async function saveToHistory(invoice, isUpdate = false) {
       const payload = {
-        receipt_no: receipt.receiptNo,
-        customer_name: receipt.custName,
-        customer_email: receipt.custEmail || null,
-        customer_phone: receipt.custPhone || null,
-        amount: receipt.amount,
-        pay_method: receipt.payMethod,
-        pay_date: receipt.payDate,
-        pay_time: receipt.payTime,
-        tx_ref: receipt.txRef || null,
-        service_desc: receipt.serviceDesc,
-        notes: receipt.notes || null,
-        status: receipt.status,
+        receipt_no: invoice.receiptNo,
+        customer_name: invoice.custName,
+        customer_email: invoice.custEmail || null,
+        customer_phone: invoice.custPhone || null,
+        amount: invoice.amount,
+        pay_method: invoice.payMethod,
+        pay_date: invoice.payDate,
+        pay_time: invoice.payTime,
+        tx_ref: invoice.txRef || null,
+        service_desc: invoice.serviceDesc,
+        notes: invoice.notes || null,
+        status: invoice.status,
         last_updated: new Date().toISOString()
       };
 
       if (isUpdate) {
-        const { error } = await supabase.from('receipts').update(payload).eq('receipt_no', receipt.receiptNo);
-        if (error) { console.error(error); toast('Could not update receipt.', 'error'); return false; }
+        const { error } = await supabase.from('receipts').update(payload).eq('receipt_no', invoice.receiptNo);
+        if (error) { console.error(error); toast('Could not update invoice.', 'error'); return false; }
       } else {
         const { error } = await supabase.from('receipts').insert(payload);
-        if (error) { console.error(error); toast('Could not save receipt.', 'error'); return false; }
+        if (error) { console.error(error); toast('Could not save invoice.', 'error'); return false; }
       }
       return true;
     }
 
     // --- UI LOGIC ---
-    function renderReceipt(data) {
-      currentReceipt = data;
-      el.rEmpty.style.display = 'none';
-      el.rContent.style.display = 'block';
+    function renderInvoice(data) {
+      currentInvoice = data;
+      el.invEmpty.style.display = 'none';
+      el.invContent.style.display = 'flex'; // using flex to push footer down
+      el.invContent.style.flexDirection = 'column';
+      el.invContent.style.flex = '1';
 
-      el.rReceiptNo.textContent = data.receiptNo;
+      el.rInvoiceNo.textContent = data.receiptNo;
       el.rCustName.textContent = data.custName || '—';
       const contactParts = [data.custPhone, data.custEmail].filter(Boolean);
       el.rCustContact.textContent = contactParts.join(' · ') || '';
@@ -1222,7 +1246,7 @@
         el.rAmount.textContent = formatNaira(currentAmount);
       }, duration / steps);
 
-      el.rStatusBadge.className = 'r-status-pill ' + data.status;
+      el.rStatusBadge.className = 'inv-stamp ' + data.status;
       const statusMap = {
         paid: { icon: 'fa-circle-check', text: 'PAID' },
         pending: { icon: 'fa-hourglass-half', text: 'PENDING' },
@@ -1246,8 +1270,8 @@
       el.exportPanel.style.display = 'block';
       
       // Magic Transition
-      el.receiptShell.classList.remove('hidden');
-      setTimeout(() => el.receiptShell.classList.add('visible'), 50);
+      el.invoiceShell.classList.remove('hidden');
+      setTimeout(() => el.invoiceShell.classList.add('visible'), 50);
       
       el.exportPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
@@ -1281,14 +1305,14 @@
       el.btnGenerate.disabled = true;
 
       const data = collectFormData();
-      const isEditing = currentReceipt && currentReceipt.receiptNo;
+      const isEditing = currentInvoice && currentInvoice.receiptNo;
 
       if (isEditing) {
-        data.receiptNo = currentReceipt.receiptNo;
-        data.generatedAt = currentReceipt.generatedAt;
+        data.receiptNo = currentInvoice.receiptNo;
+        data.generatedAt = currentInvoice.generatedAt;
         await saveToHistory(data, true);
       } else {
-        data.receiptNo = await generateReceiptNumber();
+        data.receiptNo = await generateInvoiceNumber();
         data.generatedAt = new Date().toISOString();
         await saveToHistory(data, false);
       }
@@ -1297,9 +1321,9 @@
       setTimeout(() => {
         el.btnGenerate.classList.remove('generating');
         el.btnGenerate.disabled = false;
-        renderReceipt(data);
+        renderInvoice(data);
         renderHistory();
-        toast('Receipt ' + data.receiptNo + ' generated.', 'success');
+        toast('Invoice ' + data.receiptNo + ' generated.', 'success');
       }, 800); // 800ms magic delay
     }
 
@@ -1314,15 +1338,15 @@
       el.statusRadios.forEach(r => { r.checked = r.value === 'pending'; });
       setDefaultDateTime(); clearErrors();
 
-      currentReceipt = null;
-      el.receiptShell.classList.remove('visible');
-      setTimeout(() => el.receiptShell.classList.add('hidden'), 50);
+      currentInvoice = null;
+      el.invoiceShell.classList.remove('visible');
+      setTimeout(() => el.invoiceShell.classList.add('hidden'), 50);
       
-      el.rEmpty.style.display = 'flex'; el.rContent.style.display = 'none';
+      el.invEmpty.style.display = 'flex'; el.invContent.style.display = 'none';
       el.exportPanel.style.display = 'none';
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      toast('Form cleared. Ready for a new receipt.', 'info');
+      toast('Form cleared. Ready for a new invoice.', 'info');
     }
 
     async function renderHistory() {
@@ -1347,7 +1371,7 @@
       if (!filtered.length) {
         el.histList.innerHTML = `<div class="history-empty">
           <i class="fas fa-inbox"></i>
-          ${list.length ? 'No receipts match your search.' : 'No receipts yet. Generate one above.'}
+          ${list.length ? 'No invoices match your search.' : 'No invoices yet. Generate one above.'}
         </div>`;
         return;
       }
@@ -1376,8 +1400,8 @@
             if (!record) return;
 
             if (action === 'view') {
-              renderReceipt(record);
-              toast('Loaded receipt ' + rNo, 'info');
+              renderInvoice(record);
+              toast('Loaded invoice ' + rNo, 'info');
             }
           });
         });
@@ -1386,20 +1410,17 @@
 
     // --- EXPORTS ---
     async function exportImage() {
-      if (!currentReceipt) return;
+      if (!currentInvoice) return;
       const btn = el.btnJpg; const orig = btn.innerHTML;
       btn.innerHTML = '<span class="spin"></span>'; btn.disabled = true;
       
-      // Apply export mode (white background, colorful accents)
-      el.receiptShell.classList.add('export-mode');
-      
       try {
-        const canvas = await html2canvas(el.receiptShell, { scale: 3, backgroundColor: '#ffffff', useCORS: true, logging: false });
+        const canvas = await html2canvas(el.invoiceShell, { scale: 3, backgroundColor: '#ffffff', useCORS: true, logging: false });
         const imgData = canvas.toDataURL('image/jpeg', 0.95);
         
         const a = document.createElement('a');
         a.href = imgData;
-        a.download = `Receipt-${currentReceipt.receiptNo}.jpg`;
+        a.download = `Invoice-${currentInvoice.receiptNo}.jpg`;
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -1408,22 +1429,17 @@
         console.error(err);
         toast('Export failed.', 'error'); 
       } finally {
-        // Remove export mode (back to glass)
-        el.receiptShell.classList.remove('export-mode');
         btn.innerHTML = orig; btn.disabled = false; 
       }
     }
 
     async function exportPdf() {
-      if (!currentReceipt) return;
+      if (!currentInvoice) return;
       const btn = el.btnPdf; const orig = btn.innerHTML;
       btn.innerHTML = '<span class="spin"></span>'; btn.disabled = true;
 
-      // Apply export mode (white background, colorful accents)
-      el.receiptShell.classList.add('export-mode');
-
       try {
-        const canvas = await html2canvas(el.receiptShell, { scale: 3, backgroundColor: '#ffffff', useCORS: true, logging: false });
+        const canvas = await html2canvas(el.invoiceShell, { scale: 3, backgroundColor: '#ffffff', useCORS: true, logging: false });
         const imgData = canvas.toDataURL('image/jpeg', 0.95);
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
@@ -1433,21 +1449,19 @@
         let imgW = pageW - 20; let imgH = imgW * ratio;
         if (imgH > pageH - 20) { imgH = pageH - 20; imgW = imgH / ratio; }
         pdf.addImage(imgData, 'JPEG', (pageW - imgW) / 2, 10, imgW, imgH);
-        pdf.save(`Receipt-${currentReceipt.receiptNo}.pdf`);
+        pdf.save(`Invoice-${currentInvoice.receiptNo}.pdf`);
         toast('PDF downloaded.', 'success');
       } catch (err) { 
         console.error(err);
         toast('Export failed.', 'error'); 
       } finally {
-        // Remove export mode (back to glass)
-        el.receiptShell.classList.remove('export-mode');
         btn.innerHTML = orig; btn.disabled = false; 
       }
     }
 
     function handleEdit() {
-      if (!currentReceipt) return;
-      const r = currentReceipt;
+      if (!currentInvoice) return;
+      const r = currentInvoice;
       el.custName.value = r.custName || ''; el.custEmail.value = r.custEmail || '';
       
       if (r.custPhone) {
@@ -1487,7 +1501,7 @@
       el.statusRadios.forEach(radio => { radio.checked = radio.value === r.status; });
       
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      toast('Details loaded. Same receipt number will be kept.', 'info');
+      toast('Details loaded. Same invoice number will be kept.', 'info');
     }
 
     // --- INIT ---
@@ -1511,17 +1525,17 @@
       }
     });
 
-    // Reset the visual receipt if the form changes after generating
+    // Reset the visual invoice if the form changes after generating
     const formFields = [el.custName, el.amount, el.serviceDesc, el.custEmail, el.custPhone, el.txRef, el.notes];
     formFields.forEach(field => {
       field.addEventListener('input', () => {
-        if (currentReceipt) {
-          if (el.receiptShell.classList.contains('visible')) {
-            el.receiptShell.classList.remove('visible');
-            el.receiptShell.classList.add('hidden');
+        if (currentInvoice) {
+          if (el.invoiceShell.classList.contains('visible')) {
+            el.invoiceShell.classList.remove('visible');
+            el.invoiceShell.classList.add('hidden');
             el.exportPanel.style.display = 'none';
-            el.rEmpty.style.display = 'flex'; el.rContent.style.display = 'none';
-            currentReceipt = null;
+            el.invEmpty.style.display = 'flex'; el.invContent.style.display = 'none';
+            currentInvoice = null;
           }
         }
       });
