@@ -52,7 +52,6 @@
       content: ''; position: fixed; width: 70vmax; height: 70vmax;
       background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 70%);
       top: -30%; right: -20%; pointer-events: none; z-index: 0;
-      transition: transform 1s var(--ease);
     }
 
     /* ============ AUTH GATE ============ */
@@ -281,17 +280,17 @@
     .btn-group { display: flex; gap: 0.8rem; flex-wrap: wrap; }
     .btn-group .btn { flex: 1; min-width: 140px; }
 
-    /* ============ RECEIPT PREVIEW (RATE CARD STYLE) ============ */
+    /* ============ RECEIPT PREVIEW (LUXURY DESIGN) ============ */
     .receipt-stage { position: sticky; top: 100px; perspective: 1200px; }
     @media (max-width: 1080px) { .receipt-stage { position: static; } }
 
     .receipt-shell {
       background: #ffffff;
-      border-radius: 32px;
-      padding: 3rem;
+      border-radius: 4px;
+      padding: 3.5rem 3rem;
       color: #111;
       font-family: 'Space Grotesk', sans-serif;
-      box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05) inset;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.1) inset;
       position: relative;
       overflow: hidden;
       min-height: 550px;
@@ -299,7 +298,7 @@
       transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
-    /* The Magic Transition when it appears */
+    /* The Magic Transition */
     .receipt-shell.hidden {
       opacity: 0;
       transform: rotateX(-20deg) translateY(60px) scale(0.9);
@@ -310,67 +309,68 @@
       transform: rotateX(0) translateY(0) scale(1);
     }
 
-    @media (max-width: 640px) { .receipt-shell { padding: 2rem 1.5rem; border-radius: 24px; } }
+    @media (max-width: 640px) { .receipt-shell { padding: 2rem 1.5rem; } }
 
     /* Watermark */
     .receipt-shell::after {
       content: 'EGUNGUN';
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%) rotate(-30deg);
-      font-family: 'Syne', sans-serif; font-size: 8rem; font-weight: 800;
-      color: rgba(0, 0, 0, 0.02); pointer-events: none; white-space: nowrap; z-index: 0;
+      font-family: 'Syne', sans-serif; font-size: 9rem; font-weight: 800;
+      color: rgba(0, 0, 0, 0.025); pointer-events: none; white-space: nowrap; z-index: 0;
       letter-spacing: 0.1em;
     }
 
     .receipt-shell > * { position: relative; z-index: 1; }
 
-    /* Header */
+    /* Header - Asymmetrical Editorial */
     .r-doc-head {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      padding-bottom: 1.5rem; border-bottom: 2px solid #111; margin-bottom: 2rem;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding-bottom: 2rem; border-bottom: 1px solid #111; margin-bottom: 2rem;
     }
     .r-doc-left { display: flex; flex-direction: column; gap: 4px; }
     .r-company {
       font-family: 'Milchella', 'Syne', serif; font-weight: 800;
-      font-size: 1.6rem; letter-spacing: 0.05em; color: #111; line-height: 1;
+      font-size: 1.8rem; letter-spacing: 0.02em; color: #111; line-height: 1;
     }
     .r-tagline {
       font-family: 'Syne', sans-serif; font-size: 0.65rem;
-      letter-spacing: 4px; text-transform: uppercase; color: #888; font-weight: 700;
-      margin-top: 4px;
+      letter-spacing: 5px; text-transform: uppercase; color: #888; font-weight: 700;
+      margin-top: 6px;
     }
     .r-doc-right { text-align: right; flex-shrink: 0; }
     .r-doc-type {
       font-family: 'Unbounded', sans-serif; font-weight: 800;
-      font-size: 1rem; letter-spacing: 0.1em;
+      font-size: 0.9rem; letter-spacing: 0.1em;
       text-transform: uppercase; color: #111;
     }
     .r-doc-id {
       font-size: 0.75rem; color: #555; margin-top: 8px; font-weight: 600;
-      font-family: 'Space Grotesk', monospace; background: #f0f0f0;
-      padding: 6px 12px; border-radius: 40px; display: inline-block;
-      border: 1px solid #ddd;
+      font-family: 'Space Grotesk', monospace; background: #f5f5f5;
+      padding: 6px 12px; border-radius: 4px; display: inline-block;
+      border: 1px solid #eaeaea;
     }
     @media (max-width: 520px) {
-      .r-doc-head { flex-direction: column; gap: 1.2rem; }
+      .r-doc-head { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
       .r-doc-right { text-align: left; }
     }
 
-    /* Meta Grid */
+    /* Meta Grid - Clean lines */
     .r-meta-row {
       display: grid; grid-template-columns: 1.5fr 1fr 1fr;
-      gap: 1.5rem; margin-bottom: 2rem;
+      gap: 2rem; margin-bottom: 2.5rem;
+      padding-bottom: 2rem; border-bottom: 1px solid #eaeaea;
     }
     @media (max-width: 520px) {
-      .r-meta-row { grid-template-columns: 1fr; gap: 1.2rem; }
+      .r-meta-row { grid-template-columns: 1fr; gap: 1.5rem; }
     }
-    .r-meta-cell { display: flex; flex-direction: column; gap: 4px; }
+    .r-meta-cell { display: flex; flex-direction: column; gap: 6px; }
     .r-label {
       font-family: 'Syne', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em;
       text-transform: uppercase; color: #888; font-weight: 700;
     }
     .r-value {
-      font-size: 1rem; color: #111; font-weight: 600; line-height: 1.4; word-break: break-word;
+      font-size: 1.05rem; color: #111; font-weight: 600; line-height: 1.4; word-break: break-word;
     }
     .r-value-sub {
       font-size: 0.8rem; color: #666; line-height: 1.5; word-break: break-word;
@@ -378,69 +378,72 @@
 
     /* Service Block */
     .r-service-block {
-      background: #f8f8f8; border: 1px solid #eaeaea;
-      border-radius: 16px; padding: 1.4rem; margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
     .r-service-text {
-      font-size: 1rem; color: #111;
+      font-size: 1.1rem; color: #111;
       line-height: 1.6; word-break: break-word;
-      white-space: pre-wrap; margin-top: 6px;
+      white-space: pre-wrap; margin-top: 8px; font-weight: 500;
     }
 
     /* Total Row */
     .r-total-row {
       display: flex; justify-content: space-between; align-items: flex-end;
-      padding: 1.5rem 0; border-top: 2px solid #111;
+      padding: 2rem 0; border-top: 2px solid #111;
       border-bottom: 2px solid #111; margin-bottom: 2rem;
       flex-wrap: wrap; gap: 1.5rem;
     }
     .r-total-amount {
       font-family: 'Unbounded', sans-serif;
-      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
       font-weight: 800; color: #111;
-      line-height: 1; letter-spacing: -0.02em; margin-top: 6px;
+      line-height: 1; letter-spacing: -0.03em; margin-top: 8px;
     }
     
     /* REALISTIC INK STAMP */
     .r-status-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 20px; border-radius: 8px;
-      font-family: 'Unbounded', sans-serif; font-size: 0.75rem;
-      font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;
-      border: 3px double; transform: rotate(-4deg);
-      opacity: 0.9;
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 24px; border-radius: 8px;
+      font-family: 'Unbounded', sans-serif; font-size: 0.8rem;
+      font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+      border: 3px double; transform: rotate(-5deg);
+      opacity: 0.85;
+      /* Ink Bleed Effect */
+      text-shadow: 0 0 1px currentColor, 0 0 2px rgba(0,0,0,0.1);
     }
+    .r-status-pill.paid { border-color: #16a34a; color: #16a34a; background: rgba(22, 163, 74, 0.03); }
+    .r-status-pill.pending { border-color: #d97706; color: #d97706; background: rgba(217, 119, 6, 0.03); }
+    .r-status-pill.refunded { border-color: #dc2626; color: #dc2626; background: rgba(220, 38, 38, 0.03); }
+
     /* Stamp Slam Animation */
     .stamp-anim {
-      animation: slam 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      animation: slam 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
     @keyframes slam {
-      0% { transform: scale(2) rotate(-15deg); opacity: 0; }
-      70% { transform: scale(0.9) rotate(-2deg); opacity: 1; }
-      100% { transform: scale(1) rotate(-4deg); opacity: 0.9; }
+      0% { transform: scale(2.5) rotate(-15deg); opacity: 0; }
+      70% { transform: scale(0.9) rotate(-3deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-5deg); opacity: 0.85; }
     }
-
-    .r-status-pill.paid { border-color: #16a34a; color: #16a34a; background: rgba(22, 163, 74, 0.05); }
-    .r-status-pill.pending { border-color: #d97706; color: #d97706; background: rgba(217, 119, 6, 0.05); }
-    .r-status-pill.refunded { border-color: #dc2626; color: #dc2626; background: rgba(220, 38, 38, 0.05); }
 
     /* Notes */
     .r-notes-row {
-      margin-bottom: 2rem; padding: 1.2rem; background: #f4f4f4;
-      border-radius: 12px; border-left: 4px solid #111;
+      margin-bottom: 2rem; padding-top: 1rem;
     }
     .r-notes-row p {
-      font-size: 0.85rem; color: #555; line-height: 1.6;
+      font-size: 0.9rem; color: #555; line-height: 1.6;
       margin-top: 6px; white-space: pre-wrap; word-break: break-word;
     }
 
     /* Footer */
     .r-foot-row {
-      display: flex; justify-content: flex-end; align-items: flex-end;
-      gap: 2rem; padding-top: 1rem; flex-wrap: wrap;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding-top: 2rem; flex-wrap: wrap; border-top: 1px solid #eaeaea;
     }
+    .r-foot-left { min-width: 160px; }
+    .r-foot-line { width: 150px; height: 1px; background: #111; margin-bottom: 8px; }
+    .r-foot-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: #888; font-weight: 700; }
     .r-foot-right { text-align: right; display: flex; flex-direction: column; gap: 4px; }
-    .r-foot-note { font-size: 0.7rem; color: #888; }
+    .r-foot-note { font-size: 0.7rem; color: #888; font-weight: 500; }
 
     .r-empty {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -449,6 +452,12 @@
     }
     .r-empty i { font-size: 3rem; color: #ccc; }
     .r-empty p { font-size: 1rem; max-width: 260px; line-height: 1.6; font-weight: 500; }
+
+    /* Export / Print Overrides */
+    .receipt-shell.export-mode {
+      box-shadow: none !important; border-radius: 0 !important; border: none !important;
+    }
+    .receipt-shell.export-mode::after { color: rgba(0, 0, 0, 0.03) !important; }
 
     /* ============ HISTORY ============ */
     .history-panel { margin-top: 1.5rem; }
@@ -686,7 +695,6 @@
           <h2 class="sec-title" id="previewHeading">Receipt <span>Document</span></h2>
         </div>
 
-        <!-- The Magic Transition applies here -->
         <div class="receipt-shell hidden" id="receiptShell">
           <div class="r-empty" id="rEmpty">
             <i class="fas fa-file-invoice"></i>
@@ -744,6 +752,10 @@
             </div>
 
             <div class="r-foot-row">
+              <div class="r-foot-left">
+                <div class="r-foot-line"></div>
+                <span class="r-foot-label">Authorised Signature</span>
+              </div>
               <div class="r-foot-right">
                 <span class="r-foot-note">Egungunofafrica.com</span>
                 <span class="r-foot-note">This is a computer-generated receipt.</span>
@@ -1480,13 +1492,11 @@
       }
     });
 
-    // Live Preview logic (Optional: update receipt in real-time without saving)
-    // We will just reset the receipt if the form changes significantly
+    // Reset the visual receipt if the form changes after generating
     const formFields = [el.custName, el.amount, el.serviceDesc, el.custEmail, el.custPhone, el.txRef, el.notes];
     formFields.forEach(field => {
       field.addEventListener('input', () => {
         if (currentReceipt) {
-          // If they start typing after generating, hide the receipt to show it's a new draft
           if (el.receiptShell.classList.contains('visible')) {
             el.receiptShell.classList.remove('visible');
             el.receiptShell.classList.add('hidden');
