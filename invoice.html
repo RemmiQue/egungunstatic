@@ -34,8 +34,8 @@
       --border-active: rgba(255, 255, 255, 0.3);
       --text: #ffffff;
       --text-soft: #9a9ea8;
-      --accent: #8b5cf6; 
-      --accent-light: #c4b5fd;
+      --gold: #d4af37; /* Egungun Gold */
+      --gold-light: #fdf5e6;
       --success: #10b981;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -53,7 +53,7 @@
     /* Ambient Glow */
     body::before {
       content: ''; position: fixed; width: 80vmax; height: 80vmax;
-      background: radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, rgba(0,0,0,0) 70%);
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.04) 0%, rgba(0,0,0,0) 70%);
       top: -30%; right: -20%; pointer-events: none; z-index: 0;
     }
 
@@ -82,11 +82,11 @@
     .auth-box input:focus { border-color: var(--border-active); }
     .auth-box button {
       width: 100%; padding: 1rem; border-radius: 40px;
-      background: #fff; color: #000; border: none;
+      background: var(--gold); color: #000; border: none;
       font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
       font-size: 0.8rem; cursor: pointer; transition: all 0.3s;
     }
-    .auth-box button:hover { background: #ddd; transform: translateY(-2px); }
+    .auth-box button:hover { background: #c59d2d; transform: translateY(-2px); }
     .auth-box button:disabled { opacity: 0.5; pointer-events: none; }
     #authError { color: #fca5a5; font-size: 0.75rem; margin-top: 1rem; text-align: center; min-height: 18px; }
 
@@ -147,13 +147,13 @@
     .sec-head { margin-bottom: 2rem; }
     .sec-badge {
       font-family: 'Syne', sans-serif; font-size: 0.7rem;
-      letter-spacing: 0.25em; color: var(--accent-light);
+      letter-spacing: 0.25em; color: var(--gold);
       text-transform: uppercase; margin-bottom: 0.6rem;
       display: flex; align-items: center; gap: 12px; font-weight: 700;
     }
     .sec-badge::after {
       content: ''; flex: 1; height: 1px;
-      background: linear-gradient(90deg, rgba(139, 92, 246, 0.4), transparent);
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.4), transparent);
     }
     .sec-title {
       font-family: 'Milchella', 'Syne', serif;
@@ -172,7 +172,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       transition: border-color 0.3s;
     }
-    .form-group:focus-within { border-color: rgba(139, 92, 246, 0.3); }
+    .form-group:focus-within { border-color: rgba(212, 175, 55, 0.3); }
     
     .form-grid {
       display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -198,7 +198,7 @@
     }
     .field textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
     .field input:focus, .field select:focus, .field textarea:focus {
-      border-bottom-color: var(--accent);
+      border-bottom-color: var(--gold);
     }
     .field input::placeholder, .field textarea::placeholder { color: #52525b; }
     .field select { cursor: pointer; }
@@ -208,7 +208,7 @@
     .amount-wrap .naira {
       position: absolute; left: 0; top: 50%;
       transform: translateY(-50%); font-family: 'Unbounded', sans-serif;
-      font-size: 1rem; color: var(--accent-light); pointer-events: none;
+      font-size: 1rem; color: var(--gold); pointer-events: none;
     }
     .amount-wrap input { padding-left: 28px; font-weight: 700; font-size: 1.1rem; }
 
@@ -233,7 +233,7 @@
     .status-pills input { display: none; }
     .status-pills label i { font-size: 0.75rem; }
     .status-pills input:checked + label {
-      border-color: var(--accent); background: rgba(139, 92, 246, 0.1); color: var(--accent-light);
+      border-color: var(--gold); background: rgba(212, 175, 55, 0.1); color: var(--gold);
     }
 
     /* ============ MAGIC BUTTON ============ */
@@ -251,17 +251,17 @@
     .btn:disabled { opacity: 0.8; pointer-events: none; }
 
     .btn-primary {
-      background: #ffffff; color: #030303;
+      background: var(--gold); color: #030303;
       border-color: transparent; font-weight: 700;
     }
-    .btn-primary:hover { background: #dddddd; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
+    .btn-primary:hover { background: #c59d2d; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
 
     /* The Magic Generating State */
     .btn-primary.generating {
       background: #111;
       color: transparent;
-      border-color: rgba(255,255,255,0.2);
-      box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+      border-color: rgba(212, 175, 55, 0.3);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
     }
     .btn-primary.generating::after {
       content: '';
@@ -270,7 +270,7 @@
       transform: translate(-50%, -50%);
       width: 20px; height: 20px;
       border: 2px solid rgba(255,255,255,0.2);
-      border-top-color: var(--accent);
+      border-top-color: var(--gold);
       border-radius: 50%;
       animation: spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     }
@@ -283,7 +283,7 @@
     .btn-group { display: flex; gap: 0.8rem; flex-wrap: wrap; }
     .btn-group .btn { flex: 1; min-width: 140px; }
 
-    /* ============ INVOICE PREVIEW (STARK EDITORIAL DESIGN) ============ */
+    /* ============ INVOICE PREVIEW (CLASSIC STATIONERY) ============ */
     .invoice-stage { position: sticky; top: 100px; perspective: 1200px; }
     @media (max-width: 1080px) { .invoice-stage { position: static; } }
 
@@ -296,8 +296,8 @@
       transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
-      min-height: 500px;
-      border: 1px solid #eaeaea;
+      min-height: 550px;
+      border-top: 6px solid var(--gold);
     }
     
     /* The Magic Transition */
@@ -311,62 +311,53 @@
       transform: rotateX(0) translateY(0) scale(1);
     }
 
-    /* Header Section - Stark Left Align */
+    /* Header Section */
     .inv-header {
-      padding: 3rem 3rem 2rem;
+      padding: 2.5rem 3rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      border-bottom: 2px solid #111;
       background: #fff;
     }
     .inv-brand {
       font-family: 'Milchella', 'Syne', serif; font-weight: 800;
-      font-size: 2rem; letter-spacing: -0.02em; color: #111; line-height: 1;
-      text-transform: uppercase;
+      font-size: 1.8rem; letter-spacing: 0.02em; color: #111; line-height: 1;
     }
     .inv-tagline {
-      font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem;
       letter-spacing: 0.1em; text-transform: uppercase; color: #666; font-weight: 600;
-      margin-top: 8px;
+      margin-top: 6px;
     }
     .inv-doc-type {
       text-align: right;
     }
     .inv-doc-type h2 {
       font-family: 'Unbounded', sans-serif; font-weight: 800;
-      font-size: 1.4rem; letter-spacing: 0.05em;
+      font-size: 1.2rem; letter-spacing: 0.05em;
       text-transform: uppercase; color: #111;
     }
     .inv-doc-id {
-      font-size: 0.8rem; color: #111; margin-top: 10px; font-weight: 700;
-      font-family: 'Space Grotesk', monospace; 
-      padding: 6px 0; display: inline-block;
+      font-size: 0.8rem; color: #888; margin-top: 8px; font-weight: 600;
+      font-family: 'Space Grotesk', monospace;
     }
     @media (max-width: 520px) {
-      .inv-header { padding: 2rem 1.5rem 1.5rem; flex-direction: column; gap: 1.5rem; }
+      .inv-header { padding: 2rem 1.5rem 1rem; flex-direction: column; gap: 1.5rem; }
       .inv-doc-type { text-align: left; }
     }
+
+    /* Divider */
+    .inv-divider { height: 1px; background: #eaeaea; margin: 0 3rem; }
+    @media (max-width: 520px) { .inv-divider { margin: 0 1.5rem; } }
 
     /* Info Grid - Strict Columns */
     .inv-info-grid {
       display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
-      background: #fff;
-      border-bottom: 1px solid #eaeaea;
-    }
-    @media (max-width: 520px) {
-      .inv-info-grid { grid-template-columns: 1fr; }
-    }
-    
-    .inv-cell {
+      grid-template-columns: 1fr 1fr 1fr;
       padding: 2rem 3rem;
-      border-right: 1px solid #eaeaea;
+      gap: 2rem;
     }
-    .inv-cell:last-child { border-right: none; }
     @media (max-width: 520px) {
-      .inv-cell { padding: 1.5rem; border-right: none; border-bottom: 1px solid #eaeaea; }
-      .inv-cell:last-child { border-bottom: none; }
+      .inv-info-grid { grid-template-columns: 1fr; padding: 1.5rem; gap: 1.5rem; }
     }
     
     .inv-label {
@@ -374,7 +365,7 @@
       text-transform: uppercase; color: #888; font-weight: 700; margin-bottom: 6px;
     }
     .inv-value {
-      font-size: 1rem; color: #111; font-weight: 600; line-height: 1.4;
+      font-size: 0.95rem; color: #111; font-weight: 600; line-height: 1.4;
     }
     .inv-value-sub {
       font-size: 0.8rem; color: #666; margin-top: 4px;
@@ -382,107 +373,89 @@
 
     /* Service Block */
     .inv-service-block {
-      padding: 2rem 3rem;
+      padding: 0 3rem 2rem;
       background: #fff;
-      border-bottom: 1px solid #eaeaea;
     }
-    @media (max-width: 520px) { .inv-service-block { padding: 1.5rem; } }
+    @media (max-width: 520px) { .inv-service-block { padding: 0 1.5rem 1.5rem; } }
     
     .inv-service-label {
       font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; letter-spacing: 0.15em;
       text-transform: uppercase; color: #888; font-weight: 700;
     }
     .inv-service-text {
-      font-size: 1.1rem; color: #111; font-weight: 600; line-height: 1.5;
-      margin-top: 8px;
+      font-size: 1.05rem; color: #111; font-weight: 600; line-height: 1.5;
+      margin-top: 6px;
     }
 
-    /* Total Section - Brutalist Split */
+    /* Total Section */
     .inv-total-section {
       display: flex;
-      align-items: stretch;
-      background: #fff;
-      min-height: 150px;
-    }
-    .inv-total-left {
-      flex: 1;
+      justify-content: space-between;
+      align-items: flex-end;
       padding: 2rem 3rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      background: #fafafa;
+      border-top: 1px solid #eaeaea;
+      border-bottom: 1px solid #eaeaea;
+      flex-wrap: wrap;
+      gap: 1.5rem;
     }
-    @media (max-width: 520px) { .inv-total-left { padding: 1.5rem; } }
+    @media (max-width: 520px) { .inv-total-section { padding: 1.5rem; } }
     
     .inv-total-amount {
       font-family: 'Unbounded', sans-serif;
-      font-size: clamp(2.2rem, 6vw, 3.2rem);
-      font-weight: 800; color: #111;
-      line-height: 1; letter-spacing: -0.03em; margin-top: 8px;
-    }
-
-    /* The Vibrant Stamp Box */
-    .inv-stamp-box {
-      width: 220px;
-      background: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-    @media (max-width: 520px) {
-      .inv-stamp-box { width: 140px; padding: 1.5rem; }
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 800; color: var(--gold); /* Gold amount */
+      line-height: 1; letter-spacing: -0.03em; margin-top: 6px;
     }
 
     /* Realistic Ink Stamp */
     .inv-stamp {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 8px;
-      padding: 16px 24px; 
-      font-family: 'Unbounded', sans-serif; font-size: 0.9rem;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; 
+      font-family: 'Unbounded', sans-serif; font-size: 0.75rem;
       font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;
-      border: 3px solid #fff; color: #fff;
-      transform: rotate(-6deg);
-      text-align: center;
-      line-height: 1.2;
+      border: 3px double; transform: rotate(-4deg);
+      opacity: 0.9;
+      text-shadow: 0 0 1px currentColor;
     }
-    .inv-stamp i { font-size: 1.5rem; }
-    
+    .inv-stamp.paid { border-color: #16a34a; color: #16a34a; }
+    .inv-stamp.pending { border-color: #d97706; color: #d97706; }
+    .inv-stamp.refunded { border-color: #dc2626; color: #dc2626; }
+
     /* Stamp Slam Animation */
     .stamp-anim {
-      animation: slam 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      animation: slam 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
     @keyframes slam {
       0% { transform: scale(2.5) rotate(-15deg); opacity: 0; }
-      70% { transform: scale(0.9) rotate(-4deg); opacity: 1; }
-      100% { transform: scale(1) rotate(-6deg); opacity: 1; }
+      70% { transform: scale(0.9) rotate(-3deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-4deg); opacity: 0.9; }
     }
 
     /* Notes */
     .inv-notes {
       padding: 2rem 3rem;
       background: #fff;
-      border-top: 1px solid #eaeaea;
     }
     @media (max-width: 520px) { .inv-notes { padding: 1.5rem; } }
     .inv-notes p {
-      font-size: 0.9rem; color: #444; line-height: 1.6;
-      margin-top: 8px;
+      font-size: 0.85rem; color: #555; line-height: 1.6;
+      margin-top: 6px;
     }
 
-    /* Footer - Stark Black */
+    /* Footer */
     .inv-footer {
       margin-top: auto;
       padding: 1.5rem 3rem;
-      background: #111;
+      background: #fff;
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 1rem;
+      border-top: 1px solid #eaeaea;
     }
     @media (max-width: 520px) { .inv-footer { padding: 1.5rem; flex-direction: column; align-items: flex-start; } }
     .inv-footer-left {
-      font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem;
-      color: #fff; letter-spacing: 0.1em; text-transform: uppercase;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem;
+      color: #888; letter-spacing: 0.1em; text-transform: uppercase;
     }
     .inv-footer-right {
       display: flex; flex-direction: column; gap: 2px;
@@ -491,7 +464,7 @@
 
     .inv-empty {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; min-height: 500px; gap: 1.5rem;
+      text-align: center; min-height: 550px; gap: 1.5rem;
       color: #888; background: #fff; padding: 2rem;
     }
     .inv-empty i { font-size: 3rem; color: #ccc; }
@@ -506,7 +479,7 @@
       padding: 0.8rem 0; color: var(--text);
       font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; outline: none;
     }
-    .history-toolbar input:focus { border-bottom-color: var(--accent); }
+    .history-toolbar input:focus { border-bottom-color: var(--gold); }
     .history-toolbar select {
       background: transparent; border: none; border-bottom: 1px solid var(--border);
       padding: 0.8rem 0; color: var(--text);
@@ -524,9 +497,9 @@
     }
     .history-item::before {
       content: ''; position: absolute; left: 0; top: 15%; height: 70%; width: 3px;
-      background: var(--accent); border-radius: 3px; opacity: 0; transition: opacity 0.2s;
+      background: var(--gold); border-radius: 3px; opacity: 0; transition: opacity 0.2s;
     }
-    .history-item:hover { border-color: rgba(139, 92, 246, 0.3); transform: translateX(4px); }
+    .history-item:hover { border-color: rgba(212, 175, 55, 0.3); transform: translateX(4px); }
     .history-item:hover::before { opacity: 1; }
     
     @media (max-width: 640px) {
@@ -539,7 +512,7 @@
     .h-cust { min-width: 0; }
     .h-cust .name { font-size: 0.95rem; color: var(--text); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .h-cust .meta { font-size: 0.75rem; color: var(--text-soft); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .h-amt { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--accent-light); text-align: right; white-space: nowrap; }
+    .h-amt { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--gold); text-align: right; white-space: nowrap; }
     
     .h-actions { display: flex; gap: 0.5rem; }
     .h-actions button {
@@ -548,7 +521,7 @@
       cursor: pointer; display: flex; align-items: center; justify-content: center;
       font-size: 0.8rem; transition: all 0.2s;
     }
-    .h-actions button:hover { color: var(--text); border-color: var(--accent); background: rgba(139, 92, 246, 0.1); }
+    .h-actions button:hover { color: var(--text); border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
 
     .history-empty { text-align: center; padding: 2rem 1rem; color: var(--text-soft); font-size: 0.9rem; line-height: 1.6; }
     .history-empty i { font-size: 1.8rem; display: block; margin-bottom: 0.8rem; opacity: 0.5; }
@@ -571,7 +544,7 @@
     .toast i { font-size: 1rem; }
     .toast.success i { color: var(--success); }
     .toast.error i { color: #ef4444; }
-    .toast.info i { color: var(--accent-light); }
+    .toast.info i { color: var(--gold); }
     @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ============ MISC ============ */
@@ -706,7 +679,7 @@
                 <option value="" disabled selected>Select a service from the Rate Card</option>
                 <!-- Rate Card Populated via JS -->
               </select>
-              <div id="serviceHint" style="display:none; font-size:0.7rem; color:var(--accent-light); margin-top:4px;"></div>
+              <div id="serviceHint" style="display:none; font-size:0.7rem; color:var(--gold); margin-top:4px;"></div>
             </div>
             <div class="field full" id="customServiceWrap" style="display:none;">
               <label for="customService">Custom Service Details</label>
@@ -740,7 +713,7 @@
 
           <div id="invContent" style="display:none; flex-direction: column; flex: 1;">
             
-            <!-- Stark Header -->
+            <!-- Header -->
             <div class="inv-header">
               <div>
                 <div class="inv-brand">EGUNGUN OF AFRICA</div>
@@ -752,42 +725,43 @@
               </div>
             </div>
 
-            <!-- Strict Info Grid -->
+            <div class="inv-divider"></div>
+
+            <!-- Info Grid -->
             <div class="inv-info-grid">
-              <div class="inv-cell">
+              <div>
                 <div class="inv-label">Billed To</div>
                 <div class="inv-value" id="rCustName">—</div>
                 <div class="inv-value-sub" id="rCustContact"></div>
               </div>
-              <div class="inv-cell">
+              <div>
                 <div class="inv-label">Date & Time</div>
                 <div class="inv-value" id="rPayDate">—</div>
                 <div class="inv-value-sub" id="rPayTime"></div>
               </div>
-              <div class="inv-cell">
-                <div class="inv-label">Method</div>
+              <div>
+                <div class="inv-label">Payment Method</div>
                 <div class="inv-value" id="rMethod">—</div>
                 <div class="inv-value-sub" id="rTxRef"></div>
               </div>
             </div>
 
+            <div class="inv-divider"></div>
+
             <!-- Service -->
-            <div class="inv-service-block">
+            <div class="inv-service-block" style="margin-top: 1.5rem;">
               <div class="inv-service-label">Service Rendered</div>
               <div class="inv-service-text" id="rService">—</div>
             </div>
 
-            <!-- Total & Brutalist Stamp -->
+            <!-- Total & Stamp -->
             <div class="inv-total-section">
-              <div class="inv-total-left">
+              <div>
                 <div class="inv-label">Total Amount Paid</div>
                 <div class="inv-total-amount" id="rAmount">₦0.00</div>
               </div>
-              <div class="inv-stamp-box">
-                <div class="inv-stamp" id="rStatusBadge">
-                  <i class="fas fa-circle-check"></i>
-                  <span id="rStatusText">PAID</span>
-                </div>
+              <div class="inv-stamp" id="rStatusBadge">
+                <i class="fas fa-circle-check"></i> <span id="rStatusText">PAID</span>
               </div>
             </div>
 
@@ -799,9 +773,8 @@
 
             <!-- Footer -->
             <div class="inv-footer">
-              <div class="inv-footer-left">EGUNGUN OF AFRICA</div>
+              <div class="inv-footer-left">Egungunofafrica.com</div>
               <div class="inv-footer-right">
-                <span class="inv-footer-note">Egungunofafrica.com</span>
                 <span class="inv-footer-note">Computer-generated invoice.</span>
               </div>
             </div>
@@ -1257,19 +1230,15 @@
         el.rAmount.textContent = formatNaira(currentAmount);
       }, duration / steps);
 
-      // Stamp is now inside a solid box, so we just change text and color
-      const stampBox = el.rStatusBadge.parentElement;
-      if (data.status === 'paid') {
-        stampBox.style.background = 'var(--accent)';
-        el.rStatusBadge.innerHTML = `<i class="fas fa-circle-check"></i><span>PAID</span>`;
-      } else if (data.status === 'pending') {
-        stampBox.style.background = '#f59e0b'; // Amber
-        el.rStatusBadge.innerHTML = `<i class="fas fa-hourglass-half"></i><span>PENDING</span>`;
-      } else if (data.status === 'refunded') {
-        stampBox.style.background = '#ef4444'; // Red
-        el.rStatusBadge.innerHTML = `<i class="fas fa-rotate-left"></i><span>REFUNDED</span>`;
-      }
-
+      el.rStatusBadge.className = 'inv-stamp ' + data.status;
+      const statusMap = {
+        paid: { icon: 'fa-circle-check', text: 'PAID' },
+        pending: { icon: 'fa-hourglass-half', text: 'PENDING' },
+        refunded: { icon: 'fa-rotate-left', text: 'REFUNDED' }
+      };
+      const s = statusMap[data.status] || statusMap.pending;
+      el.rStatusBadge.innerHTML = `<i class="fas ${s.icon}"></i> <span>${s.text}</span>`;
+      
       // Trigger stamp slam animation
       el.rStatusBadge.classList.remove('stamp-anim');
       void el.rStatusBadge.offsetWidth; // Trigger reflow
