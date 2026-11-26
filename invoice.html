@@ -34,7 +34,7 @@
       --border-active: rgba(255, 255, 255, 0.3);
       --text: #ffffff;
       --text-soft: #9a9ea8;
-      --accent: #8b5cf6; /* Vibrant Purple */
+      --accent: #8b5cf6; 
       --accent-light: #c4b5fd;
       --success: #10b981;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -283,21 +283,21 @@
     .btn-group { display: flex; gap: 0.8rem; flex-wrap: wrap; }
     .btn-group .btn { flex: 1; min-width: 140px; }
 
-    /* ============ INVOICE PREVIEW (LUXURY EDITORIAL DESIGN) ============ */
+    /* ============ INVOICE PREVIEW (STARK EDITORIAL DESIGN) ============ */
     .invoice-stage { position: sticky; top: 100px; perspective: 1200px; }
     @media (max-width: 1080px) { .invoice-stage { position: static; } }
 
     .invoice-shell {
       background: #ffffff;
-      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.1) inset;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.9);
       position: relative;
       transform-origin: top center;
       transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       min-height: 500px;
+      border: 1px solid #eaeaea;
     }
     
     /* The Magic Transition */
@@ -311,171 +311,187 @@
       transform: rotateX(0) translateY(0) scale(1);
     }
 
-    /* Top Color Bar */
-    .inv-top-bar {
-      height: 8px;
-      background: linear-gradient(90deg, #8b5cf6, #d946ef, #8b5cf6);
-      width: 100%;
-    }
-
-    /* Header Section */
+    /* Header Section - Stark Left Align */
     .inv-header {
-      padding: 2rem 2.5rem 1.5rem;
+      padding: 3rem 3rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      border-bottom: 2px solid #111;
       background: #fff;
     }
     .inv-brand {
       font-family: 'Milchella', 'Syne', serif; font-weight: 800;
-      font-size: 1.6rem; letter-spacing: 0.02em; color: #111; line-height: 1;
+      font-size: 2rem; letter-spacing: -0.02em; color: #111; line-height: 1;
+      text-transform: uppercase;
     }
     .inv-tagline {
-      font-family: 'Syne', sans-serif; font-size: 0.6rem;
-      letter-spacing: 4px; text-transform: uppercase; color: #888; font-weight: 700;
-      margin-top: 6px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem;
+      letter-spacing: 0.1em; text-transform: uppercase; color: #666; font-weight: 600;
+      margin-top: 8px;
     }
     .inv-doc-type {
       text-align: right;
     }
     .inv-doc-type h2 {
       font-family: 'Unbounded', sans-serif; font-weight: 800;
-      font-size: 1.2rem; letter-spacing: 0.1em;
+      font-size: 1.4rem; letter-spacing: 0.05em;
       text-transform: uppercase; color: #111;
     }
     .inv-doc-id {
-      font-size: 0.75rem; color: #555; margin-top: 8px; font-weight: 600;
-      font-family: 'Space Grotesk', monospace; background: #f5f5f5;
-      padding: 6px 12px; border-radius: 4px; display: inline-block;
-      border: 1px solid #eaeaea;
+      font-size: 0.8rem; color: #111; margin-top: 10px; font-weight: 700;
+      font-family: 'Space Grotesk', monospace; 
+      padding: 6px 0; display: inline-block;
     }
     @media (max-width: 520px) {
-      .inv-header { padding: 1.5rem; flex-direction: column; gap: 1rem; }
+      .inv-header { padding: 2rem 1.5rem 1.5rem; flex-direction: column; gap: 1.5rem; }
       .inv-doc-type { text-align: left; }
     }
 
-    /* Colorful Striped Section */
-    .inv-stripe {
-      background: #f8f9fa;
-      padding: 1.5rem 2.5rem;
-      border-top: 1px solid #eaeaea;
+    /* Info Grid - Strict Columns */
+    .inv-info-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      background: #fff;
       border-bottom: 1px solid #eaeaea;
     }
-    .inv-grid-3 {
-      display: grid; grid-template-columns: 1.5fr 1fr 1fr;
-      gap: 1.5rem;
-    }
     @media (max-width: 520px) {
-      .inv-grid-3 { grid-template-columns: 1fr; gap: 1rem; }
-      .inv-stripe { padding: 1.5rem; }
+      .inv-info-grid { grid-template-columns: 1fr; }
+    }
+    
+    .inv-cell {
+      padding: 2rem 3rem;
+      border-right: 1px solid #eaeaea;
+    }
+    .inv-cell:last-child { border-right: none; }
+    @media (max-width: 520px) {
+      .inv-cell { padding: 1.5rem; border-right: none; border-bottom: 1px solid #eaeaea; }
+      .inv-cell:last-child { border-bottom: none; }
     }
     
     .inv-label {
-      font-family: 'Syne', sans-serif; font-size: 0.55rem; letter-spacing: 0.15em;
-      text-transform: uppercase; color: #888; font-weight: 700; margin-bottom: 4px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #888; font-weight: 700; margin-bottom: 6px;
     }
     .inv-value {
-      font-size: 0.95rem; color: #111; font-weight: 600; line-height: 1.4;
+      font-size: 1rem; color: #111; font-weight: 600; line-height: 1.4;
     }
     .inv-value-sub {
-      font-size: 0.8rem; color: #666; margin-top: 2px;
+      font-size: 0.8rem; color: #666; margin-top: 4px;
     }
 
     /* Service Block */
     .inv-service-block {
-      padding: 2rem 2.5rem;
+      padding: 2rem 3rem;
       background: #fff;
+      border-bottom: 1px solid #eaeaea;
     }
     @media (max-width: 520px) { .inv-service-block { padding: 1.5rem; } }
     
-    .inv-service-box {
-      background: #f3e8ff; /* Light purple */
-      border-left: 4px solid #8b5cf6;
-      border-radius: 0 8px 8px 0;
-      padding: 1.2rem 1.5rem;
-    }
     .inv-service-label {
-      font-family: 'Syne', sans-serif; font-size: 0.6rem; letter-spacing: 0.15em;
-      text-transform: uppercase; color: #6b21a8; font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #888; font-weight: 700;
     }
     .inv-service-text {
-      font-size: 1rem; color: #111; font-weight: 600; line-height: 1.5;
-      margin-top: 6px;
+      font-size: 1.1rem; color: #111; font-weight: 600; line-height: 1.5;
+      margin-top: 8px;
     }
 
-    /* Total & Status */
+    /* Total Section - Brutalist Split */
     .inv-total-section {
-      padding: 1.5rem 2.5rem 2rem;
-      display: flex; justify-content: space-between; align-items: flex-end;
+      display: flex;
+      align-items: stretch;
       background: #fff;
-      flex-wrap: wrap; gap: 1.5rem;
+      min-height: 150px;
     }
-    @media (max-width: 520px) { .inv-total-section { padding: 1.5rem; } }
-
+    .inv-total-left {
+      flex: 1;
+      padding: 2rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    @media (max-width: 520px) { .inv-total-left { padding: 1.5rem; } }
+    
     .inv-total-amount {
       font-family: 'Unbounded', sans-serif;
-      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-size: clamp(2.2rem, 6vw, 3.2rem);
       font-weight: 800; color: #111;
-      line-height: 1; letter-spacing: -0.02em; margin-top: 6px;
+      line-height: 1; letter-spacing: -0.03em; margin-top: 8px;
+    }
+
+    /* The Vibrant Stamp Box */
+    .inv-stamp-box {
+      width: 220px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (max-width: 520px) {
+      .inv-stamp-box { width: 140px; padding: 1.5rem; }
     }
 
     /* Realistic Ink Stamp */
     .inv-stamp {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 20px; border-radius: 8px;
-      font-family: 'Unbounded', sans-serif; font-size: 0.75rem;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px;
+      padding: 16px 24px; 
+      font-family: 'Unbounded', sans-serif; font-size: 0.9rem;
       font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;
-      border: 3px double; transform: rotate(-4deg);
-      opacity: 0.9;
-      text-shadow: 0 0 1px currentColor;
+      border: 3px solid #fff; color: #fff;
+      transform: rotate(-6deg);
+      text-align: center;
+      line-height: 1.2;
     }
-    .inv-stamp.paid { border-color: #16a34a; color: #16a34a; }
-    .inv-stamp.pending { border-color: #d97706; color: #d97706; }
-    .inv-stamp.refunded { border-color: #dc2626; color: #dc2626; }
-
+    .inv-stamp i { font-size: 1.5rem; }
+    
     /* Stamp Slam Animation */
     .stamp-anim {
-      animation: slam 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      animation: slam 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
     @keyframes slam {
       0% { transform: scale(2.5) rotate(-15deg); opacity: 0; }
-      70% { transform: scale(0.9) rotate(-3deg); opacity: 1; }
-      100% { transform: scale(1) rotate(-4deg); opacity: 0.9; }
+      70% { transform: scale(0.9) rotate(-4deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-6deg); opacity: 1; }
     }
 
     /* Notes */
     .inv-notes {
-      padding: 0 2.5rem 1.5rem;
+      padding: 2rem 3rem;
       background: #fff;
+      border-top: 1px solid #eaeaea;
     }
-    @media (max-width: 520px) { .inv-notes { padding: 0 1.5rem 1.5rem; } }
+    @media (max-width: 520px) { .inv-notes { padding: 1.5rem; } }
     .inv-notes p {
-      font-size: 0.85rem; color: #555; line-height: 1.6;
-      margin-top: 6px;
+      font-size: 0.9rem; color: #444; line-height: 1.6;
+      margin-top: 8px;
     }
 
-    /* Footer */
+    /* Footer - Stark Black */
     .inv-footer {
       margin-top: auto;
-      padding: 1.5rem 2.5rem;
-      background: #111; /* Dark footer */
+      padding: 1.5rem 3rem;
+      background: #111;
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 1rem;
     }
-    @media (max-width: 520px) { .inv-footer { padding: 1.5rem; flex-direction: column; text-align: center; } }
+    @media (max-width: 520px) { .inv-footer { padding: 1.5rem; flex-direction: column; align-items: flex-start; } }
     .inv-footer-left {
-      font-family: 'Milchella', 'Syne', serif; font-size: 1rem;
-      color: #fff; letter-spacing: 0.05em;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem;
+      color: #fff; letter-spacing: 0.1em; text-transform: uppercase;
     }
     .inv-footer-right {
-      text-align: right; display: flex; flex-direction: column; gap: 2px;
+      display: flex; flex-direction: column; gap: 2px;
     }
-    @media (max-width: 520px) { .inv-footer-right { text-align: center; } }
     .inv-footer-note { font-size: 0.65rem; color: #888; }
 
     .inv-empty {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; min-height: 400px; gap: 1.5rem;
+      text-align: center; min-height: 500px; gap: 1.5rem;
       color: #888; background: #fff; padding: 2rem;
     }
     .inv-empty i { font-size: 3rem; color: #ccc; }
@@ -571,7 +587,7 @@
       #invoiceShell, #invoiceShell * { visibility: visible !important; }
       #invoiceShell {
         position: absolute !important; left: 0; top: 0; width: 100%;
-        box-shadow: none !important; border-radius: 0 !important;
+        box-shadow: none !important;
         transform: none !important; opacity: 1 !important;
       }
       .admin-nav, .toast-zone, #authGate { display: none !important; }
@@ -722,15 +738,13 @@
             <p>Fill the form and tap <strong>Generate Invoice</strong>.</p>
           </div>
 
-          <div id="invContent" style="display:none;">
-            <!-- Top Color Bar -->
-            <div class="inv-top-bar"></div>
-
-            <!-- Header -->
+          <div id="invContent" style="display:none; flex-direction: column; flex: 1;">
+            
+            <!-- Stark Header -->
             <div class="inv-header">
-              <div class="inv-brand-wrap">
+              <div>
                 <div class="inv-brand">EGUNGUN OF AFRICA</div>
-                <div class="inv-tagline">OFFICIAL DOCUMENT</div>
+                <div class="inv-tagline">Official Document</div>
               </div>
               <div class="inv-doc-type">
                 <h2>Invoice</h2>
@@ -738,43 +752,42 @@
               </div>
             </div>
 
-            <!-- Info Grid -->
-            <div class="inv-stripe">
-              <div class="inv-grid-3">
-                <div class="inv-cell">
-                  <div class="inv-label">Billed To</div>
-                  <div class="inv-value" id="rCustName">—</div>
-                  <div class="inv-value-sub" id="rCustContact"></div>
-                </div>
-                <div class="inv-cell">
-                  <div class="inv-label">Date & Time</div>
-                  <div class="inv-value" id="rPayDate">—</div>
-                  <div class="inv-value-sub" id="rPayTime"></div>
-                </div>
-                <div class="inv-cell">
-                  <div class="inv-label">Method</div>
-                  <div class="inv-value" id="rMethod">—</div>
-                  <div class="inv-value-sub" id="rTxRef"></div>
-                </div>
+            <!-- Strict Info Grid -->
+            <div class="inv-info-grid">
+              <div class="inv-cell">
+                <div class="inv-label">Billed To</div>
+                <div class="inv-value" id="rCustName">—</div>
+                <div class="inv-value-sub" id="rCustContact"></div>
+              </div>
+              <div class="inv-cell">
+                <div class="inv-label">Date & Time</div>
+                <div class="inv-value" id="rPayDate">—</div>
+                <div class="inv-value-sub" id="rPayTime"></div>
+              </div>
+              <div class="inv-cell">
+                <div class="inv-label">Method</div>
+                <div class="inv-value" id="rMethod">—</div>
+                <div class="inv-value-sub" id="rTxRef"></div>
               </div>
             </div>
 
-            <!-- Service Box -->
+            <!-- Service -->
             <div class="inv-service-block">
-              <div class="inv-service-box">
-                <div class="inv-service-label">Service Rendered</div>
-                <div class="inv-service-text" id="rService">—</div>
-              </div>
+              <div class="inv-service-label">Service Rendered</div>
+              <div class="inv-service-text" id="rService">—</div>
             </div>
 
-            <!-- Total & Stamp -->
+            <!-- Total & Brutalist Stamp -->
             <div class="inv-total-section">
-              <div>
+              <div class="inv-total-left">
                 <div class="inv-label">Total Amount Paid</div>
                 <div class="inv-total-amount" id="rAmount">₦0.00</div>
               </div>
-              <div class="inv-stamp" id="rStatusBadge">
-                <i class="fas fa-circle-check"></i> <span id="rStatusText">PAID</span>
+              <div class="inv-stamp-box">
+                <div class="inv-stamp" id="rStatusBadge">
+                  <i class="fas fa-circle-check"></i>
+                  <span id="rStatusText">PAID</span>
+                </div>
               </div>
             </div>
 
@@ -1217,9 +1230,7 @@
     function renderInvoice(data) {
       currentInvoice = data;
       el.invEmpty.style.display = 'none';
-      el.invContent.style.display = 'flex'; // using flex to push footer down
-      el.invContent.style.flexDirection = 'column';
-      el.invContent.style.flex = '1';
+      el.invContent.style.display = 'flex'; 
 
       el.rInvoiceNo.textContent = data.receiptNo;
       el.rCustName.textContent = data.custName || '—';
@@ -1246,15 +1257,19 @@
         el.rAmount.textContent = formatNaira(currentAmount);
       }, duration / steps);
 
-      el.rStatusBadge.className = 'inv-stamp ' + data.status;
-      const statusMap = {
-        paid: { icon: 'fa-circle-check', text: 'PAID' },
-        pending: { icon: 'fa-hourglass-half', text: 'PENDING' },
-        refunded: { icon: 'fa-rotate-left', text: 'REFUNDED' }
-      };
-      const s = statusMap[data.status] || statusMap.pending;
-      el.rStatusBadge.innerHTML = `<i class="fas ${s.icon}"></i> <span>${s.text}</span>`;
-      
+      // Stamp is now inside a solid box, so we just change text and color
+      const stampBox = el.rStatusBadge.parentElement;
+      if (data.status === 'paid') {
+        stampBox.style.background = 'var(--accent)';
+        el.rStatusBadge.innerHTML = `<i class="fas fa-circle-check"></i><span>PAID</span>`;
+      } else if (data.status === 'pending') {
+        stampBox.style.background = '#f59e0b'; // Amber
+        el.rStatusBadge.innerHTML = `<i class="fas fa-hourglass-half"></i><span>PENDING</span>`;
+      } else if (data.status === 'refunded') {
+        stampBox.style.background = '#ef4444'; // Red
+        el.rStatusBadge.innerHTML = `<i class="fas fa-rotate-left"></i><span>REFUNDED</span>`;
+      }
+
       // Trigger stamp slam animation
       el.rStatusBadge.classList.remove('stamp-anim');
       void el.rStatusBadge.offsetWidth; // Trigger reflow
